@@ -9,15 +9,37 @@ Both are domain-agnostic by design: they take a `domain` only to know which
 collection to search, and never branch on its value. That is what lets a third
 domain be added without touching this file.
 
+Every call to ask() produces a QueryTrace (src/trace.py) recording what the
+pipeline decided at each stage and how long each stage took, appended to
+logs/traces.jsonl. That same object is the Phase 7 API response and the
+Phase 8 UI's props — see src/trace.py for why it is defined exactly once.
+
 Phase 5 inserts the domain router ahead of decompose_query(), so `domain`
 becomes the router's decision rather than a caller-supplied argument.
 """
 import json
+
 from groq import Groq
+
 from src.config import GROQ_API_KEY, LLM_MODEL
-from src.hybrid_retrieval import hybrid_search
+from src.hybrid_retrieval import hybrid_search, is_warm
+from src.trace import (
+    PlanningStage,
+    QueryTrace,
+    RetrievalStage,
+    RetrievedSource,
+    RoutingStage,
+    SynthesisStage,
+    resolve_citations,
+    timed,
+)
 
 client = Groq(api_key=GROQ_API_KEY)
+
+# Cap on how many sources reach the synthesis prompt. AGENTS.md Agent 3 warns
+# that past ~8 the prompt can outgrow the context window; 4 sub-queries at 4
+# hits each could otherwise deliver 16.
+MAX_SYNTHESIS_SOURCES = 8
 
 DECOMPOSE_PROMPT = """You are a query planning agent. Given a user question, decide if it
 needs to be broken into multiple sub-questions to be answered well.
@@ -43,6 +65,13 @@ Answer (with citations):"""
 
 
 def decompose_query(question: str) -> list[str]:
+    """Plan: one question in, 1-4 focused sub-questions out.
+
+    AGENTS.md Agent 2 specifies at most 4 sub-queries and a never-crash
+    fallback. The bound is enforced here rather than only requested in the
+    prompt — a planner returning nine sub-queries would otherwise sail through
+    and multiply retrieval cost silently.
+    """
     response = client.chat.completions.create(
         model=LLM_MODEL,
         messages=[{"role": "user", "content": DECOMPOSE_PROMPT.format(question=question)}],
@@ -51,45 +80,101 @@ def decompose_query(question: str) -> list[str]:
     raw = response.choices[0].message.content.strip()
     try:
         subqueries = json.loads(raw)
-        if isinstance(subqueries, list) and subqueries:
-            return subqueries
     except json.JSONDecodeError:
-        pass
-    return [question]
+        return [question]
+
+    if not isinstance(subqueries, list):
+        return [question]
+
+    cleaned = [str(q).strip() for q in subqueries if str(q).strip()]
+    return cleaned[:4] or [question]
 
 
 def retrieve_for_subqueries(subqueries: list[str], domain: str, k: int = 4) -> list[dict]:
-    seen: dict[str, dict] = {}
+    """Hybrid search per sub-query, deduplicated by document ID.
+
+    A document found by several sub-queries keeps its best score, and the
+    result is sorted by that score — so when the synthesis cut trims to
+    MAX_SYNTHESIS_SOURCES it keeps the strongest hits, not whichever sub-query
+    happened to run last. The previous dict-overwrite kept insertion order,
+    which made the cut arbitrary.
+    """
+    best: dict[str, dict] = {}
     for sq in subqueries:
         for doc in hybrid_search(sq, domain, k=k):
-            seen[doc["row_id"]] = doc
-    return list(seen.values())
+            existing = best.get(doc["row_id"])
+            if existing is None or doc["score"] > existing["score"]:
+                best[doc["row_id"]] = doc
+    return sorted(best.values(), key=lambda d: d["score"], reverse=True)
 
 
-def synthesize_answer(question: str, retrieved: list[dict]) -> str:
-    context_blocks = [
-        f"[S{i}] (row {doc['row_id']}): {doc['text']}"
-        for i, doc in enumerate(retrieved, start=1)
-    ]
-    context = "\n\n".join(context_blocks)
+def synthesize_answer(question: str, sources: list[RetrievedSource]) -> str:
+    context = "\n\n".join(f"[S{s.rank}] ({s.id}): {s.text}" for s in sources)
     response = client.chat.completions.create(
         model=LLM_MODEL,
-        messages=[{"role": "user", "content": SYNTHESIS_PROMPT.format(question=question, context=context)}],
+        messages=[
+            {"role": "user", "content": SYNTHESIS_PROMPT.format(question=question, context=context)}
+        ],
         temperature=0.2,
     )
     return response.choices[0].message.content.strip()
 
 
-def ask(question: str, domain: str) -> dict:
-    subqueries = decompose_query(question)
-    print(f"  Decomposed into {len(subqueries)} sub-quer{'y' if len(subqueries)==1 else 'ies'}: {subqueries}")
-    retrieved = retrieve_for_subqueries(subqueries, domain)
-    print(f"  Retrieved {len(retrieved)} unique source documents")
-    answer = synthesize_answer(question, retrieved)
-    return {
-        "question": question,
-        "domain": domain,
-        "subqueries": subqueries,
-        "retrieved_ids": [d["row_id"] for d in retrieved],
-        "answer": answer,
-    }
+def ask(question: str, domain: str, log: bool = True) -> QueryTrace:
+    """Run the full pipeline and return a QueryTrace.
+
+    Returns the trace rather than a bare answer string because every consumer
+    downstream — the API, the UI, the eval harness — needs the intermediate
+    decisions, not only the final prose.
+    """
+    elapsed: dict = {}
+    was_cold = not is_warm()  # capture BEFORE retrieval triggers the model load
+
+    # --- Route --- Phase 5 replaces this with the real router. Recorded as
+    # method="explicit" so traces taken before and after stay comparable.
+    routing = RoutingStage(domain=domain, method="explicit", latency_ms=0.0)
+
+    # --- Plan ---
+    with timed(elapsed, "plan"):
+        subqueries = decompose_query(question)
+    planning = PlanningStage(
+        subqueries=subqueries,
+        was_decomposed=len(subqueries) > 1,
+        latency_ms=elapsed["plan"],
+    )
+
+    # --- Retrieve ---
+    with timed(elapsed, "retrieve"):
+        candidates = retrieve_for_subqueries(subqueries, domain)
+    sources = [
+        RetrievedSource(id=doc["row_id"], text=doc["text"], score=doc["score"], rank=rank)
+        for rank, doc in enumerate(candidates[:MAX_SYNTHESIS_SOURCES], start=1)
+    ]
+    retrieval = RetrievalStage(
+        sources=sources,
+        n_candidates=len(candidates),
+        latency_ms=elapsed["retrieve"],
+    )
+
+    # --- Synthesize ---
+    with timed(elapsed, "synth"):
+        answer = synthesize_answer(question, sources)
+    synthesis = SynthesisStage(
+        answer=answer,
+        citations=resolve_citations(answer, sources),
+        latency_ms=elapsed["synth"],
+    )
+
+    trace = QueryTrace(
+        question=question,
+        routing=routing,
+        planning=planning,
+        retrieval=retrieval,
+        synthesis=synthesis,
+        total_latency_ms=round(sum(elapsed.values()), 1),
+        cold_start=was_cold,
+    )
+
+    if log:
+        trace.append_to_log()
+    return trace
