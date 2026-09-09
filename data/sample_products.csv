@@ -1,0 +1,13 @@
+Product ID,Product Name,Category,Price USD,Monthly Units Sold,Customer Rating,Notes
+P001,Ethiopian Yirgacheffe,Single Origin Coffee,14.99,320,4.7,Bright citrus notes; best seller in the light roast lineup
+P002,Sumatra Dark Roast,Single Origin Coffee,13.49,410,4.5,Bold earthy flavor; popular with cold brew customers
+P003,Oat Milk Latte Kit,Ready-to-Brew,9.99,610,4.3,Fastest growing SKU this quarter; strong repeat purchase rate
+P004,Cold Brew Concentrate,Ready-to-Brew,11.49,275,4.6,Steady seller; peaks in summer months
+P005,Ceramic Pour-Over Set,Equipment,34.99,95,4.8,High margin item; frequently bundled with beans
+P006,Espresso Machine Cleaner,Accessories,7.99,180,4.1,Low visibility item; mostly repeat buyers
+P007,Guatemala Antigua,Single Origin Coffee,15.99,150,4.4,Niche item; inconsistent demand quarter to quarter
+P008,Vanilla Cold Foam Mix,Ready-to-Brew,8.49,530,4.2,Rapid growth after social media feature; supply constrained
+P009,French Press 34oz,Equipment,24.99,140,4.6,Stable seller; slight decline vs last quarter
+P010,Decaf House Blend,Blended Coffee,12.99,210,3.9,Lowest rated item; customers cite weak flavor
+P011,Reusable Filter Set,Accessories,10.99,300,4.5,Sustainability-focused customers drive steady demand
+P012,Honduras Reserve,Single Origin Coffee,16.49,60,4.9,"Highest rated item; limited batch, sells out monthly"

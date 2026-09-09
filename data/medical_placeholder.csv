@@ -1,0 +1,7 @@
+sample_id,antigen_panel,timepoint_hours,activation_score,cohort,notes
+TC-014,B,48,0.87,human-subject-filtered,Strong positive response
+TC-015,B,48,0.12,human-subject-filtered,No significant activation
+TC-016,A,24,0.54,human-subject-filtered,"Moderate response, delayed onset"
+TC-017,C,72,0.91,human-subject-filtered,Sustained high activation
+TC-018,A,24,,human-subject-filtered,"Sample degraded, no reading"
+TC-019,B,48,0.63,healthy-control,Baseline activation observed
