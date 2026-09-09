@@ -68,12 +68,18 @@ don't share state.*
 - **How:**
   1. Implement `docx_loader` (python-docx) — extract text per paragraph,
      preserve heading structure where possible
-  2. Chunk by real tokens (~500 tokens, ~50 overlap), measured with the
-     SAME tokenizer the embedding model uses at index time
-     (`SentenceTransformer(EMBEDDING_MODEL).tokenizer` — no new
-     dependency, sentence-transformers already ships it). Originally
-     planned as a word-count approximation; upgraded once we realized the
-     real tokenizer was a free swap
+  2. Chunk by real tokens, with the size DERIVED from the embedding model
+     (`SentenceTransformer(EMBEDDING_MODEL).max_seq_length - 32` = 224
+     content tokens, 40 overlap) — no new dependency, sentence-transformers
+     already ships the tokenizer. Two upgrades over the original plan:
+     word-count approximation -> real tokenizer, then hardcoded 500 ->
+     derived from the model, after the architecture review found the model
+     silently truncates at 256 and the back half of every chunk was not
+     reaching its dense vector.
+     Chunk boundaries are chosen in tokens but SLICED in characters via the
+     fast tokenizer's `offset_mapping`, so stored text stays byte-identical
+     to the DOCX — `tokenizer.decode()` lowercases and mangles punctuation,
+     which would corrupt every citation shown in the Phase 8 UI
   3. Wrap output into Knowledge Unit shape, `domain="medical"`,
      `source_type="textual"`
   4. Medical DOCX documents arrive in pieces — test with whatever's
