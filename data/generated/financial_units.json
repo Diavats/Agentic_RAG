@@ -1,0 +1,332 @@
+[
+  {
+    "id": "financial_tabular_sample_stocks_9a90cc_0000",
+    "domain": "financial",
+    "source_type": "tabular",
+    "text": "JGCHEM, a company with a significant presence in the auto industry, has been experiencing steady growth. Its core business revolves around supplying Zinc Oxide (ZnO), a critical component used in auto production and tyre vulcanization, to major clients such as Bajaj and Maruti, as well as tyre makers. As of the first quarter of 2026, JGCHEM's sales have shown a modest 15.17% increase compared to the previous quarter. This growth has been even more pronounced in its operating profits, which have risen by 103.77% over the same period. However, the company's net profits and earnings per share (EPS) have grown at a slower pace, with net profits increasing by 4.06% and EPS by 2.44%. Despite this, JGCHEM remains a profitable growth company.",
+    "metadata": {
+      "source_file": "sample_stocks.csv",
+      "generated_at": "2026-09-09T06:35:42.184786+00:00",
+      "extra": {
+        "Stock Symbol": "JGCHEM",
+        "Sector / Client Base": "Auto OEMs (Bajaj, Maruti) & Tyre Makers",
+        "Critical Component": "Zinc Oxide (ZnO)",
+        "Core Driver": "Auto Production & Tyre Vulcanization",
+        "Quarter": "2026-03-01 00:00:00",
+        "QOQ Sales Growth": 0.1517,
+        "QOQ Operating Profit Growth": 1.0377,
+        "QOQ Net Profit Growth": 0.0406,
+        "QOQ EPS Growth": 0.0243999999999999,
+        "Status": "Profitable Growth"
+      }
+    }
+  },
+  {
+    "id": "financial_tabular_sample_stocks_9a90cc_0001",
+    "domain": "financial",
+    "source_type": "tabular",
+    "text": "Huhtamaki, a leading supplier to FMCG majors such as Hindustan Unilever (HUL), Nestlé, and Britannia, has seen strong growth in its business. The company's critical component is flexible packaging and laminates, which is driving its success. In the most recent quarter, ending June 1, 2026, Huhtamaki experienced a 0.2274% increase in sales compared to the previous quarter. However, its operating profit growth slowed down, with a decline of 0.9412% over the same period. Despite this, the company's net profit and earnings per share (EPS) both grew by 0.708% in the quarter. Overall, Huhtamaki's performance is characterized as strong growth, suggesting that the company is well-positioned to continue its upward trajectory in the flexible packaging and laminates market.",
+    "metadata": {
+      "source_file": "sample_stocks.csv",
+      "generated_at": "2026-09-09T06:35:42.184861+00:00",
+      "extra": {
+        "Stock Symbol": "HUHTAMAKI",
+        "Sector / Client Base": "FMCG Majors (HUL, Nestlé, Britannia)",
+        "Critical Component": "Flexible Packaging & Laminates",
+        "Core Driver": "Consumer Packaged SKUs Volume Growth",
+        "Quarter": "2026-06-01 00:00:00",
+        "QOQ Sales Growth": 0.2274,
+        "QOQ Operating Profit Growth": -0.9412,
+        "QOQ Net Profit Growth": 0.7081999999999999,
+        "QOQ EPS Growth": 0.708,
+        "Status": "Strong Growth"
+      }
+    }
+  },
+  {
+    "id": "financial_tabular_sample_stocks_9a90cc_0002",
+    "domain": "financial",
+    "source_type": "tabular",
+    "text": "As of June 1st, 2026, Welcorp (WELCORP) is a profitable growth company serving a diverse client base that includes global oil and gas majors, US midstream companies, Saudi Aramco, and water utilities. The company's critical components are large-diameter SAW pipes, coated line pipes, DI water pipes, and Sintex tanks, which are essential for various energy infrastructure projects.\n\nWelcorp's core drivers are the global energy infrastructure market, US liquefied natural gas (LNG) exports, capital expenditures in the Middle East's oil and gas sector, and the development of water grids. Despite a slight decline in quarterly sales (-0.0538% compared to the previous quarter), Welcorp has shown significant growth in its operating profit (0.373%) and net profit (1.8248%), as well as earnings per share (1.8255%). This indicates a stable and expanding business.",
+    "metadata": {
+      "source_file": "sample_stocks.csv",
+      "generated_at": "2026-09-09T06:35:42.184902+00:00",
+      "extra": {
+        "Stock Symbol": "WELCORP",
+        "Sector / Client Base": "Global Oil & Gas Majors, US Midstream, Saudi Aramco & Water Utilities",
+        "Critical Component": "Large-Diameter SAW Pipes, Coated Line Pipes, DI Water Pipes & Sintex Tanks",
+        "Core Driver": "Global Energy Infra, US LNG Exports, Middle East Oil/Gas Capex & Water Grids",
+        "Quarter": "2026-06-01 00:00:00",
+        "QOQ Sales Growth": -0.0538,
+        "QOQ Operating Profit Growth": 0.373,
+        "QOQ Net Profit Growth": 1.8248,
+        "QOQ EPS Growth": 1.8255,
+        "Status": "Profitable Growth"
+      }
+    }
+  },
+  {
+    "id": "financial_tabular_sample_stocks_9a90cc_0003",
+    "domain": "financial",
+    "source_type": "tabular",
+    "text": "As of March 1, 2026, DIACABS is experiencing strong growth, driven by the increasing demand for power grid modernization and the expansion of AI data centers. The company's core business lies in serving the data center and power utility sectors, with notable clients including Adani, PGCIL, and L&T. A key component of DIACABS' offerings is its power cables and AL59 conductors, which are critical to its success.\n\nIn the most recent quarter, DIACABS saw significant growth in its operating profit, with a 10.037% increase year-over-year. While its sales growth was more modest at 0.4678%, the company's net profit and earnings per share (EPS) growth rates were relatively low at 0.2191% and 0.2234%, respectively.",
+    "metadata": {
+      "source_file": "sample_stocks.csv",
+      "generated_at": "2026-09-09T06:35:42.184936+00:00",
+      "extra": {
+        "Stock Symbol": "DIACABS",
+        "Sector / Client Base": "Data Centers, Power Utilities (Adani, PGCIL, L&T)",
+        "Critical Component": "Power Cables & AL59 Conductors",
+        "Core Driver": "Power Grid Modernization & AI Data Center Expansion",
+        "Quarter": "2026-03-01 00:00:00",
+        "QOQ Sales Growth": 0.4678,
+        "QOQ Operating Profit Growth": 10.037,
+        "QOQ Net Profit Growth": 0.2191,
+        "QOQ EPS Growth": 0.2234,
+        "Status": "Strong Growth"
+      }
+    }
+  },
+  {
+    "id": "financial_tabular_sample_stocks_9a90cc_0004",
+    "domain": "financial",
+    "source_type": "tabular",
+    "text": "SHAREINDIA, a leading stock brokerage, is experiencing strong growth in the second quarter of 2026. The company's diverse client base, comprising active traders, retail investors, institutions, and proprietary desks, has contributed to its success. One of the key drivers of this growth is the increasing demand for derivatives, which has been fueled by market volatility and the adoption of algorithmic trading technology.\n\nSHAREINDIA's core business components, including its algo/HFT platforms (uTrade), broking services, and multi-territory lending, have all seen significant growth. This is reflected in the company's quarterly sales, operating profit, net profit, and earnings per share (EPS) growth rates, which have all shown impressive increases. Specifically, the company's sales have grown by 0.0769% quarter-over-quarter, while its operating profit has grown by 71.79% and net profit by 113.79% over the same period.",
+    "metadata": {
+      "source_file": "sample_stocks.csv",
+      "generated_at": "2026-09-09T06:35:42.184968+00:00",
+      "extra": {
+        "Stock Symbol": "SHAREINDIA",
+        "Sector / Client Base": "Active Traders, Retail Investors, Institutions & Prop Desks",
+        "Critical Component": "Algo/HFT Platforms (uTrade), Broking & MTF Lending",
+        "Core Driver": "Derivatives Volume Growth, Market Volatility & Algorithmic Tech Adoption",
+        "Quarter": "2026-06-01 00:00:00",
+        "QOQ Sales Growth": 0.0769,
+        "QOQ Operating Profit Growth": 0.7179,
+        "QOQ Net Profit Growth": 1.1379,
+        "QOQ EPS Growth": 1.1477,
+        "Status": "Strong Growth"
+      }
+    }
+  },
+  {
+    "id": "financial_tabular_sample_stocks_9a90cc_0005",
+    "domain": "financial",
+    "source_type": "tabular",
+    "text": "AUBANK, a financial institution, primarily serves clients in the lower to middle tier of the micro, small, and medium enterprise (MSME) sector, as well as small transporters and rural consumers. The bank's core offerings include vehicle loans, MSME credit, and retail deposits, which are critical components of its business.\n\nThe company's growth is driven by several key factors, including the Indian government's efforts to formalize the economy, increasing demand for logistics services, and a growing need for credit in semi-urban areas. In the most recent quarter, which ended on March 1, 2026, AUBANK experienced a modest 8.1% increase in sales compared to the previous quarter.\n\nThe bank's profitability also showed improvement, with net profit growing by 24.6% and earnings per share (EPS) increasing by 24.5% over the same period. However, as of June 2026, the company's current financial status has not been reported.",
+    "metadata": {
+      "source_file": "sample_stocks.csv",
+      "generated_at": "2026-09-09T06:35:42.185006+00:00",
+      "extra": {
+        "Stock Symbol": "AUBANK",
+        "Sector / Client Base": "Tier 2–6 MSMEs, Small Transporters & Rural Consumers",
+        "Critical Component": "Vehicle Loans, MSME Credit & Retail Deposits",
+        "Core Driver": "Bharat Formalization, Logistics Demand & Semi-Urban Credit",
+        "Quarter": "2026-03-01 00:00:00",
+        "QOQ Sales Growth": 0.081,
+        "QOQ Operating Profit Growth": NaN,
+        "QOQ Net Profit Growth": 0.246,
+        "QOQ EPS Growth": 0.245,
+        "Status": "Jun 2026 Not Reported"
+      }
+    }
+  },
+  {
+    "id": "financial_tabular_sample_stocks_9a90cc_0006",
+    "domain": "financial",
+    "source_type": "tabular",
+    "text": "Exxaro, a company operating in the real estate sector, has seen significant growth in the first quarter of 2026. Its core business involves supplying critical components such as vitrified tiles and glazed porcelain slabs to real estate developers, retail homeowners, and global distributors. This demand has been driven by the real estate finishing boom and the trend of home premiumization. However, despite the overall growth, Exxaro's net profit has actually declined by 0.6851% quarter-over-quarter, while its earnings per share (EPS) have decreased by 1.0%. Furthermore, the company is experiencing margin compression, indicating that its operating profit is not increasing as rapidly as its sales. This suggests that Exxaro may be facing challenges in maintaining its profit margins despite the growth in its sales.",
+    "metadata": {
+      "source_file": "sample_stocks.csv",
+      "generated_at": "2026-09-09T06:35:42.185037+00:00",
+      "extra": {
+        "Stock Symbol": "EXXARO",
+        "Sector / Client Base": "Real Estate Developers, Retail Homeowners & Global Distributors",
+        "Critical Component": "Vitrified Tiles & Glazed Porcelain Slabs",
+        "Core Driver": "Real Estate Finishing Boom & Home Premiumization Trends",
+        "Quarter": "2026-03-01 00:00:00",
+        "QOQ Sales Growth": 0.4049,
+        "QOQ Operating Profit Growth": 0.9005,
+        "QOQ Net Profit Growth": -0.6851,
+        "QOQ EPS Growth": -1.0,
+        "Status": "Margin Compression"
+      }
+    }
+  },
+  {
+    "id": "financial_tabular_sample_stocks_9a90cc_0007",
+    "domain": "financial",
+    "source_type": "tabular",
+    "text": "As of June 1, 2026, Prudent, a company catering to retail investors, independent mutual fund distributors, and asset management companies, is experiencing a complex financial situation. The company's core business revolves around a mutual fund AUM (Assets Under Management) platform and multi-product distribution. This is largely driven by the growing trend of financialization in India, along with increasing monthly systematic investment plan (SIP) growth and capital market flows.\n\nDespite this, Prudent's quarterly sales have declined by 0.036% compared to the previous quarter. The company's operating profit has also seen a decline of 0.043% during the same period. However, Prudent's net profit has shown a modest growth of 0.2712% and earnings per share (EPS) growth of 0.2647% in the quarter. Overall, the company's status remains one of profitable growth.",
+    "metadata": {
+      "source_file": "sample_stocks.csv",
+      "generated_at": "2026-09-09T06:35:42.185068+00:00",
+      "extra": {
+        "Stock Symbol": "PRUDENT",
+        "Sector / Client Base": "Retail Investors, Independent MFDs & AMCs",
+        "Critical Component": "Mutual Fund AUM Platform & Multi-Product Distribution",
+        "Core Driver": "Indian Financialization, Monthly SIP Growth & Capital Market Flows",
+        "Quarter": "2026-06-01 00:00:00",
+        "QOQ Sales Growth": -0.036,
+        "QOQ Operating Profit Growth": -0.043,
+        "QOQ Net Profit Growth": 0.2712,
+        "QOQ EPS Growth": 0.2647,
+        "Status": "Profitable Growth"
+      }
+    }
+  },
+  {
+    "id": "financial_tabular_sample_stocks_9a90cc_0008",
+    "domain": "financial",
+    "source_type": "tabular",
+    "text": "The company SURANASOL operates in the solar energy sector, serving a client base that includes solar EPC contractors, rooftop installers, and power utilities. Their business is centered around the installation and generation of clean energy, specifically through the use of solar PV modules with the latest TOPCon technology. This focus is driven by government mandates promoting clean energy, as well as incentives for companies to invest in solar capital expenditures and domestic manufacturing. As of the second quarter of 2026, SURANASOL's financial performance for this period has not been reported yet, and it remains pending.",
+    "metadata": {
+      "source_file": "sample_stocks.csv",
+      "generated_at": "2026-09-09T06:35:42.185102+00:00",
+      "extra": {
+        "Stock Symbol": "SURANASOL",
+        "Sector / Client Base": "Solar EPC Contractors, Rooftop Installers & Power Utilities",
+        "Critical Component": "Solar PV Modules (TOPCon) & IPP Power Generation",
+        "Core Driver": "Clean Energy Mandates, Solar Capex & Domestic Manufacturing Incentives",
+        "Quarter": "Jun 2026 (Pending)",
+        "QOQ Sales Growth": NaN,
+        "QOQ Operating Profit Growth": NaN,
+        "QOQ Net Profit Growth": NaN,
+        "QOQ EPS Growth": NaN,
+        "Status": "Jun 2026 Not Reported"
+      }
+    }
+  },
+  {
+    "id": "financial_tabular_sample_stocks_9a90cc_0009",
+    "domain": "financial",
+    "source_type": "tabular",
+    "text": "As of the second quarter of 2026, FCSSOFT, a company catering to corporate enterprise clients, tech startups, and ITeS firms, is experiencing a decline in its performance. The company's core offerings, custom software services and its owned IT infrastructure premises, are critical components of its business. However, the company's growth has been hindered by enterprise digital transformation, IT offshoring, and tech real estate leasing, which are its core drivers.\n\nIn the second quarter, FCSSOFT's sales growth was -0.3978%, operating profit growth was -0.823%, net profit growth was -0.8833%, and EPS growth was -1.0%. These negative growth rates indicate a decline in the company's financial performance.",
+    "metadata": {
+      "source_file": "sample_stocks.csv",
+      "generated_at": "2026-09-09T06:35:42.185134+00:00",
+      "extra": {
+        "Stock Symbol": "FCSSOFT",
+        "Sector / Client Base": "Corporate Enterprise Clients, Tech Startups & ITeS Firms",
+        "Critical Component": "Custom Software Services & Owned IT Infrastructure Premises",
+        "Core Driver": "Enterprise Digital Transformation, IT Offshoring & Tech Real Estate Leasing",
+        "Quarter": "2026-06-01 00:00:00",
+        "QOQ Sales Growth": -0.3978,
+        "QOQ Operating Profit Growth": -0.823,
+        "QOQ Net Profit Growth": -0.8833,
+        "QOQ EPS Growth": -1.0,
+        "Status": "Decline"
+      }
+    }
+  },
+  {
+    "id": "financial_tabular_sample_stocks_9a90cc_0010",
+    "domain": "financial",
+    "source_type": "tabular",
+    "text": "As of June 1, 2026, the company with stock symbol 3PLAND is experiencing profitable growth. Its core business involves the redevelopment of prime land banks in Pune, as well as leasing properties and investing in CIC investments. The company primarily serves real estate developers, industrial lessees, and group entities. \n\nIn the recent quarter, the company saw a notable increase in sales, with a quarterly-on-quarter (QOQ) growth of 3.96%. This growth also translated to significant improvements in operating profit, net profit, and earnings per share (EPS), with QOQ growth rates of 10.34%, 9.52%, and 13.04% respectively. These results indicate a strong performance by the company, driven by regional land redevelopment, lease yield escalations, and net asset value (NAV) unlocking.",
+    "metadata": {
+      "source_file": "sample_stocks.csv",
+      "generated_at": "2026-09-09T06:35:42.185170+00:00",
+      "extra": {
+        "Stock Symbol": "3PLAND",
+        "Sector / Client Base": "Real Estate Developers, Industrial Lessees & Group Entities",
+        "Critical Component": "Prime Pune Land Banks, Lease Properties & CIC Investments",
+        "Core Driver": "Regional Land Re-development, Lease Yield Escalations & NAV Unlocking",
+        "Quarter": "2026-06-01 00:00:00",
+        "QOQ Sales Growth": 0.0396,
+        "QOQ Operating Profit Growth": 0.1034,
+        "QOQ Net Profit Growth": 0.0952,
+        "QOQ EPS Growth": 0.1304,
+        "Status": "Profitable Growth"
+      }
+    }
+  },
+  {
+    "id": "financial_tabular_sample_stocks_9a90cc_0011",
+    "domain": "financial",
+    "source_type": "tabular",
+    "text": "As of June 1st, 2026, the company with stock symbol ALLDIGI is experiencing a decline. It primarily serves global multinationals, as well as clients in the banking and finance sector (BFSI), healthcare, and enterprise human resources. A key component of their business is managing multi-country payroll through the EXM Platform and providing AI-driven digital customer experience management (CXM).\n\nThe company's growth has been declining in the past quarter, with sales decreasing by 0.0323% quarter-over-quarter, operating profit decreasing by 0.0682%, net profit decreasing by 0.3793%, and earnings per share (EPS) decreasing by 0.3726%. These negative growth rates indicate a challenging period for ALLDIGI as it navigates the digitalization of enterprise human resources, offshoring, and automation of back and front-office operations.",
+    "metadata": {
+      "source_file": "sample_stocks.csv",
+      "generated_at": "2026-09-09T06:35:42.185200+00:00",
+      "extra": {
+        "Stock Symbol": "ALLDIGI",
+        "Sector / Client Base": "Global Multinationals, BFSI, Healthcare & Enterprise HR",
+        "Critical Component": "Multi-Country Payroll (EXM Platform) & AI Digital CXM",
+        "Core Driver": "Enterprise HR Digitalization, Offshoring & Automation of Back/Front-Office Operations",
+        "Quarter": "2026-06-01 00:00:00",
+        "QOQ Sales Growth": -0.0323,
+        "QOQ Operating Profit Growth": -0.0682,
+        "QOQ Net Profit Growth": -0.3793,
+        "QOQ EPS Growth": -0.3726,
+        "Status": "Decline"
+      }
+    }
+  },
+  {
+    "id": "financial_tabular_sample_stocks_9a90cc_0012",
+    "domain": "financial",
+    "source_type": "tabular",
+    "text": "As of March 2026, KROSS, a key player in the heavy-duty vehicle industry, is experiencing strong growth. The company's core business lies in supplying critical components to major clients such as Ashok Leyland, Tata DLT, tractor makers, and trailer fabricators. These clients rely on KROSS for trailer axles, suspension assemblies, and forged safety-critical gears, which are essential for the heavy freight movement and M&HCV fleet upgrades that drive the company's growth.\n\nIn the most recent quarter, KROSS has seen a notable increase in sales, with a quarter-over-quarter (QOQ) growth rate of 0.2703%. This growth has also translated into significant improvements in operating profit and net profit, with QOQ growth rates of 2.062% and 0.6058%, respectively. Furthermore, earnings per share (EPS) have also grown by 0.6037% over the same period. These positive trends suggest a robust performance by KROSS, positioning the company for continued success in the heavy-duty vehicle sector.",
+    "metadata": {
+      "source_file": "sample_stocks.csv",
+      "generated_at": "2026-09-09T06:35:42.185231+00:00",
+      "extra": {
+        "Stock Symbol": "KROSS",
+        "Sector / Client Base": "M&HCV OEMs (Ashok Leyland, Tata DLT), Tractor Makers & Trailer Fabricators",
+        "Critical Component": "Trailer Axles, Suspension Assemblies & Forged Safety-Critical Gears",
+        "Core Driver": "Heavy Freight Movement, M&HCV Fleet Upgrades & Agricultural Mechanization",
+        "Quarter": "2026-03-01 00:00:00",
+        "QOQ Sales Growth": 0.2703,
+        "QOQ Operating Profit Growth": 2.062,
+        "QOQ Net Profit Growth": 0.6058,
+        "QOQ EPS Growth": 0.6037,
+        "Status": "Strong Growth"
+      }
+    }
+  },
+  {
+    "id": "financial_tabular_sample_stocks_9a90cc_0013",
+    "domain": "financial",
+    "source_type": "tabular",
+    "text": "Arihant Capital, represented by the stock symbol ARIHANTCAP, serves a diverse client base that includes retail investors from lower-tier markets, high net worth individuals, and regional small and medium-sized enterprises (MSMEs). The company's critical component is its broking app, ArihantPlus, which is complemented by its merchant banking services, particularly in the area of SME initial public offerings (IPOs) and multi-asset trading facilities (MTF). The core drivers of the company's growth are the increasing financialization of non-metro markets, the demand for capital from small businesses, and the need for retail credit.\n\nAs of the second quarter of 2026, the company has shown a modest sales growth of 0.59% compared to the previous quarter. However, its operating profit has grown by 3.38% and earnings per share (EPS) by a significant 38.2% during the same period. Unfortunately, the company's current status is marked as insufficient data, indicating that there may be limitations in the available information.",
+    "metadata": {
+      "source_file": "sample_stocks.csv",
+      "generated_at": "2026-09-09T06:35:42.185267+00:00",
+      "extra": {
+        "Stock Symbol": "ARIHANTCAP",
+        "Sector / Client Base": "Tier 2/3 Retail Investors, HNI Clients & Regional MSMEs",
+        "Critical Component": "Broking App (ArihantPlus), Merchant Banking / SME IPOs & MTF",
+        "Core Driver": "Non-Metro Market Financialization, SME Capital Raising & Retail Credit Demand",
+        "Quarter": "2026-06-01 00:00:00",
+        "QOQ Sales Growth": 0.5918,
+        "QOQ Operating Profit Growth": 3.375,
+        "QOQ Net Profit Growth": NaN,
+        "QOQ EPS Growth": 38.2,
+        "Status": "Insufficient Data"
+      }
+    }
+  },
+  {
+    "id": "financial_tabular_sample_stocks_9a90cc_0014",
+    "domain": "financial",
+    "source_type": "tabular",
+    "text": "As of June 1st, 2026, the company NEOGEN is experiencing a period of profitable growth. Its core focus lies in the battery cell industry, specifically catering to massive factories producing battery cells for electric vehicles (EVs), as well as pharmaceutical and agricultural chemical majors. \n\nNEOGEN's critical component is lithium electrolyte salts, particularly $\\text{LiPF}_6$, along with specialized formulations and bromine products. This expertise is driven by the growing demand for EV battery localization, the need for non-food, export-competitive (FEOC) supply chains, and the requirement for specialty synthesis.\n\nIn terms of financial performance, NEOGEN has shown a modest quarter-over-quarter (QOQ) sales growth of 0.0121%. However, its operating profit and net profit have grown significantly at 0.0909% and 0.5455%, respectively. Additionally, the company's earnings per share (EPS) have increased by 0.4468% over the same period.",
+    "metadata": {
+      "source_file": "sample_stocks.csv",
+      "generated_at": "2026-09-09T06:35:42.185297+00:00",
+      "extra": {
+        "Stock Symbol": "NEOGEN",
+        "Sector / Client Base": "Battery Cell Giga-factories, EV OEMs, Pharma & Agrochem Majors",
+        "Critical Component": "Lithium Electrolyte Salts ($\\text{LiPF}_6$), Formulations & Specialty Bromine",
+        "Core Driver": "EV Battery Localization, Global Non-FEOC Supply Chains & Specialty Synthesis",
+        "Quarter": "2026-06-01 00:00:00",
+        "QOQ Sales Growth": 0.0121,
+        "QOQ Operating Profit Growth": 0.0909,
+        "QOQ Net Profit Growth": 0.5455,
+        "QOQ EPS Growth": 0.4468,
+        "Status": "Profitable Growth"
+      }
+    }
+  }
+]

@@ -1,0 +1,180 @@
+[
+  {
+    "id": "medical_tabular_medical_placeholder_3fc69d_0000",
+    "domain": "medical",
+    "source_type": "tabular",
+    "text": "The sample identified as TC‑014 was processed as part of a human‑subject‑filtered cohort. It was tested using antigen panel B at a 48‑hour timepoint following stimulation. The assay produced an activation score of 0.87, indicating a robust cellular response. Review of the data notes a “Strong positive response,” confirming that the sample behaved as expected for this panel. This record demonstrates that the subject’s immune cells reacted strongly to the antigenic stimulus within the specified timeframe, and the high activation score aligns with the qualitative observation noted in the comments. Overall, the sample’s performance is consistent with the cohort’s expected response profile and supports the validity of the assay conditions used.",
+    "metadata": {
+      "source_file": "medical_placeholder.csv",
+      "generated_at": "2026-09-09T06:37:28.424957+00:00",
+      "extra": {
+        "sample_id": "TC-014",
+        "antigen_panel": "B",
+        "timepoint_hours": 48,
+        "activation_score": 0.87,
+        "cohort": "human-subject-filtered",
+        "notes": "Strong positive response"
+      }
+    }
+  },
+  {
+    "id": "medical_tabular_medical_placeholder_3fc69d_0001",
+    "domain": "medical",
+    "source_type": "tabular",
+    "text": "Sample TC‑015 was collected from a human‑subject‑filtered cohort and processed using antigen panel B. The specimen was analyzed 48 hours after collection, at which time the activation score was measured at 0.12. This low value indicates minimal cellular response, a finding that is consistent with the accompanying note that no significant activation was observed. The data suggest that, under the conditions of this experiment, antigen panel B did not elicit a strong immune reaction in the tested subject. The sample’s identifier, TC‑015, provides a unique reference for tracking within the study’s database, while the cohort designation confirms that the participant was part of the filtered human subject group. Overall, the results support the conclusion that the tested antigen panel produced negligible activation at the 48‑hour time point.",
+    "metadata": {
+      "source_file": "medical_placeholder.csv",
+      "generated_at": "2026-09-09T06:37:30.601740+00:00",
+      "extra": {
+        "sample_id": "TC-015",
+        "antigen_panel": "B",
+        "timepoint_hours": 48,
+        "activation_score": 0.12,
+        "cohort": "human-subject-filtered",
+        "notes": "No significant activation"
+      }
+    }
+  },
+  {
+    "id": "medical_tabular_medical_placeholder_3fc69d_0002",
+    "domain": "medical",
+    "source_type": "tabular",
+    "text": "The sample identified as TC‑016 was collected from a human subject who had been filtered for the study cohort. It was processed using antigen panel A and the specimen was taken 24 hours after the initial intervention. When analyzed, the activation score for this sample was 0.54, indicating a moderate level of cellular activation. The researcher’s notes describe the response as moderate with a delayed onset, suggesting that the immune reaction was not immediate but reached a measurable level within the 24‑hour window. This information helps contextualize the sample’s behavior relative to the other specimens in the cohort, providing a clear snapshot of its immunological profile at the specified time point.",
+    "metadata": {
+      "source_file": "medical_placeholder.csv",
+      "generated_at": "2026-09-09T06:37:31.420124+00:00",
+      "extra": {
+        "sample_id": "TC-016",
+        "antigen_panel": "A",
+        "timepoint_hours": 24,
+        "activation_score": 0.54,
+        "cohort": "human-subject-filtered",
+        "notes": "Moderate response, delayed onset"
+      }
+    }
+  },
+  {
+    "id": "medical_tabular_medical_placeholder_3fc69d_0003",
+    "domain": "medical",
+    "source_type": "tabular",
+    "text": "The laboratory report for sample TC‑017 documents a detailed immunological assessment performed on a human subject that had been filtered for specific inclusion criteria. The sample was processed using antigen panel C, a set of reagents designed to probe a particular subset of immune markers. Measurements were taken 72 hours after the initial exposure, a time point chosen to capture sustained cellular responses rather than immediate early changes. At this 72‑hour mark, the activation score calculated for the sample was 0.91, indicating a robust level of immune activation relative to the assay’s reference range. The cohort designation “human‑subject‑filtered” confirms that the data come from a carefully selected group of individuals, ensuring that the results are not confounded by unrelated variables. Finally, the accompanying note “Sustained high activation” underscores that the elevated activation score persisted over the observation period, highlighting the sample’s strong and enduring immunological response.",
+    "metadata": {
+      "source_file": "medical_placeholder.csv",
+      "generated_at": "2026-09-09T06:37:32.442848+00:00",
+      "extra": {
+        "sample_id": "TC-017",
+        "antigen_panel": "C",
+        "timepoint_hours": 72,
+        "activation_score": 0.91,
+        "cohort": "human-subject-filtered",
+        "notes": "Sustained high activation"
+      }
+    }
+  },
+  {
+    "id": "medical_tabular_medical_placeholder_3fc69d_0004",
+    "domain": "medical",
+    "source_type": "tabular",
+    "text": "The laboratory processed sample TC‑018, which was collected from a human subject that had been filtered for the study cohort. The specimen was assigned to antigen panel A and was analyzed 24 hours after collection. Unfortunately, the sample was found to be degraded during handling, preventing any reliable measurement or reading from being obtained. Consequently, no data could be recorded for this specimen, and the notes indicate that the sample was unusable for further analysis.",
+    "metadata": {
+      "source_file": "medical_placeholder.csv",
+      "generated_at": "2026-09-09T06:37:33.290781+00:00",
+      "extra": {
+        "sample_id": "TC-018",
+        "antigen_panel": "A",
+        "timepoint_hours": 24,
+        "activation_score": NaN,
+        "cohort": "human-subject-filtered",
+        "notes": "Sample degraded, no reading"
+      }
+    }
+  },
+  {
+    "id": "medical_tabular_medical_placeholder_3fc69d_0005",
+    "domain": "medical",
+    "source_type": "tabular",
+    "text": "The sample identified as TC‑019 was collected from a healthy‑control subject and processed using antigen panel B. The specimen was taken 48 hours after the initial baseline measurement, allowing the researchers to assess changes in immune activation over a two‑day period. Quantitative analysis of the sample yielded an activation score of 0.63, indicating a moderate level of cellular activation relative to the panel’s reference range. The accompanying notes highlight that this activation level represents a baseline observation, suggesting that the measured response is typical for a healthy individual under these experimental conditions. Together, these data points provide a concise snapshot of the subject’s immune status at the specified time point, offering a useful reference for comparing subsequent samples or for validating the consistency of the assay protocol.",
+    "metadata": {
+      "source_file": "medical_placeholder.csv",
+      "generated_at": "2026-09-09T06:37:34.697629+00:00",
+      "extra": {
+        "sample_id": "TC-019",
+        "antigen_panel": "B",
+        "timepoint_hours": 48,
+        "activation_score": 0.63,
+        "cohort": "healthy-control",
+        "notes": "Baseline activation observed"
+      }
+    }
+  },
+  {
+    "id": "medical_textual_medical_guideline_placeholder_52f6a9_0000",
+    "domain": "medical",
+    "source_type": "textual",
+    "text": "Before enrollment, every candidate undergoes a structured screening interview covering medical history, current medications, and any known allergic reactions. Screening staff record baseline vital signs including heart rate, blood pressure, and body temperature, and cross-check these against the exclusion criteria defined in section three. Any candidate presenting with an active infection, uncontrolled chronic condition, or pregnancy is deferred from enrollment until the condition resolves or the pregnancy concludes.\n\nScreening also includes a review of prior participation in similar studies within the past twelve months, since overlapping enrollment can confound outcome measurements. Staff document the review outcome in the candidate's intake file and forward flagged cases to the supervising clinician for a secondary opinion before any enrollment decision is finalized.\n\nA second-tier screening step applies to candidates flagged during intake: an extended panel covering liver function, renal function, and coagulation markers. Results are reviewed within forty-eight hours, and any out-of-range value triggers a consult with the site's principal investigator before the candidate proceeds further.\n\nBlood samples are drawn using standard venipuncture technique into three",
+    "metadata": {
+      "source_file": "medical_guideline_placeholder.docx",
+      "generated_at": "2026-09-09T06:39:17.823420+00:00",
+      "extra": {
+        "section": "1. Patient Screening Criteria",
+        "document_title": "Placeholder Clinical Protocol Guidelines"
+      }
+    }
+  },
+  {
+    "id": "medical_textual_medical_guideline_placeholder_52f6a9_0001",
+    "domain": "medical",
+    "source_type": "textual",
+    "text": "hours, and any out-of-range value triggers a consult with the site's principal investigator before the candidate proceeds further.\n\nBlood samples are drawn using standard venipuncture technique into three separate collection tubes: one for complete blood count, one for the antigen panel assay, and one held in reserve for repeat testing if the initial result is ambiguous. Tubes are labeled immediately at the bedside with the participant identifier, collection timestamp, and collecting technician's initials to preserve chain of custody.\n\nSamples are transported to the processing lab within thirty minutes of collection, stored at the temperature specified for each assay type, and logged into the laboratory information system on arrival. Any sample that exceeds the transport time window is flagged as compromised and a redraw is scheduled rather than proceeding with a degraded specimen.\n\nProcessing technicians centrifuge each tube according to the assay-specific protocol, separate plasma or serum as required, and aliquot the result into labeled cryovials for storage. Storage freezers are monitored continuously, and any excursion outside the validated temperature range triggers an automatic alert",
+    "metadata": {
+      "source_file": "medical_guideline_placeholder.docx",
+      "generated_at": "2026-09-09T06:39:17.823582+00:00",
+      "extra": {
+        "section": "1. Patient Screening Criteria",
+        "document_title": "Placeholder Clinical Protocol Guidelines"
+      }
+    }
+  },
+  {
+    "id": "medical_textual_medical_guideline_placeholder_52f6a9_0002",
+    "domain": "medical",
+    "source_type": "textual",
+    "text": "plasma or serum as required, and aliquot the result into labeled cryovials for storage. Storage freezers are monitored continuously, and any excursion outside the validated temperature range triggers an automatic alert to the lab supervisor.\n\nCandidates are excluded if they have a documented history of severe allergic reaction to any component of the study protocol, are currently enrolled in a conflicting interventional study, or are unable to provide informed consent independently. Age restrictions apply per the specific protocol variant being run, and these are confirmed against the candidate's government-issued identification during intake.\n\nAdditional exclusion applies to candidates with recent major surgery within the preceding eight weeks, since post-surgical recovery can independently affect the biomarkers under study and would introduce a confound that the analysis plan is not designed to account for.\n\nCandidates on active immunosuppressive therapy are excluded unless the treating physician provides written clearance, since immune modulation directly interferes with the antigen response measurements central to this protocol's primary endpoint.\n\nAll measurements are recorded directly into the electronic case report form at the time of observation; retrospective transcription from paper notes is discouraged except",
+    "metadata": {
+      "source_file": "medical_guideline_placeholder.docx",
+      "generated_at": "2026-09-09T06:39:17.823698+00:00",
+      "extra": {
+        "section": "2. Sample Collection Procedure",
+        "document_title": "Placeholder Clinical Protocol Guidelines"
+      }
+    }
+  },
+  {
+    "id": "medical_textual_medical_guideline_placeholder_52f6a9_0003",
+    "domain": "medical",
+    "source_type": "textual",
+    "text": "with the antigen response measurements central to this protocol's primary endpoint.\n\nAll measurements are recorded directly into the electronic case report form at the time of observation; retrospective transcription from paper notes is discouraged except where field conditions make direct digital entry impractical. Every field left blank must carry an explicit reason code rather than being left ambiguous between 'not measured' and 'measured as zero'.\n\nTimepoints are recorded in the site's local time zone with the offset explicitly noted, since multi-site studies have previously encountered discrepancies when comparing timepoints across sites without a normalized reference. Discrepancies discovered during data review are resolved by consulting the original source document, never by assuming the most recent entry is correct by default.\n\nWeekly data quality reviews cross-reference a random ten percent sample of entries against source documents. Any discrepancy rate above two percent for a given site triggers a retraining session for that site's data entry staff before the next collection window opens.\n\nAny adverse event, regardless of perceived severity or relatedness to the study protocol, is reported to the site's",
+    "metadata": {
+      "source_file": "medical_guideline_placeholder.docx",
+      "generated_at": "2026-09-09T06:39:17.823758+00:00",
+      "extra": {
+        "section": "3. Exclusion Criteria",
+        "document_title": "Placeholder Clinical Protocol Guidelines"
+      }
+    }
+  },
+  {
+    "id": "medical_textual_medical_guideline_placeholder_52f6a9_0004",
+    "domain": "medical",
+    "source_type": "textual",
+    "text": "ing session for that site's data entry staff before the next collection window opens.\n\nAny adverse event, regardless of perceived severity or relatedness to the study protocol, is reported to the site's principal investigator within twenty-four hours of the observing staff member becoming aware of it. Serious adverse events follow an expedited reporting path with notification to the ethics board within the timeframe specified by local regulation.\n\nFollow-up on reported events continues until resolution or until the event is classified as chronic and stable, whichever comes first. The causality assessment — unrelated, possibly related, or definitely related — is documented by the principal investigator and reviewed independently by the site's medical monitor before the record is closed.",
+    "metadata": {
+      "source_file": "medical_guideline_placeholder.docx",
+      "generated_at": "2026-09-09T06:39:17.823833+00:00",
+      "extra": {
+        "section": "4. Data Recording Standards",
+        "document_title": "Placeholder Clinical Protocol Guidelines"
+      }
+    }
+  }
+]
