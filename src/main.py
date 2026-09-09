@@ -84,11 +84,31 @@ def cmd_index(args: argparse.Namespace) -> None:
 
 
 def cmd_ask(args: argparse.Namespace) -> None:
-    result = agent_ask(args.question, args.domain)
-    print("\n" + "=" * 60)
-    print("ANSWER:")
-    print(result["answer"])
-    print("=" * 60)
+    trace = agent_ask(args.question, args.domain)
+
+    print(f"\nroute    {trace.routing.domain}  ({trace.routing.method})")
+    print(f"plan     {len(trace.planning.subqueries)} sub-quer"
+          f"{'y' if len(trace.planning.subqueries) == 1 else 'ies'}")
+    for sq in trace.planning.subqueries:
+        print(f"           - {sq}")
+    print(f"retrieve {len(trace.retrieval.sources)} of "
+          f"{trace.retrieval.n_candidates} candidates")
+    for source in trace.retrieval.sources:
+        print(f"           [S{source.rank}] {source.id}  (rrf {source.score})")
+
+    print("\n" + "=" * 68)
+    print(trace.synthesis.answer)
+    print("=" * 68)
+
+    unresolved = trace.synthesis.unresolved_citations
+    if unresolved:
+        # The model cited a source number it was never given — a hallucination
+        # signal that costs nothing to detect.
+        print(f"WARNING  answer cites {', '.join(unresolved)}, which "
+              f"{'was' if len(unresolved) == 1 else 'were'} never supplied")
+
+    print(trace.summary())
+    print(f"trace    {trace.trace_id} -> logs/traces.jsonl")
 
 
 def main() -> None:
