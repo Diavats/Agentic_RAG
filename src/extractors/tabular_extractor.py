@@ -21,7 +21,7 @@ from typing import Literal
 
 from src.loader import load_tabular
 from src.narrative_generator import generate_narrative
-from src.schema import KnowledgeUnit, KnowledgeUnitMetadata
+from src.schema import KnowledgeUnit, KnowledgeUnitMetadata, make_unit_id
 
 Domain = Literal["medical", "financial"]
 
@@ -36,8 +36,11 @@ def extract_tabular(file_path: str, domain: Domain) -> list[KnowledgeUnit]:
             or invalid. Never defaulted, never guessed from the data.
 
     Returns:
-        One KnowledgeUnit per row, source_type="tabular", id following
-        "{domain}_tabular_{index:04d}".
+        One KnowledgeUnit per row, source_type="tabular". IDs are unique
+        across source files (see schema.make_unit_id) — the tcell antigen
+        CSV and the filtered human-subject CSV are both domain="medical",
+        so a per-file row counter would give both a first row of
+        "medical_tabular_0000" and Chroma upsert would silently drop one.
     """
     if domain not in ("medical", "financial"):
         raise ValueError(
@@ -55,7 +58,7 @@ def extract_tabular(file_path: str, domain: Domain) -> list[KnowledgeUnit]:
         extra = {k: v for k, v in row.items() if k != "row_id"}
 
         unit = KnowledgeUnit(
-            id=f"{domain}_tabular_{i:04d}",
+            id=make_unit_id(domain, "tabular", source_file, i),
             domain=domain,
             source_type="tabular",
             text=narrative,
