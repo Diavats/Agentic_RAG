@@ -1,8 +1,16 @@
 """
-Agentic layer — Groq (Llama 3.3-70B).
+Agentic layer — Groq (model from config.LLM_MODEL).
+
 Two agents:
   1. Query planner  — decomposes complex questions into sub-questions.
   2. Synthesis agent — fuses retrieved chunks into one cited answer.
+
+Both are domain-agnostic by design: they take a `domain` only to know which
+collection to search, and never branch on its value. That is what lets a third
+domain be added without touching this file.
+
+Phase 5 inserts the domain router ahead of decompose_query(), so `domain`
+becomes the router's decision rather than a caller-supplied argument.
 """
 import json
 from groq import Groq
@@ -50,10 +58,10 @@ def decompose_query(question: str) -> list[str]:
     return [question]
 
 
-def retrieve_for_subqueries(subqueries: list[str], dataset_name: str, k: int = 4) -> list[dict]:
+def retrieve_for_subqueries(subqueries: list[str], domain: str, k: int = 4) -> list[dict]:
     seen: dict[str, dict] = {}
     for sq in subqueries:
-        for doc in hybrid_search(sq, dataset_name, k=k):
+        for doc in hybrid_search(sq, domain, k=k):
             seen[doc["row_id"]] = doc
     return list(seen.values())
 
@@ -72,14 +80,15 @@ def synthesize_answer(question: str, retrieved: list[dict]) -> str:
     return response.choices[0].message.content.strip()
 
 
-def ask(question: str, dataset_name: str) -> dict:
+def ask(question: str, domain: str) -> dict:
     subqueries = decompose_query(question)
     print(f"  Decomposed into {len(subqueries)} sub-quer{'y' if len(subqueries)==1 else 'ies'}: {subqueries}")
-    retrieved = retrieve_for_subqueries(subqueries, dataset_name)
+    retrieved = retrieve_for_subqueries(subqueries, domain)
     print(f"  Retrieved {len(retrieved)} unique source documents")
     answer = synthesize_answer(question, retrieved)
     return {
         "question": question,
+        "domain": domain,
         "subqueries": subqueries,
         "retrieved_ids": [d["row_id"] for d in retrieved],
         "answer": answer,

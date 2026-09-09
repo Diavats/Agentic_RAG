@@ -35,10 +35,10 @@ def _get_chroma_client() -> chromadb.ClientAPI:
     return _chroma_client
 
 
-def _get_bm25(dataset_name: str) -> tuple[BM25Okapi, list[str], list[str]]:
-    if dataset_name not in _bm25_cache:
-        _bm25_cache[dataset_name] = load_bm25(dataset_name)
-    return _bm25_cache[dataset_name]
+def _get_bm25(domain: str) -> tuple[BM25Okapi, list[str], list[str]]:
+    if domain not in _bm25_cache:
+        _bm25_cache[domain] = load_bm25(domain)
+    return _bm25_cache[domain]
 
 
 def refresh_caches() -> None:
@@ -52,15 +52,15 @@ def refresh_caches() -> None:
     _bm25_cache.clear()
 
 
-def dense_search(query: str, dataset_name: str, k: int = 10) -> list[tuple[str, str]]:
-    collection = _get_chroma_client().get_collection(dataset_name)
+def dense_search(query: str, domain: str, k: int = 10) -> list[tuple[str, str]]:
+    collection = _get_chroma_client().get_collection(domain)
     q_emb = _get_embed_model().encode([query]).tolist()
     results = collection.query(query_embeddings=q_emb, n_results=k)
     return list(zip(results["ids"][0], results["documents"][0]))
 
 
-def sparse_search(query: str, dataset_name: str, k: int = 10) -> list[tuple[str, str]]:
-    bm25, ids, texts = _get_bm25(dataset_name)
+def sparse_search(query: str, domain: str, k: int = 10) -> list[tuple[str, str]]:
+    bm25, ids, texts = _get_bm25(domain)
     # Same tokenizer as indexing — see build_index.tokenize_for_bm25. If these
     # ever diverge, sparse silently returns nothing and hybrid degrades to
     # dense-only without erroring.
@@ -69,14 +69,14 @@ def sparse_search(query: str, dataset_name: str, k: int = 10) -> list[tuple[str,
     return [(doc_id, text) for doc_id, text, _ in ranked]
 
 
-def hybrid_search(query: str, dataset_name: str, k: int = 5, rrf_k: int = 60) -> list[dict]:
+def hybrid_search(query: str, domain: str, k: int = 5, rrf_k: int = 60) -> list[dict]:
     """Reciprocal Rank Fusion of dense + sparse results.
 
     RRF score for a doc = sum over each ranking of 1 / (rrf_k + rank + 1).
     Docs that rank well in BOTH dense and sparse search rise to the top.
     """
-    dense = dense_search(query, dataset_name)
-    sparse = sparse_search(query, dataset_name)
+    dense = dense_search(query, domain)
+    sparse = sparse_search(query, domain)
 
     scores: dict[str, float] = {}
     docs: dict[str, str] = {}
