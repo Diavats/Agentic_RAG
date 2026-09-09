@@ -78,7 +78,7 @@ makes adding a third domain later a one-module change, not a rewrite.
 | Tabular extractor | pandas + openpyxl + OpenAI narrative generation | Already built and tested. Now called with a `domain` parameter — same code serves financial and medical CSV | done, needs domain param added |
 | Text extractor | python-docx + custom chunker | DOCX is the confirmed real medical format. Native paragraph extraction, no OCR | new |
 | PDF support | pypdf (optional) | Deferred — not present in real data, add only if time allows | flexible / deferred |
-| Chunking (medical docs) | Recursive character splitter, ~500 tokens, 50 overlap | Documents are long-form prose, need splitting unlike tabular rows | new |
+| Chunking (medical docs) | Token-windowed, size **derived from the embedding model** (`max_seq_length - 32` = 224 content tokens for MiniLM), 40 overlap | Documents are long-form prose, need splitting unlike tabular rows. Size is derived, not hardcoded: all-MiniLM-L6-v2 truncates at 256 tokens *silently*, so the original 500 meant the back half of every chunk contributed nothing to its dense vector. Deriving it keeps the chunker correct when the embedding model is swapped (PRD 8 lists it as Flexible) | done |
 | Dense embeddings | sentence-transformers (`all-MiniLM-L6-v2`) | Free, local, CPU-only | unchanged |
 | Vector store | ChromaDB (persistent, file-based), **one collection per domain** | Domain separation prevents retrieval noise between unrelated corpora | modified |
 | Sparse retrieval | rank-bm25, **one index per domain** | Same reasoning as above | modified |
@@ -96,7 +96,7 @@ makes adding a third domain later a one-module change, not a rewrite.
 
 ```json
 {
-  "id": "string — stable, unique across the whole system, e.g. 'financial_row_0007' or 'medical_chunk_0032'",
+  "id": "string — stable, unique across the whole system. Built ONLY by schema.make_unit_id(); shape is '{domain}_{source_type}_{file_slug}_{file_hash}_{index:04d}', e.g. 'financial_tabular_sample_stocks_9a90cc_0007'. The file discriminator prevents the second source file ingested from overwriting the first on Chroma upsert — see PRD 10, data arrives in pieces",
   "domain": "medical | financial",
   "source_type": "textual | tabular",
   "text": "string — the retrievable content (narrative story OR document chunk)",

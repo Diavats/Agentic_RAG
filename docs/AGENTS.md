@@ -287,12 +287,31 @@ to know whether content came from a document or a spreadsheet.
 
 ### Constraints
 - DOCX format only for MVP — PDF is deferred (not in real data)
-- Chunk size: ~500 tokens, ~50 token overlap between consecutive chunks —
-  measured with the real embedding-model tokenizer
-  (`SentenceTransformer(EMBEDDING_MODEL).tokenizer`), not a word-count
-  approximation
-- Each chunk gets a stable `id` following the convention:
-  `medical_textual_{index:04d}`
+- Chunk size: **derived from the embedding model, never hardcoded** —
+  `SentenceTransformer(EMBEDDING_MODEL).max_seq_length - 32` (= 224 content
+  tokens for all-MiniLM-L6-v2), 40 token overlap. Read the limit off the
+  SentenceTransformer, NOT off its tokenizer: the tokenizer reports
+  `model_max_length=512` (the BERT architecture limit) while
+  sentence-transformers actually truncates at `max_seq_length=256`, silently,
+  with no warning. That mismatch is what made the original 500-token setting
+  a real recall hole rather than a cosmetic one — and BM25, which indexes the
+  full text, masked it in hybrid results
+- Chunk text must be a **verbatim substring of the source document**.
+  Window over tokens to pick boundaries, then slice the ORIGINAL string by
+  character using the fast tokenizer's `offset_mapping`. Do NOT reconstruct
+  chunks with `tokenizer.decode()`: MiniLM's tokenizer has
+  `do_lower_case=true` and splits punctuation onto its own tokens, so
+  "Dr. Smith reported 5.2% (n=40)" decodes back as
+  "dr. smith reported 5. 2 % ( n = 40 )" — and that string is what reaches
+  the synthesis prompt and the citation block in the UI
+- Each chunk gets a stable `id` built by `schema.make_unit_id()` — never
+  hand-formatted. Convention:
+  `{domain}_{source_type}_{file_slug}_{file_hash}_{index:04d}`. The
+  per-file discriminator is load-bearing, not decoration: chunk indices
+  restart at 0 for every DOCX, so without it the second document ingested
+  would produce the same IDs as the first and Chroma `.upsert()` would
+  silently overwrite it — and documents arrive in pieces, so that is the
+  normal case
 - `domain` is always `"medical"` for this extractor — hardcoded is fine
   here because this extractor is semantically tied to the medical domain
   (unlike the tabular extractor which is cross-domain)
@@ -344,7 +363,12 @@ genuinely format-agnostic.
 - `domain` is a REQUIRED parameter — raise an error if not supplied, never
   default to either domain
 - `source_type` is always `"tabular"` — hardcoded is correct here
-- Each unit's `id` follows: `{domain}_tabular_{index:04d}`
+- Each unit's `id` is built by `schema.make_unit_id()` — never
+  hand-formatted. Same per-file discriminator as the text extractor, and
+  here the collision is guaranteed rather than merely likely: the tcell
+  antigen CSV and the filtered human-subject CSV are BOTH
+  `domain="medical"`, so a per-file row counter gives both a row 0 of
+  `medical_tabular_0000`
 - Same incremental ingestion requirement as the text extractor: upsert,
   never replace
 
