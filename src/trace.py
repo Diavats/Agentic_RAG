@@ -73,6 +73,9 @@ class RetrievedSource(BaseModel):
     rank: int = Field(..., description="1-based position in the fused ranking")
     source_file: str = ""
     source_type: str = ""
+    domain: str = Field("", description="Which corpus this hit came from — the "
+                                        "column that matters when the router "
+                                        "was unsure and searched both.")
 
 
 class Citation(BaseModel):
@@ -101,7 +104,12 @@ class RoutingStage(BaseModel):
     domain: str
     method: str = "explicit"
     confidence: float | None = None
-    margin: float | None = None
+    margin: float | None = Field(
+        None,
+        description="Cosine gap between winning and losing domain. This, not "
+                    "the LLM's self-reported number, is the calibrated signal.",
+    )
+    scores: dict[str, float] = Field(default_factory=dict)
     latency_ms: float = 0.0
 
 

@@ -22,6 +22,7 @@ import json
 from groq import Groq
 
 from src.config import GROQ_API_KEY, LLM_MODEL
+from src.domain_router import DOMAINS, route
 from src.hybrid_retrieval import hybrid_search, is_warm
 from src.trace import (
     PlanningStage,
@@ -90,7 +91,9 @@ def decompose_query(question: str) -> list[str]:
     return cleaned[:4] or [question]
 
 
-def retrieve_for_subqueries(subqueries: list[str], domain: str, k: int = 4) -> list[dict]:
+def retrieve_for_subqueries(
+    subqueries: list[str], domains: str | list[str], k: int = 4
+) -> list[dict]:
     """Hybrid search per sub-query, deduplicated by document ID.
 
     A document found by several sub-queries keeps its best score, and the
@@ -98,13 +101,22 @@ def retrieve_for_subqueries(subqueries: list[str], domain: str, k: int = 4) -> l
     MAX_SYNTHESIS_SOURCES it keeps the strongest hits, not whichever sub-query
     happened to run last. The previous dict-overwrite kept insertion order,
     which made the cut arbitrary.
+
+    `domains` may be a list. When the router cannot separate the two corpora,
+    both are searched and the fused scores decide — a slightly noisy answer
+    beats a confident answer drawn from the wrong corpus.
     """
+    if isinstance(domains, str):
+        domains = [domains]
+
     best: dict[str, dict] = {}
-    for sq in subqueries:
-        for doc in hybrid_search(sq, domain, k=k):
-            existing = best.get(doc["row_id"])
-            if existing is None or doc["score"] > existing["score"]:
-                best[doc["row_id"]] = doc
+    for domain in domains:
+        for sq in subqueries:
+            for doc in hybrid_search(sq, domain, k=k):
+                doc = {**doc, "domain": domain}
+                existing = best.get(doc["row_id"])
+                if existing is None or doc["score"] > existing["score"]:
+                    best[doc["row_id"]] = doc
     return sorted(best.values(), key=lambda d: d["score"], reverse=True)
 
 
@@ -120,8 +132,21 @@ def synthesize_answer(question: str, sources: list[RetrievedSource]) -> str:
     return response.choices[0].message.content.strip()
 
 
-def ask(question: str, domain: str, log: bool = True) -> QueryTrace:
+def ask(
+    question: str,
+    domain: str | None = None,
+    log: bool = True,
+    router: str = "embedding",
+) -> QueryTrace:
     """Run the full pipeline and return a QueryTrace.
+
+    Args:
+        domain: leave None to let the router decide — that is the point of the
+            system, and what the API does. Passing one explicitly overrides the
+            router, which the eval harness needs in order to measure retrieval
+            independently of routing.
+        router: "embedding" (default, free and calibrated), "embedding:centroid",
+            or "llm". Phase 6 reports all three against the golden set.
 
     Returns the trace rather than a bare answer string because every consumer
     downstream — the API, the UI, the eval harness — needs the intermediate
@@ -130,9 +155,25 @@ def ask(question: str, domain: str, log: bool = True) -> QueryTrace:
     elapsed: dict = {}
     was_cold = not is_warm()  # capture BEFORE retrieval triggers the model load
 
-    # --- Route --- Phase 5 replaces this with the real router. Recorded as
-    # method="explicit" so traces taken before and after stay comparable.
-    routing = RoutingStage(domain=domain, method="explicit", latency_ms=0.0)
+    # --- Route ---
+    if domain is not None:
+        routing = RoutingStage(domain=domain, method="explicit", latency_ms=0.0)
+        search_domains: str | list[str] = domain
+    else:
+        with timed(elapsed, "route"):
+            decision = route(question, method=router)
+        # Too close to call: search BOTH corpora and let RRF sort it out,
+        # rather than blocking the user with a clarification prompt.
+        searched_both = not decision.is_confident
+        search_domains = list(DOMAINS) if searched_both else decision.domain
+        routing = RoutingStage(
+            domain="both" if searched_both else decision.domain,
+            method=decision.method + (" (low-confidence: searched both)" if searched_both else ""),
+            confidence=decision.confidence,
+            margin=decision.margin,
+            scores=decision.scores,
+            latency_ms=elapsed["route"],
+        )
 
     # --- Plan ---
     with timed(elapsed, "plan"):
@@ -145,9 +186,12 @@ def ask(question: str, domain: str, log: bool = True) -> QueryTrace:
 
     # --- Retrieve ---
     with timed(elapsed, "retrieve"):
-        candidates = retrieve_for_subqueries(subqueries, domain)
+        candidates = retrieve_for_subqueries(subqueries, search_domains)
     sources = [
-        RetrievedSource(id=doc["row_id"], text=doc["text"], score=doc["score"], rank=rank)
+        RetrievedSource(
+            id=doc["row_id"], text=doc["text"], score=doc["score"], rank=rank,
+            domain=doc.get("domain", ""),
+        )
         for rank, doc in enumerate(candidates[:MAX_SYNTHESIS_SOURCES], start=1)
     ]
     retrieval = RetrievalStage(

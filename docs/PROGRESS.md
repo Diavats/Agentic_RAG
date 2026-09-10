@@ -19,6 +19,7 @@ one spreadsheet. It is now a **two-domain retrieval system** with a test suite.
 | Spreadsheets only | Spreadsheets **and** Word documents, same pipeline |
 | Extractors written but never connected to anything | Wired end to end |
 | Answer = a string | Answer = a full record of every decision made |
+| You had to say which domain to search | The system works it out itself |
 | No version control | Git repo, pushed to GitHub after every phase |
 | No tests | 135 tests |
 
