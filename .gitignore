@@ -30,3 +30,7 @@ Thumbs.db
 # Raw append-only log of every query run locally. The CURATED subset lives in
 # docs/TRACES.md and IS committed - that is the artifact worth reading.
 logs/
+
+# --- Test artifacts ---
+.pytest_cache/
+pytest_run.log

@@ -38,9 +38,8 @@ from pathlib import Path
 
 import chromadb
 from rank_bm25 import BM25Okapi
-from sentence_transformers import SentenceTransformer
 
-from src.config import CHROMA_DIR, EMBEDDING_MODEL
+from src.config import CHROMA_DIR
 from src.schema import KnowledgeUnit
 
 # Keys written from the KnowledgeUnit itself. metadata.extra may not overwrite
@@ -93,7 +92,11 @@ def tokenize_for_bm25(text: str) -> list[str]:
     tokens = []
     for raw in normalize_for_bm25(text).split():
         token = raw.strip(_STRIP_CHARS)
-        if token:
+        # Require at least one alphanumeric character. A bare "---" or "..."
+        # carries no meaning but still counts toward document length, which
+        # BM25 uses to normalize scores — so punctuation-only tokens quietly
+        # penalize documents that contain more punctuation.
+        if token and any(c.isalnum() for c in token):
             tokens.append(token)
     return tokens
 
@@ -121,7 +124,12 @@ def _scalarize(value):
         text = value.strip()
         return text or None
     if isinstance(value, (datetime, date)):
-        return value.isoformat()
+        # pandas' NaT — a missing date — IS an instance of datetime, and its
+        # isoformat() returns the literal string "NaT". Without this guard a
+        # blank date cell is stored in Chroma as the text "NaT", which then
+        # looks like real data to anyone reading the metadata.
+        text = value.isoformat()
+        return None if text.lower() in {"nat", "nan"} else text
     # numpy scalars (int64, float64, bool_) expose .item(); pandas NA-likes
     # do not survive the round trip and fall through to str().
     item = getattr(value, "item", None)
@@ -192,7 +200,15 @@ def build_index(units: list[KnowledgeUnit], domain: str) -> None:
             "stops meaning anything at query time."
         )
 
-    embed_model = SentenceTransformer(EMBEDDING_MODEL)
+    # Reuse the retrieval layer's cached instance rather than constructing a
+    # second one. Loading all-MiniLM-L6-v2 takes ~20s, and build_index() is
+    # called once per domain per ingest — so a fresh load here meant paying
+    # that cost again for every batch, and holding two copies of the same
+    # model in memory on a 512MB Render instance. Imported lazily so importing
+    # this module still does not touch the model.
+    from src.hybrid_retrieval import _get_embed_model
+
+    embed_model = _get_embed_model()
 
     ids = [u.id for u in units]
     texts = [u.text for u in units]
