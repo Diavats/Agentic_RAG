@@ -56,15 +56,18 @@ def isolated_store(tmp_path, monkeypatch):
     patching.
     """
     import src.build_index as build_index
+    import src.domain_router as domain_router
     import src.hybrid_retrieval as hybrid_retrieval
 
     store = tmp_path / "chroma"
     store.mkdir()
-    monkeypatch.setattr(build_index, "CHROMA_DIR", str(store))
-    monkeypatch.setattr(hybrid_retrieval, "CHROMA_DIR", str(store))
+    for module in (build_index, hybrid_retrieval, domain_router):
+        monkeypatch.setattr(module, "CHROMA_DIR", str(store))
     hybrid_retrieval.refresh_caches()
+    domain_router.refresh_caches()
     yield store
     hybrid_retrieval.refresh_caches()
+    domain_router.refresh_caches()
 
 
 @pytest.fixture

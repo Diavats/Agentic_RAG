@@ -216,8 +216,41 @@ itself doesn't change — just measured. Phase 6 also adds two ablations
 
 ## Agent 4 — Domain Router Agent
 
-**Status:** ❌ Not built — Phase 5
-**File (planned):** `src/domain_router.py`
+**Status:** ✅ Built (Phase 5)
+**File:** `src/domain_router.py`
+
+### Two deviations from the original spec, both deliberate
+
+**1. Confidence comes from cosine margin, not from the LLM.**
+The spec called for the model to return its own `confidence` float, with a
+clarification prompt below 0.7. An LLM's self-reported confidence is not
+calibrated — it reports ~0.95 for nearly everything including its mistakes, so
+that branch would essentially never fire and could not be demonstrated. The
+embedding router's cosine MARGIN (winning domain minus losing domain) measures
+the same thing and is real. Measured on twelve questions: contentless questions
+scored 0.016–0.048, genuine questions 0.252 and above. Threshold set at 0.10,
+in the empty band between them.
+
+**2. Low confidence searches BOTH corpora instead of asking the user.**
+The spec said to request clarification. Searching both and letting RRF fuse the
+results turns the worst failure mode (a confident answer drawn from the wrong
+corpus) into the second-best (a slightly noisy one), and does not dead-end the
+user mid-demo.
+
+**Also:** `instructor` was dropped. It was in `requirements.txt`, imported
+nowhere, and for a two-value enum bought ~6 lines of retry logic that
+`decompose_query()` already demonstrates.
+
+### Measured
+
+| | |
+|---|---|
+| Routing accuracy, unambiguous questions | 8/8 |
+| Warm latency | ~35 ms (TRD section 7 budgets 1500 ms) |
+| API cost | zero — the default router makes no LLM call |
+
+An LLM router is also implemented (`route_llm`) so Phase 6 can report both
+against the golden set rather than asserting which is better.
 
 ### Role
 The first thing that runs at query time. Receives the raw user question

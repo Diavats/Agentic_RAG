@@ -17,8 +17,9 @@ domain is metadata supplied by the caller, never inferred from the data.
 Both steps are re-runnable. Ingesting a second file adds to the domain rather
 than replacing it — medical data arrives in pieces, not as one drop.
 
-Until the domain router lands (Phase 5), `ask` requires --domain explicitly.
-After it, --domain becomes an optional override of the router's decision.
+`ask` routes automatically — the user never picks a domain. Pass --domain to
+override the router (the eval harness needs that to measure retrieval
+independently of routing), and --router to switch routing method.
 """
 import argparse
 import sys
@@ -158,9 +159,17 @@ def main() -> None:
     p_index.add_argument("--domain", required=True, choices=DOMAINS)
     p_index.set_defaults(func=cmd_index)
 
-    p_ask = sub.add_parser("ask", help="Ask a question against one domain")
-    p_ask.add_argument("--domain", required=True, choices=DOMAINS)
+    p_ask = sub.add_parser("ask", help="Ask a question — the router picks the domain")
     p_ask.add_argument("--question", required=True)
+    p_ask.add_argument(
+        "--domain", choices=DOMAINS, default=None,
+        help="Override the router. Omit this and the system decides, which is the point.",
+    )
+    p_ask.add_argument(
+        "--router", default="embedding",
+        choices=["embedding", "embedding:centroid", "llm"],
+        help="Routing method (default: embedding — free, ~15ms, calibrated confidence)",
+    )
     p_ask.set_defaults(func=cmd_ask)
 
     args = parser.parse_args()
