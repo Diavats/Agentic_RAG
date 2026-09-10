@@ -255,6 +255,43 @@ def build_index(units: list[KnowledgeUnit], domain: str) -> None:
     )
 
 
+def ensure_index(domains: tuple[str, ...] = ("medical", "financial"), rebuild: bool = False) -> dict:
+    """Build any domain index that is missing, from the committed unit store.
+
+    The built index is NOT in version control: Chroma writes to its SQLite and
+    HNSW segments on READ, so a single query dirtied three binary files and
+    every question produced a spurious diff. What IS committed is
+    data/generated/*_units.json — text, diffs cleanly, and it holds the
+    expensive part, since producing it costs one Groq call per row.
+
+    Rebuilding from that costs ZERO API calls (embedding only, a couple of
+    seconds at this corpus size), so the deployed API calls this at startup
+    instead of shipping a prebuilt index in the image.
+
+    Returns {domain: unit_count} for what it built or found.
+    """
+    import chromadb
+
+    from src.unit_store import load_units
+
+    client = chromadb.PersistentClient(path=CHROMA_DIR)
+    existing = {c.name for c in client.list_collections()}
+    built = {}
+
+    for domain in domains:
+        units = load_units(domain)
+        if not units:
+            continue
+        already = domain in existing and not rebuild
+        if already and _bm25_path(domain).exists():
+            built[domain] = client.get_collection(domain).count()
+            continue
+        build_index(units, domain)
+        built[domain] = len(units)
+
+    return built
+
+
 def load_bm25(domain: str) -> tuple[BM25Okapi, list[str], list[str]]:
     """Load the sparse corpus and fit BM25 over it. Used by hybrid_retrieval."""
     ids, texts = _load_existing(domain)
