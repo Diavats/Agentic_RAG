@@ -19,7 +19,7 @@ one spreadsheet. It is now a **two-domain retrieval system** with a test suite.
 | Spreadsheets only | Spreadsheets **and** Word documents, same pipeline |
 | Extractors written but never connected to anything | Wired end to end |
 | Answer = a string | Answer = a full record of every decision made |
-| No version control | Git repo, 5 commits, pushed to GitHub |
+| No version control | Git repo, pushed to GitHub after every phase |
 | No tests | 135 tests |
 
 ---
@@ -45,7 +45,7 @@ no crash, no error message, just wrong results.
 | `src/unit_store.py` **(new)** | Saves extracted content to disk so it is never re-extracted. Extraction costs one AI API call per spreadsheet row, so redoing it wastes real quota |
 | `src/trace.py` **(new)** | Records what the system did for each question: which domain, how it split the question, what it found, what it cited, how long each step took |
 | `src/build_index.py` | Now accepts the shared data format both extractors produce, and cleans spreadsheet values the database would reject |
-| `src/main.py` | New commands: `ingest --domain`, `index --domain`, `ask --domain` |
+| `src/main.py` | New commands: `setup`, `ingest --domain`, `index --domain`, `ask --domain` |
 | `src/agent.py` | Returns the full record instead of just an answer string |
 | `tests/` **(new)** | 135 tests. Every one is a trap for a bug that actually happened |
 
@@ -135,13 +135,26 @@ Honesty is worth more than a clean-looking list.
 
 Open VSCode's terminal (`` Ctrl+` ``) in the project folder. Run these in order.
 
+### Step 0 — build the indexes (first time, or after a fresh clone)
+
+```bash
+venv/Scripts/python.exe -m src.main setup
+```
+
+Zero API calls. The search index is **not** in version control, because Chroma
+writes to its files whenever you *read* — one query dirtied three binary files,
+so every question produced a spurious change. What is committed is
+`data/generated/*_units.json`: plain text, diffs cleanly, and it holds the
+expensive part (one AI call per spreadsheet row). The index rebuilds from it in
+a couple of seconds.
+
 ### Step 1 — confirm you are looking at the same files
 
 ```bash
 git log --oneline
 ```
 
-Expect 5 commits, newest first, ending with `Initial commit`.
+Expect a list of commits, newest first, ending with `Initial commit`.
 
 ### Step 2 — run the tests
 

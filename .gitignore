@@ -15,11 +15,16 @@ __pycache__/
 # tracked. They are also what the index is rebuilt from, with zero API calls.
 data/generated/*_stories.json
 
-# --- Built indexes: COMMITTED, deliberately ---
-# Render's free tier has an ephemeral filesystem and sleeps after ~15 min, so
-# the deployed API serves a pre-built, read-only index baked into the image.
-# Ingestion stays an offline admin operation. ~936K, rebuildable from
-# data/generated/ with `python -m src.main index --domain <d>` (no API calls).
+# --- Built indexes: NOT committed ---
+# Chroma writes to its SQLite and HNSW segments on READ, so a single query
+# dirties three binary files. Committing the index meant every query produced a
+# spurious diff.
+#
+# data/generated/*_units.json IS committed instead: it is text, it diffs
+# cleanly, and it holds the expensive part (one Groq call per row). The index
+# rebuilds from it with ZERO API calls in a couple of seconds, so the deployed
+# API builds it at startup rather than shipping it in the image.
+chroma_store/
 
 # --- OS / editor ---
 .DS_Store

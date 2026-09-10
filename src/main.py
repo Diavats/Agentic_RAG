@@ -1,6 +1,7 @@
 """
-CLI entrypoint. Three commands: ingest, index, ask.
+CLI entrypoint: setup, ingest, index, ask.
 
+    python -m src.main setup                    # rebuild indexes from committed units
     python -m src.main ingest --data data/sample_stocks.csv --domain financial
     python -m src.main ingest --data data/medical_placeholder.csv --domain medical
     python -m src.main ingest --data data/medical_guideline_placeholder.docx --domain medical
@@ -24,7 +25,7 @@ import sys
 from pathlib import Path
 
 from src.agent import ask as agent_ask
-from src.build_index import build_index
+from src.build_index import build_index, ensure_index
 from src.extractors.tabular_extractor import extract_tabular
 from src.extractors.text_extractor import extract_text
 from src.schema import KnowledgeUnit
@@ -71,6 +72,24 @@ def cmd_ingest(args: argparse.Namespace) -> None:
     print(f"  Domain '{args.domain}' now holds {len(all_units)} units")
     print(f"  Saved to {units_path(args.domain)}")
     print(f"\nNext: python -m src.main index --domain {args.domain}")
+
+
+def cmd_setup(args: argparse.Namespace) -> None:
+    """Rebuild every index from the committed unit store. Zero API calls.
+
+    This is what a fresh clone runs, and what the deployed API runs at startup:
+    the index is not in version control (Chroma dirties its files on read), but
+    the units it is built from are.
+    """
+    built = ensure_index(rebuild=args.rebuild)
+    if not built:
+        raise SystemExit(
+            "No extracted units found. Run `ingest` first, or check that "
+            "data/generated/ is present."
+        )
+    for domain, count in built.items():
+        print(f"  {domain}: {count} units ready")
+    print("\nReady. Try: python -m src.main ask --domain financial --question \"...\"")
 
 
 def cmd_index(args: argparse.Namespace) -> None:
@@ -127,6 +146,13 @@ def main() -> None:
     p_ingest.add_argument("--data", required=True, help="Path to a .csv, .xlsx or .docx file")
     p_ingest.add_argument("--domain", required=True, choices=DOMAINS)
     p_ingest.set_defaults(func=cmd_ingest)
+
+    p_setup = sub.add_parser(
+        "setup", help="Rebuild all indexes from the committed units (no API calls)"
+    )
+    p_setup.add_argument("--rebuild", action="store_true",
+                         help="Rebuild even if an index already exists")
+    p_setup.set_defaults(func=cmd_setup)
 
     p_index = sub.add_parser("index", help="Build the hybrid index for one domain")
     p_index.add_argument("--domain", required=True, choices=DOMAINS)
