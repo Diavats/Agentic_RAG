@@ -104,7 +104,9 @@ def cmd_index(args: argparse.Namespace) -> None:
 
 
 def cmd_ask(args: argparse.Namespace) -> None:
-    trace = agent_ask(args.question, args.domain)
+    trace = agent_ask(
+        args.question, args.domain, router=args.router, verify=args.verify
+    )
 
     print(f"\nroute    {trace.routing.domain}  ({trace.routing.method})")
     print(f"plan     {len(trace.planning.subqueries)} sub-quer"
@@ -126,6 +128,14 @@ def cmd_ask(args: argparse.Namespace) -> None:
         # signal that costs nothing to detect.
         print(f"WARNING  answer cites {', '.join(unresolved)}, which "
               f"{'was' if len(unresolved) == 1 else 'were'} never supplied")
+
+    if trace.verification:
+        v = trace.verification
+        print()
+        print(f"self-check  {v.supported_claims}/{v.total_claims} claims supported "
+              f"by their cited sources  (judge: {v.judge_model})")
+        print("            a self-check, not an objective hallucination score — "
+              "the system is grading itself")
 
     print(trace.summary())
     print(f"trace    {trace.trace_id} -> logs/traces.jsonl")
@@ -169,6 +179,10 @@ def main() -> None:
         "--router", default="embedding",
         choices=["embedding", "embedding:centroid", "llm"],
         help="Routing method (default: embedding — free, ~15ms, calibrated confidence)",
+    )
+    p_ask.add_argument(
+        "--verify", action="store_true",
+        help="Run the groundedness self-check (costs ~1 judge call per claim)",
     )
     p_ask.set_defaults(func=cmd_ask)
 
