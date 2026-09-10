@@ -137,6 +137,7 @@ def ask(
     domain: str | None = None,
     log: bool = True,
     router: str = "embedding",
+    verify: bool = False,
 ) -> QueryTrace:
     """Run the full pipeline and return a QueryTrace.
 
@@ -147,6 +148,10 @@ def ask(
             independently of routing.
         router: "embedding" (default, free and calibrated), "embedding:centroid",
             or "llm". Phase 6 reports all three against the golden set.
+        verify: run the groundedness self-check. OFF by default because it costs
+            one judge call per claim on top of the answer — roughly doubling
+            both latency and API spend. The API turns it on; the eval harness
+            turns it on; a quick CLI question does not need it.
 
     Returns the trace rather than a bare answer string because every consumer
     downstream — the API, the UI, the eval harness — needs the intermediate
@@ -209,12 +214,21 @@ def ask(
         latency_ms=elapsed["synth"],
     )
 
+    # --- Verify (optional) ---
+    verification = None
+    if verify:
+        from src.verifier import verify_answer
+
+        with timed(elapsed, "verify"):
+            verification = verify_answer(answer, sources)
+
     trace = QueryTrace(
         question=question,
         routing=routing,
         planning=planning,
         retrieval=retrieval,
         synthesis=synthesis,
+        verification=verification,
         total_latency_ms=round(sum(elapsed.values()), 1),
         cold_start=was_cold,
     )
