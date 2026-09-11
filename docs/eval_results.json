@@ -1,0 +1,96 @@
+{
+  "generated_at": "2026-09-11T05:32:31.364395+00:00",
+  "models": {
+    "generator": "openai/gpt-oss-20b",
+    "judge": "qwen/qwen3.8-27b",
+    "embeddings": "all-MiniLM-L6-v2"
+  },
+  "corpus": {
+    "financial": 15,
+    "medical": 11
+  },
+  "golden_set": {
+    "financial": 15,
+    "medical": 15,
+    "ambiguous": 4,
+    "unanswerable": 8
+  },
+  "k": 5,
+  "retrieval_ablation": {
+    "financial": {
+      "dense": {
+        "recall@5": 0.8636,
+        "mrr": 0.7682,
+        "hit@5": 0.9091,
+        "precision@5": 0.2,
+        "max_possible_precision@5": 0.2364,
+        "n": 11
+      },
+      "sparse": {
+        "recall@5": 0.8182,
+        "mrr": 0.7727,
+        "hit@5": 0.8182,
+        "precision@5": 0.2,
+        "max_possible_precision@5": 0.2364,
+        "n": 11
+      },
+      "hybrid": {
+        "recall@5": 0.9091,
+        "mrr": 0.7879,
+        "hit@5": 0.9091,
+        "precision@5": 0.2182,
+        "max_possible_precision@5": 0.2364,
+        "n": 11
+      }
+    },
+    "medical": {
+      "dense": {
+        "recall@5": 0.9091,
+        "mrr": 0.7455,
+        "hit@5": 0.9091,
+        "precision@5": 0.2545,
+        "max_possible_precision@5": 0.2727,
+        "n": 11
+      },
+      "sparse": {
+        "recall@5": 0.9091,
+        "mrr": 0.8212,
+        "hit@5": 1.0,
+        "precision@5": 0.2364,
+        "max_possible_precision@5": 0.2727,
+        "n": 11
+      },
+      "hybrid": {
+        "recall@5": 0.8636,
+        "mrr": 0.8409,
+        "hit@5": 0.9091,
+        "precision@5": 0.2364,
+        "max_possible_precision@5": 0.2727,
+        "n": 11
+      }
+    }
+  },
+  "router_ablation": {
+    "embedding:max": {
+      "accuracy": 0.9667,
+      "correct": 29,
+      "n": 30,
+      "ambiguous_flagged": 2,
+      "n_ambiguous": 4
+    },
+    "embedding:centroid": {
+      "accuracy": 0.9667,
+      "correct": 29,
+      "n": 30,
+      "ambiguous_flagged": 2,
+      "n_ambiguous": 4
+    }
+  },
+  "duration_s": 3.9,
+  "cache": {
+    "hits": 0,
+    "misses": 0,
+    "total": 0,
+    "hit_rate": 0.0
+  }
+}

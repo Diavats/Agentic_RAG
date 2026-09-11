@@ -46,6 +46,7 @@ import numpy as np
 from pydantic import BaseModel, Field, ValidationError
 
 from src.config import CHROMA_DIR, GROQ_API_KEY, LLM_MODEL
+from src.llm_cache import cached_completion
 
 Domain = Literal["medical", "financial"]
 DOMAINS: tuple[Domain, ...] = ("medical", "financial")
@@ -212,12 +213,9 @@ def route_llm(question: str, retries: int = 1) -> RoutingDecision:
     no `instructor` dependency for a two-value enum."""
     last_error = None
     for _ in range(retries + 1):
-        response = _client().chat.completions.create(
-            model=LLM_MODEL,
-            messages=[{"role": "user", "content": ROUTER_PROMPT.format(question=question)}],
-            temperature=0,
+        raw = cached_completion(
+            _client(), LLM_MODEL, ROUTER_PROMPT.format(question=question), temperature=0
         )
-        raw = response.choices[0].message.content.strip()
         try:
             start, end = raw.index("{"), raw.rindex("}") + 1
             parsed = _LLMRoute.model_validate(json.loads(raw[start:end]))

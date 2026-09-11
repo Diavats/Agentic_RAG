@@ -39,6 +39,7 @@ import json
 import re
 
 from src.config import GROQ_API_KEY, VERIFIER_MODEL
+from src.llm_cache import cached_completion
 from src.trace import RetrievedSource, VerificationStage, timed
 
 _client = None
@@ -81,12 +82,7 @@ def _get_client():
 
 
 def _ask_judge(prompt: str, model: str) -> str:
-    response = _get_client().chat.completions.create(
-        model=model,
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0,
-    )
-    return response.choices[0].message.content.strip()
+    return cached_completion(_get_client(), model, prompt, temperature=0)
 
 
 def extract_claims(answer: str, model: str = VERIFIER_MODEL) -> list[str]:

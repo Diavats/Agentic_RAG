@@ -1,0 +1,176 @@
+[
+  {
+    "id": "fin_01",
+    "question": "What does JGCHEM supply and to which customers?",
+    "domain": "financial",
+    "gold_chunk_ids": [
+      "financial_tabular_sample_stocks_9a90cc_0000"
+    ],
+    "gold_answer": "Zinc Oxide (ZnO) to auto OEMs such as Bajaj and Maruti, and to tyre makers.",
+    "answerable": true,
+    "ambiguous": false,
+    "notes": ""
+  },
+  {
+    "id": "fin_02",
+    "question": "Which critical component does NEOGEN produce?",
+    "domain": "financial",
+    "gold_chunk_ids": [
+      "financial_tabular_sample_stocks_9a90cc_0014"
+    ],
+    "gold_answer": "Lithium electrolyte salts, for battery cell giga-factories.",
+    "answerable": true,
+    "ambiguous": false,
+    "notes": ""
+  },
+  {
+    "id": "fin_03",
+    "question": "How did FCSSOFT perform this quarter?",
+    "domain": "financial",
+    "gold_chunk_ids": [
+      "financial_tabular_sample_stocks_9a90cc_0009"
+    ],
+    "gold_answer": "Poorly — sales fell 39.78% and operating profit fell 82.30%; status Decline.",
+    "answerable": true,
+    "ambiguous": false,
+    "notes": ""
+  },
+  {
+    "id": "fin_04",
+    "question": "Which stock had the highest operating profit growth?",
+    "domain": "financial",
+    "gold_chunk_ids": [
+      "financial_tabular_sample_stocks_9a90cc_0003"
+    ],
+    "gold_answer": "DIACABS, at 1003.70% quarter-on-quarter.",
+    "answerable": true,
+    "ambiguous": false,
+    "notes": "superlative"
+  },
+  {
+    "id": "fin_05",
+    "question": "Which stock had the highest sales growth?",
+    "domain": "financial",
+    "gold_chunk_ids": [
+      "financial_tabular_sample_stocks_9a90cc_0013"
+    ],
+    "gold_answer": "ARIHANTCAP, at 59.18% quarter-on-quarter.",
+    "answerable": true,
+    "ambiguous": false,
+    "notes": "superlative"
+  },
+  {
+    "id": "fin_06",
+    "question": "Which companies did not report results for June 2026?",
+    "domain": "financial",
+    "gold_chunk_ids": [
+      "financial_tabular_sample_stocks_9a90cc_0005",
+      "financial_tabular_sample_stocks_9a90cc_0008"
+    ],
+    "gold_answer": "AUBANK and SURANASOL — both marked 'Jun 2026 Not Reported'.",
+    "answerable": true,
+    "ambiguous": false,
+    "notes": "multi-chunk"
+  },
+  {
+    "id": "fin_07",
+    "question": "Compare the two companies serving real estate developers.",
+    "domain": "financial",
+    "gold_chunk_ids": [
+      "financial_tabular_sample_stocks_9a90cc_0006",
+      "financial_tabular_sample_stocks_9a90cc_0010"
+    ],
+    "gold_answer": "EXXARO (vitrified tiles, margin compression, sales +40.49%) and 3PLAND (Pune land banks, profitable growth, sales +3.96%).",
+    "answerable": true,
+    "ambiguous": false,
+    "notes": "multi-chunk"
+  },
+  {
+    "id": "fin_08",
+    "question": "Which company supplies large-diameter SAW pipes to oil and gas majors?",
+    "domain": "financial",
+    "gold_chunk_ids": [
+      "financial_tabular_sample_stocks_9a90cc_0002"
+    ],
+    "gold_answer": "WELCORP.",
+    "answerable": true,
+    "ambiguous": false,
+    "notes": ""
+  },
+  {
+    "id": "fin_09",
+    "question": "What is DIACABS's customer base?",
+    "domain": "financial",
+    "gold_chunk_ids": [
+      "financial_tabular_sample_stocks_9a90cc_0003"
+    ],
+    "gold_answer": "Data centres and power utilities.",
+    "answerable": true,
+    "ambiguous": false,
+    "notes": ""
+  },
+  {
+    "id": "fin_10",
+    "question": "Which stock is flagged as having insufficient data?",
+    "domain": "financial",
+    "gold_chunk_ids": [
+      "financial_tabular_sample_stocks_9a90cc_0013"
+    ],
+    "gold_answer": "ARIHANTCAP.",
+    "answerable": true,
+    "ambiguous": false,
+    "notes": ""
+  },
+  {
+    "id": "fin_11",
+    "question": "How did KROSS perform, and who are its customers?",
+    "domain": "financial",
+    "gold_chunk_ids": [
+      "financial_tabular_sample_stocks_9a90cc_0012"
+    ],
+    "gold_answer": "Sales +27.03%, operating profit +206.20%, strong growth; supplies trailer axles and suspensions to M&HCV OEMs such as Ashok Leyland.",
+    "answerable": true,
+    "ambiguous": false,
+    "notes": ""
+  },
+  {
+    "id": "fin_12",
+    "question": "What is the dividend policy of TCS?",
+    "domain": "financial",
+    "gold_chunk_ids": [],
+    "gold_answer": "Not in the corpus — the system should say so.",
+    "answerable": false,
+    "ambiguous": false,
+    "notes": "unanswerable"
+  },
+  {
+    "id": "fin_13",
+    "question": "What was JGCHEM's share price on 15 March?",
+    "domain": "financial",
+    "gold_chunk_ids": [],
+    "gold_answer": "Not in the corpus — it holds growth percentages, not prices.",
+    "answerable": false,
+    "ambiguous": false,
+    "notes": "unanswerable"
+  },
+  {
+    "id": "fin_14",
+    "question": "How many employees does HUHTAMAKI have?",
+    "domain": "financial",
+    "gold_chunk_ids": [],
+    "gold_answer": "Not in the corpus.",
+    "answerable": false,
+    "ambiguous": false,
+    "notes": "unanswerable"
+  },
+  {
+    "id": "fin_15",
+    "question": "What is the market capitalisation of AUBANK?",
+    "domain": "financial",
+    "gold_chunk_ids": [],
+    "gold_answer": "Not in the corpus.",
+    "answerable": false,
+    "ambiguous": false,
+    "notes": "unanswerable"
+  }
+]

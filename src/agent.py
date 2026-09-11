@@ -18,12 +18,14 @@ Phase 5 inserts the domain router ahead of decompose_query(), so `domain`
 becomes the router's decision rather than a caller-supplied argument.
 """
 import json
+import re
 
 from groq import Groq
 
 from src.config import GROQ_API_KEY, LLM_MODEL
 from src.domain_router import DOMAINS, route
 from src.hybrid_retrieval import hybrid_search, is_warm
+from src.llm_cache import cached_completion
 from src.trace import (
     PlanningStage,
     QueryTrace,
@@ -42,12 +44,36 @@ client = Groq(api_key=GROQ_API_KEY)
 # hits each could otherwise deliver 16.
 MAX_SYNTHESIS_SOURCES = 8
 
-DECOMPOSE_PROMPT = """You are a query planning agent. Given a user question, decide if it
-needs to be broken into multiple sub-questions to be answered well.
+# Second-person address marks a clarifying question rather than a search query.
+# Whole-word membership rather than a regex: 'youth' and 'yourself' must not
+# match, and getting a word boundary wrong silently disables the guard.
+_SECOND_PERSON = {"you", "your", "yours", "you're", "youre"}
+_PUNCTUATION = ".,;:!?()[]{}<>\"'`"
 
-If it's simple, return a JSON list with just the original question.
-If it's complex (compares multiple entities, spans multiple categories, or has
-multiple parts), break it into 2-4 focused sub-questions.
+
+def _addresses_user(text: str) -> bool:
+    stripped = (w.strip(_PUNCTUATION).lower() for w in text.split())
+    return bool(set(stripped) & _SECOND_PERSON)
+
+DECOMPOSE_PROMPT = """You are a query planning agent. Your output is used as
+SEARCH QUERIES against a document index. It is never shown to a person.
+
+Given a user question, decide if it needs breaking into multiple parts.
+If it is simple, return a JSON list containing just the original question.
+If it is complex (compares entities, spans categories, has multiple parts),
+break it into 2-4 focused sub-questions.
+
+CRITICAL: never ask the user for clarification. Do not produce questions
+addressed to a reader. Every item must be a self-contained search query
+answerable from documents.
+
+Wrong (these are clarifying questions, useless as search queries):
+  ["Which two companies are you interested in comparing?",
+   "What metrics do you care about?"]
+
+Right (these are searchable):
+  ["EXXARO performance and customers",
+   "3PLAND performance and customers"]
 
 Return ONLY a JSON list of strings, nothing else. No explanation.
 
@@ -73,12 +99,9 @@ def decompose_query(question: str) -> list[str]:
     prompt — a planner returning nine sub-queries would otherwise sail through
     and multiply retrieval cost silently.
     """
-    response = client.chat.completions.create(
-        model=LLM_MODEL,
-        messages=[{"role": "user", "content": DECOMPOSE_PROMPT.format(question=question)}],
-        temperature=0,
+    raw = cached_completion(
+        client, LLM_MODEL, DECOMPOSE_PROMPT.format(question=question), temperature=0
     )
-    raw = response.choices[0].message.content.strip()
     try:
         subqueries = json.loads(raw)
     except json.JSONDecodeError:
@@ -88,7 +111,17 @@ def decompose_query(question: str) -> list[str]:
         return [question]
 
     cleaned = [str(q).strip() for q in subqueries if str(q).strip()]
-    return cleaned[:4] or [question]
+
+    # Drop sub-queries addressed to the user. The planner's output goes
+    # straight to the retriever, so "Which two companies are you interested in
+    # comparing?" becomes a search query for text that does not exist. AGENTS.md
+    # Agent 2 forbids this ("not question expansion, decomposition"), the prompt
+    # now says so explicitly, and this is the enforcement — a prompt is a
+    # request, not a guarantee. Found by the Phase 6 pipeline ablation: 2 of the
+    # 4 decompositions in the golden set were clarifying questions.
+    searchable = [q for q in cleaned if not _addresses_user(q)]
+
+    return (searchable or cleaned)[:4] or [question]
 
 
 def retrieve_for_subqueries(
@@ -122,14 +155,12 @@ def retrieve_for_subqueries(
 
 def synthesize_answer(question: str, sources: list[RetrievedSource]) -> str:
     context = "\n\n".join(f"[S{s.rank}] ({s.id}): {s.text}" for s in sources)
-    response = client.chat.completions.create(
-        model=LLM_MODEL,
-        messages=[
-            {"role": "user", "content": SYNTHESIS_PROMPT.format(question=question, context=context)}
-        ],
+    return cached_completion(
+        client,
+        LLM_MODEL,
+        SYNTHESIS_PROMPT.format(question=question, context=context),
         temperature=0.2,
     )
-    return response.choices[0].message.content.strip()
 
 
 def ask(
@@ -138,6 +169,7 @@ def ask(
     log: bool = True,
     router: str = "embedding",
     verify: bool = False,
+    retrieval_k: int = 4,
 ) -> QueryTrace:
     """Run the full pipeline and return a QueryTrace.
 
@@ -148,6 +180,9 @@ def ask(
             independently of routing.
         router: "embedding" (default, free and calibrated), "embedding:centroid",
             or "llm". Phase 6 reports all three against the golden set.
+        retrieval_k: hits per sub-query. The eval harness raises this to match
+            the naive arm's single-query k, so its ablation measures
+            decomposition rather than k.
         verify: run the groundedness self-check. OFF by default because it costs
             one judge call per claim on top of the answer — roughly doubling
             both latency and API spend. The API turns it on; the eval harness
@@ -191,7 +226,7 @@ def ask(
 
     # --- Retrieve ---
     with timed(elapsed, "retrieve"):
-        candidates = retrieve_for_subqueries(subqueries, search_domains)
+        candidates = retrieve_for_subqueries(subqueries, search_domains, k=retrieval_k)
     sources = [
         RetrievedSource(
             id=doc["row_id"], text=doc["text"], score=doc["score"], rank=rank,
