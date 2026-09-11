@@ -1,0 +1,42 @@
+[
+  {
+    "id": "amb_01",
+    "question": "Which one performed best?",
+    "domain": null,
+    "gold_chunk_ids": [],
+    "gold_answer": "",
+    "answerable": false,
+    "ambiguous": true,
+    "notes": "routing-only: the corpora cannot separate this question"
+  },
+  {
+    "id": "amb_02",
+    "question": "Show me the highest score.",
+    "domain": null,
+    "gold_chunk_ids": [],
+    "gold_answer": "",
+    "answerable": false,
+    "ambiguous": true,
+    "notes": "routing-only: the corpora cannot separate this question"
+  },
+  {
+    "id": "amb_03",
+    "question": "What is the trend over time?",
+    "domain": null,
+    "gold_chunk_ids": [],
+    "gold_answer": "",
+    "answerable": false,
+    "ambiguous": true,
+    "notes": "routing-only: the corpora cannot separate this question"
+  },
+  {
+    "id": "amb_04",
+    "question": "Which entries are missing data?",
+    "domain": null,
+    "gold_chunk_ids": [],
+    "gold_answer": "",
+    "answerable": false,
+    "ambiguous": true,
+    "notes": "routing-only: the corpora cannot separate this question"
+  }
+]

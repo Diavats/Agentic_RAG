@@ -1,0 +1,178 @@
+[
+  {
+    "id": "med_01",
+    "question": "What was the activation score for TC-014?",
+    "domain": "medical",
+    "gold_chunk_ids": [
+      "medical_tabular_medical_placeholder_3fc69d_0000"
+    ],
+    "gold_answer": "0.87, on antigen panel B at the 48-hour timepoint.",
+    "answerable": true,
+    "ambiguous": false,
+    "notes": "exact-id"
+  },
+  {
+    "id": "med_02",
+    "question": "Which sample showed no significant activation?",
+    "domain": "medical",
+    "gold_chunk_ids": [
+      "medical_tabular_medical_placeholder_3fc69d_0001"
+    ],
+    "gold_answer": "TC-015, with an activation score of 0.12.",
+    "answerable": true,
+    "ambiguous": false,
+    "notes": ""
+  },
+  {
+    "id": "med_03",
+    "question": "Which sample had the highest activation score?",
+    "domain": "medical",
+    "gold_chunk_ids": [
+      "medical_tabular_medical_placeholder_3fc69d_0003"
+    ],
+    "gold_answer": "TC-017, at 0.91 on panel C at 72 hours.",
+    "answerable": true,
+    "ambiguous": false,
+    "notes": "superlative"
+  },
+  {
+    "id": "med_04",
+    "question": "Why is there no reading for TC-018?",
+    "domain": "medical",
+    "gold_chunk_ids": [
+      "medical_tabular_medical_placeholder_3fc69d_0004"
+    ],
+    "gold_answer": "The sample degraded, so no reading could be taken.",
+    "answerable": true,
+    "ambiguous": false,
+    "notes": ""
+  },
+  {
+    "id": "med_05",
+    "question": "Which sample came from the healthy control cohort?",
+    "domain": "medical",
+    "gold_chunk_ids": [
+      "medical_tabular_medical_placeholder_3fc69d_0005"
+    ],
+    "gold_answer": "TC-019, with a baseline activation score of 0.63.",
+    "answerable": true,
+    "ambiguous": false,
+    "notes": ""
+  },
+  {
+    "id": "med_06",
+    "question": "Which samples were tested on antigen panel B?",
+    "domain": "medical",
+    "gold_chunk_ids": [
+      "medical_tabular_medical_placeholder_3fc69d_0000",
+      "medical_tabular_medical_placeholder_3fc69d_0001",
+      "medical_tabular_medical_placeholder_3fc69d_0005"
+    ],
+    "gold_answer": "TC-014 (0.87), TC-015 (0.12) and TC-019 (0.63).",
+    "answerable": true,
+    "ambiguous": false,
+    "notes": "multi-chunk"
+  },
+  {
+    "id": "med_07",
+    "question": "What happens during the screening interview?",
+    "domain": "medical",
+    "gold_chunk_ids": [
+      "medical_textual_medical_guideline_placeholder_52f6a9_0000"
+    ],
+    "gold_answer": "Medical history, current medications and known allergic reactions are covered, and baseline vital signs are recorded.",
+    "answerable": true,
+    "ambiguous": false,
+    "notes": ""
+  },
+  {
+    "id": "med_08",
+    "question": "What are the exclusion criteria for enrollment?",
+    "domain": "medical",
+    "gold_chunk_ids": [
+      "medical_textual_medical_guideline_placeholder_52f6a9_0003"
+    ],
+    "gold_answer": "Conditions that would interfere with the antigen response measurements central to the protocol's primary endpoint.",
+    "answerable": true,
+    "ambiguous": false,
+    "notes": ""
+  },
+  {
+    "id": "med_09",
+    "question": "How are blood samples collected and stored?",
+    "domain": "medical",
+    "gold_chunk_ids": [
+      "medical_textual_medical_guideline_placeholder_52f6a9_0001",
+      "medical_textual_medical_guideline_placeholder_52f6a9_0002"
+    ],
+    "gold_answer": "Drawn by standard venipuncture into three separate tubes, processed to plasma or serum, aliquoted into labelled cryovials and kept in continuously monitored freezers.",
+    "answerable": true,
+    "ambiguous": false,
+    "notes": "multi-chunk"
+  },
+  {
+    "id": "med_10",
+    "question": "When must measurements be recorded?",
+    "domain": "medical",
+    "gold_chunk_ids": [
+      "medical_textual_medical_guideline_placeholder_52f6a9_0003",
+      "medical_textual_medical_guideline_placeholder_52f6a9_0004"
+    ],
+    "gold_answer": "Directly into the electronic case report form at the time of observation; retrospective transcription is not permitted.",
+    "answerable": true,
+    "ambiguous": false,
+    "notes": "multi-chunk"
+  },
+  {
+    "id": "med_11",
+    "question": "How are adverse events handled?",
+    "domain": "medical",
+    "gold_chunk_ids": [
+      "medical_textual_medical_guideline_placeholder_52f6a9_0004"
+    ],
+    "gold_answer": "Any adverse event is reported to the site's principal investigator regardless of perceived severity or relatedness to the protocol.",
+    "answerable": true,
+    "ambiguous": false,
+    "notes": ""
+  },
+  {
+    "id": "med_12",
+    "question": "What is the recommended dosage of ibuprofen for these subjects?",
+    "domain": "medical",
+    "gold_chunk_ids": [],
+    "gold_answer": "Not in the corpus — the system should say so.",
+    "answerable": false,
+    "ambiguous": false,
+    "notes": "unanswerable"
+  },
+  {
+    "id": "med_13",
+    "question": "How many subjects were enrolled in total?",
+    "domain": "medical",
+    "gold_chunk_ids": [],
+    "gold_answer": "Not in the corpus.",
+    "answerable": false,
+    "ambiguous": false,
+    "notes": "unanswerable"
+  },
+  {
+    "id": "med_14",
+    "question": "What was the p-value for the primary endpoint?",
+    "domain": "medical",
+    "gold_chunk_ids": [],
+    "gold_answer": "Not in the corpus — it holds per-sample readings, not statistics.",
+    "answerable": false,
+    "ambiguous": false,
+    "notes": "unanswerable"
+  },
+  {
+    "id": "med_15",
+    "question": "Which hospital ran this study?",
+    "domain": "medical",
+    "gold_chunk_ids": [],
+    "gold_answer": "Not in the corpus.",
+    "answerable": false,
+    "ambiguous": false,
+    "notes": "unanswerable"
+  }
+]

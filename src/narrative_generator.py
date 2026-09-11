@@ -4,6 +4,7 @@ Turns one structured row (any schema) into a natural-language story.
 """
 from groq import Groq
 from src.config import GROQ_API_KEY, LLM_MODEL
+from src.llm_cache import cached_completion
 
 client = Groq(api_key=GROQ_API_KEY)
 
@@ -36,12 +37,9 @@ def row_to_text(row: dict) -> str:
 
 def generate_narrative(row: dict) -> str:
     record_text = row_to_text(row)
-    response = client.chat.completions.create(
-        model=LLM_MODEL,
-        messages=[{"role": "user", "content": NARRATIVE_PROMPT.format(record_text=record_text)}],
-        temperature=0.3,
+    return cached_completion(
+        client, LLM_MODEL, NARRATIVE_PROMPT.format(record_text=record_text), temperature=0.3
     )
-    return response.choices[0].message.content.strip()
 
 
 def generate_all(rows: list[dict]) -> list[dict]:
