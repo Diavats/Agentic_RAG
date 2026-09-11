@@ -1,0 +1,48 @@
+# Render deployment.
+#
+# Two things here are load-bearing:
+#
+# 1. `setup` in the build command. The built index is NOT in version control
+#    (Chroma writes to its files on read, so every query produced a spurious
+#    diff). data/generated/*_units.json IS committed, and rebuilding the index
+#    from it costs ZERO API calls, so the container builds its own.
+#
+# 2. `--timeout-keep-alive`. The /ask/stream endpoint holds a connection open
+#    for up to ~30s while synthesis and the groundedness check run. The default
+#    keep-alive is shorter than the slowest measured request (25.2s with
+#    verification), which would cut the stream mid-answer.
+#
+# GROQ_API_KEY is deliberately `sync: false` — it must be set by hand in the
+# Render dashboard and never committed.
+
+services:
+  - type: web
+    name: prism-api
+    runtime: python
+    plan: free
+    region: singapore
+    buildCommand: |
+      pip install -r requirements.txt
+      python -m src.main setup
+    startCommand: uvicorn src.api.main_api:app --host 0.0.0.0 --port $PORT --timeout-keep-alive 75
+    healthCheckPath: /health
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: LLM_MODEL
+        value: openai/gpt-oss-20b
+      - key: VERIFIER_MODEL
+        value: qwen/qwen3.8-27b
+      - key: EMBEDDING_MODEL
+        value: all-MiniLM-L6-v2
+      - key: CHROMA_DIR
+        value: chroma_store
+      - key: GENERATED_DIR
+        value: data/generated
+      - key: PYTHON_VERSION
+        value: "3.13.6"
+      # sentence-transformers downloads the model on first use. Pinning the
+      # cache inside the project keeps it on the same ephemeral disk the build
+      # already wrote to, rather than a home directory that may differ.
+      - key: HF_HOME
+        value: /opt/render/project/src/.hf_cache
