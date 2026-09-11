@@ -177,27 +177,38 @@ def _load_existing(domain: str) -> tuple[list[str], list[str]]:
     return list(data.get("ids", [])), list(data.get("texts", []))
 
 
-def build_index(units: list[KnowledgeUnit], domain: str) -> None:
-    """Build/extend and persist both indexes for one domain.
+def build_index(
+    units: list[KnowledgeUnit],
+    domain: str,
+    expected_domains: set[str] | None = None,
+) -> None:
+    """Build/extend and persist both indexes for one collection.
 
-    Collection name IS the domain, so `medical` and `financial` are physically
-    separate indexes — a routing error can retrieve the wrong corpus, but it
-    can never blend the two into one answer.
+    For the curated corpora the collection name IS the domain, so `medical` and
+    `financial` are physically separate indexes — a routing error can retrieve
+    the wrong corpus, but it can never blend the two into one answer.
+
+    `expected_domains` exists for the upload sandbox, whose collections are
+    named per SESSION rather than per domain. Those units still carry a real
+    domain tag, so the guard below still has something to check — it just
+    cannot check it against the collection name. Passing an explicit set keeps
+    the guard meaningful instead of disabling it.
 
     Safe to call repeatedly with new batches: existing units are updated in
     place by ID, new ones are appended, nothing already indexed is lost.
     """
     if not units:
-        print(f"No units to index for domain '{domain}' — nothing to do.")
+        print(f"No units to index for collection '{domain}' — nothing to do.")
         return
 
-    mismatched = {u.domain for u in units} - {domain}
+    allowed = {domain} if expected_domains is None else set(expected_domains)
+    mismatched = {u.domain for u in units} - allowed
     if mismatched:
         raise ValueError(
             f"Refusing to index into collection '{domain}': "
-            f"{len(units)} units carry domain(s) {sorted(mismatched)}. "
-            "A unit's domain and its collection must agree, or the domain tag "
-            "stops meaning anything at query time."
+            f"{len(units)} units carry domain(s) {sorted(mismatched)}, "
+            f"expected one of {sorted(allowed)}. A unit's domain tag must mean "
+            "something at query time, so a mismatch is a bug, not a warning."
         )
 
     # Reuse the retrieval layer's cached instance rather than constructing a
