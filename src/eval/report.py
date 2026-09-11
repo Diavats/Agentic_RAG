@@ -118,7 +118,19 @@ def render(data: dict) -> str:
         "",
     ]
 
-    for domain, arms in data["pipeline_ablation"].items():
+    # `run_eval --quick` skips this experiment because it is the only one that
+    # costs LLM calls. Rendering a partial run must degrade to a note rather
+    # than crash — the whole point of keeping the renderer separate from the
+    # harness is that it can be re-run freely while being written.
+    if "pipeline_ablation" not in data:
+        lines += [
+            "> Not run. This report was rendered from a `--quick` eval, which skips "
+            "the only experiment that costs API calls. Re-run "
+            "`python -m src.eval.run_eval` to populate it.",
+            "",
+        ]
+
+    for domain, arms in data.get("pipeline_ablation", {}).items():
         lines += [f"### {domain}", ""]
         rows = [[
             f"**{name}**", f"{s['recall@5']:.3f}", f"{s['mrr']:.3f}",
@@ -199,13 +211,22 @@ def render(data: dict) -> str:
         "",
     ]
 
-    fin_p, med_p = data["pipeline_ablation"]["financial"], data["pipeline_ablation"]["medical"]
+    pipeline = data.get("pipeline_ablation", {})
+    fin_p = pipeline.get("financial", {}).get("agentic")
+    med_p = pipeline.get("medical", {}).get("agentic")
+
+    def pair(key: str, fmt: str = ".3f") -> str:
+        """Both domains' value for one metric, or a marker if this was a
+        --quick run that never computed it."""
+        if not (fin_p and med_p):
+            return "not run (--quick)"
+        return f"{fin_p[key]:{fmt}} / {med_p[key]:{fmt}}"
+
     lines += _table([
         ["Routing accuracy", "≥ 90%", f"{acc:.1%}", "✅"],
-        ["Citation accuracy", "≥ 85%",
-         f"{fin_p['agentic']['citation_accuracy']:.1%} / {med_p['agentic']['citation_accuracy']:.1%}", "✅"],
-        ["Retrieval (Recall@5)", "— (replaces P@5)",
-         f"{fin_p['agentic']['recall@5']:.3f} / {med_p['agentic']['recall@5']:.3f}", "—"],
+        ["Citation accuracy", "≥ 85%", pair("citation_accuracy", ".1%"),
+         "✅" if fin_p else "—"],
+        ["Retrieval (Recall@5)", "— (replaces P@5)", pair("recall@5"), "—"],
         ["Golden set size", "≥ 15/domain", f"{g['financial']} / {g['medical']}", "✅"],
         ["Retrieval ablation", "required", "3 methods × 2 domains", "✅"],
         ["Naive-vs-agentic ablation", "required", "reported, no difference found", "✅"],
