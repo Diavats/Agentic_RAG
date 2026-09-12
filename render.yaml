@@ -7,7 +7,14 @@
 #    diff). data/generated/*_units.json IS committed, and rebuilding the index
 #    from it costs ZERO API calls, so the container builds its own.
 #
-# 2. `--timeout-keep-alive`. The /ask/stream endpoint holds a connection open
+# 2. CPU-only torch, installed FIRST. On Linux, plain `pip install torch`
+#    resolves to the CUDA build: a 555 MB wheel plus nvidia-cudnn / cusparselt
+#    / nccl / nvshmem / triton, measured at 1,882 MB of downloads, for a
+#    service that has no GPU. The CPU wheel is 184 MB with zero nvidia deps.
+#    It must come before requirements.txt so sentence-transformers finds
+#    torch already satisfied instead of pulling the CUDA one itself.
+#
+# 3. `--timeout-keep-alive`. The /ask/stream endpoint holds a connection open
 #    for up to ~30s while synthesis and the groundedness check run. The default
 #    keep-alive is shorter than the slowest measured request (25.2s with
 #    verification), which would cut the stream mid-answer.
@@ -22,6 +29,7 @@ services:
     plan: free
     region: singapore
     buildCommand: |
+      pip install torch --index-url https://download.pytorch.org/whl/cpu
       pip install -r requirements.txt
       python -m src.main setup
     startCommand: uvicorn src.api.main_api:app --host 0.0.0.0 --port $PORT --timeout-keep-alive 75
