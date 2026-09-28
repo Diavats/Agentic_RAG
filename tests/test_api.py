@@ -68,6 +68,15 @@ def csv_bytes(rows: int) -> bytes:
 
 
 class TestHealth:
+    def test_root_redirects_to_docs(self, client):
+        """The bare origin is the URL VSCode makes clickable in the uvicorn
+        startup line. It used to 404 with {"detail":"Not Found"}, which reads
+        as a broken server."""
+        r = client.get("/", follow_redirects=False)
+        assert r.status_code in (302, 307), r.status_code
+        assert r.headers["location"] == "/docs"
+        assert client.get("/").status_code == 200
+
     def test_health_reports_the_models_in_use(self, client):
         body = client.get("/health").json()
         assert body["status"] == "ok"
