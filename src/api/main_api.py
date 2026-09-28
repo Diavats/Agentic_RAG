@@ -32,7 +32,7 @@ from pathlib import Path
 
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
+from fastapi.responses import RedirectResponse, StreamingResponse
 from pydantic import BaseModel, Field
 
 from src.api import sessions as sandbox
@@ -81,6 +81,14 @@ class AskRequest(BaseModel):
     session_id: str | None = Field(
         None, description="Search an upload sandbox instead of the curated corpora."
     )
+
+
+@app.get("/", include_in_schema=False)
+def root() -> RedirectResponse:
+    """The bare origin is what VSCode makes clickable in the uvicorn startup
+    line, so landing there returned {"detail":"Not Found"} and looked broken.
+    Send it to the docs instead."""
+    return RedirectResponse("/docs")
 
 
 @app.get("/health")
