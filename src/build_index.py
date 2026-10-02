@@ -294,13 +294,26 @@ def ensure_index(domains: tuple[str, ...] = ("medical", "financial"), rebuild: b
         if not units:
             continue
         already = domain in existing and not rebuild
-        if already and _bm25_path(domain).exists():
+        if already and _bm25_path(domain).exists() and _index_matches(client, domain, units):
             built[domain] = client.get_collection(domain).count()
             continue
         build_index(units, domain)
         built[domain] = len(units)
 
     return built
+
+
+def _index_matches(client, domain: str, units) -> bool:
+    """True when the built index holds exactly these units' text.
+
+    "Collection exists" was the old test, so re-extracting units left the index
+    serving the previous narratives — an eval run scored stale text and every
+    LLM call was a cache hit. Comparing stored documents catches that.
+    """
+    # ponytail: fetches every document; fine at hundreds of units, store a
+    # content hash in collection metadata if the corpus grows large.
+    got = client.get_collection(domain).get()
+    return dict(zip(got["ids"], got["documents"])) == {u.id: u.text for u in units}
 
 
 def load_bm25(domain: str) -> tuple[BM25Okapi, list[str], list[str]]:

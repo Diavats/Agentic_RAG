@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-18T05:02:57.911772+00:00",
+  "generated_at": "2026-10-02T10:45:11.171117+00:00",
   "models": {
     "generator": "openai/gpt-oss-20b",
     "judge": "qwen/qwen3.8-27b",
@@ -19,24 +19,24 @@
   "retrieval_ablation": {
     "financial": {
       "dense": {
-        "recall@5": 0.8636,
-        "mrr": 0.7682,
+        "recall@5": 0.9091,
+        "mrr": 0.8636,
         "hit@5": 0.9091,
-        "precision@5": 0.2,
+        "precision@5": 0.2182,
         "max_possible_precision@5": 0.2364,
         "n": 11
       },
       "sparse": {
-        "recall@5": 0.8182,
-        "mrr": 0.7727,
-        "hit@5": 0.8182,
-        "precision@5": 0.2,
+        "recall@5": 1.0,
+        "mrr": 0.8712,
+        "hit@5": 1.0,
+        "precision@5": 0.2364,
         "max_possible_precision@5": 0.2364,
         "n": 11
       },
       "hybrid": {
         "recall@5": 0.9091,
-        "mrr": 0.7879,
+        "mrr": 0.9091,
         "hit@5": 0.9091,
         "precision@5": 0.2182,
         "max_possible_precision@5": 0.2364,
@@ -45,26 +45,26 @@
     },
     "medical": {
       "dense": {
-        "recall@5": 0.9091,
-        "mrr": 0.7455,
-        "hit@5": 0.9091,
-        "precision@5": 0.2545,
+        "recall@5": 1.0,
+        "mrr": 0.8182,
+        "hit@5": 1.0,
+        "precision@5": 0.2727,
         "max_possible_precision@5": 0.2727,
         "n": 11
       },
       "sparse": {
-        "recall@5": 0.9091,
-        "mrr": 0.8212,
+        "recall@5": 0.9545,
+        "mrr": 0.8136,
         "hit@5": 1.0,
-        "precision@5": 0.2364,
+        "precision@5": 0.2545,
         "max_possible_precision@5": 0.2727,
         "n": 11
       },
       "hybrid": {
-        "recall@5": 0.8636,
-        "mrr": 0.8409,
-        "hit@5": 0.9091,
-        "precision@5": 0.2364,
+        "recall@5": 0.9545,
+        "mrr": 0.8591,
+        "hit@5": 1.0,
+        "precision@5": 0.2545,
         "max_possible_precision@5": 0.2727,
         "n": 11
       }
@@ -86,11 +86,1460 @@
       "n_ambiguous": 4
     }
   },
-  "duration_s": 1.8,
+  "pipeline_ablation": {
+    "financial": {
+      "naive": {
+        "recall@5": 0.9091,
+        "mrr": 0.9091,
+        "citation_accuracy": 1.0,
+        "abstention_rate": 1.0,
+        "false_abstention_rate": 0.2727,
+        "n_answerable": 11,
+        "n_unanswerable": 4,
+        "per_case": [
+          {
+            "id": "fin_01",
+            "question": "What does JGCHEM supply and to which customers?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0000"
+            ],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0000",
+              "financial_tabular_sample_stocks_9a90cc_0008",
+              "financial_tabular_sample_stocks_9a90cc_0014",
+              "financial_tabular_sample_stocks_9a90cc_0012",
+              "financial_tabular_sample_stocks_9a90cc_0006"
+            ],
+            "answer": "JGCHEM supplies **Zinc Oxide (ZnO)**. Its customers are primarily **auto original equipment manufacturers (OEMs)** such as **Bajaj** and **Maruti**, along with **tyre makers** that use ZnO in tyre vulcanization processes. [S1]",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "What does JGCHEM supply and to which customers?"
+            ],
+            "notes": "",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "fin_02",
+            "question": "Which critical component does NEOGEN produce?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0014"
+            ],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0014",
+              "financial_tabular_sample_stocks_9a90cc_0006",
+              "financial_tabular_sample_stocks_9a90cc_0003",
+              "financial_tabular_sample_stocks_9a90cc_0008",
+              "financial_tabular_sample_stocks_9a90cc_0013"
+            ],
+            "answer": "NEOGEN’s critical component is its lithium‑electrolyte salts, notably LiPF₆, along with specialty bromine formulations【S1】.",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "Which critical component does NEOGEN produce?"
+            ],
+            "notes": "",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "fin_03",
+            "question": "How did FCSSOFT perform this quarter?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0009"
+            ],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0009",
+              "financial_tabular_sample_stocks_9a90cc_0005",
+              "financial_tabular_sample_stocks_9a90cc_0004",
+              "financial_tabular_sample_stocks_9a90cc_0007",
+              "financial_tabular_sample_stocks_9a90cc_0001"
+            ],
+            "answer": "FCSSOFT’s latest quarter (ending 2026‑06‑01) was a period of decline across all key financial metrics. The company recorded a quarter‑over‑quarter sales drop of **‑0.3978**, an operating‑profit shrinkage of **‑0.823**, a net‑profit decline of **‑0.8833**, and an earnings‑per‑share contraction of **‑1**. These negative growth figures indicate that the firm’s focus on enterprise digital transformation, IT offshoring, and tech real‑estate leasing has not yet translated into positive quarterly results, and its performance status is marked as **Decline** [S1].",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "How did FCSSOFT perform this quarter?"
+            ],
+            "notes": "",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "fin_04",
+            "question": "Which stock had the highest operating profit growth?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0003"
+            ],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0006",
+              "financial_tabular_sample_stocks_9a90cc_0010",
+              "financial_tabular_sample_stocks_9a90cc_0013",
+              "financial_tabular_sample_stocks_9a90cc_0004",
+              "financial_tabular_sample_stocks_9a90cc_0009"
+            ],
+            "answer": "The stock with the highest operating profit growth is **ARIHANTCAP** (symbol ARIHANTCAP), which reported a quarter‑on‑quarter operating profit growth of **3.375** [S3].",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "Which stock had the highest operating profit growth?"
+            ],
+            "notes": "superlative",
+            "recall@5": 0.0,
+            "mrr": 0.0
+          },
+          {
+            "id": "fin_05",
+            "question": "Which stock had the highest sales growth?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0013"
+            ],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0013",
+              "financial_tabular_sample_stocks_9a90cc_0006",
+              "financial_tabular_sample_stocks_9a90cc_0010",
+              "financial_tabular_sample_stocks_9a90cc_0004",
+              "financial_tabular_sample_stocks_9a90cc_0000"
+            ],
+            "answer": "The stock with the highest quarter‑on‑quarter sales growth is **ARIHANTCAP**, reporting a sales growth of **0.5918** [S1].",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "Which stock had the highest sales growth?"
+            ],
+            "notes": "superlative",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "fin_06",
+            "question": "Which companies did not report results for June 2026?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0005",
+              "financial_tabular_sample_stocks_9a90cc_0008"
+            ],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0005",
+              "financial_tabular_sample_stocks_9a90cc_0008",
+              "financial_tabular_sample_stocks_9a90cc_0013",
+              "financial_tabular_sample_stocks_9a90cc_0001",
+              "financial_tabular_sample_stocks_9a90cc_0009"
+            ],
+            "answer": "The companies that did **not** report results for June 2026 are:\n\n- **AUBANK** – its status for June 2026 is listed as “Not Reported”【S1】.  \n- **SURANASOL** – the company’s status remains pending and no report has been released as of June 2026【S2】.  \n- **ARIHANTCAP** – the status is “insufficient data,” indicating that a full report is not yet available for June 2026【S3】.",
+            "abstained": true,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "Which companies did not report results for June 2026?"
+            ],
+            "notes": "multi-chunk",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "fin_07",
+            "question": "Compare the two companies serving real estate developers.",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0006",
+              "financial_tabular_sample_stocks_9a90cc_0010"
+            ],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0010",
+              "financial_tabular_sample_stocks_9a90cc_0006",
+              "financial_tabular_sample_stocks_9a90cc_0009",
+              "financial_tabular_sample_stocks_9a90cc_0003",
+              "financial_tabular_sample_stocks_9a90cc_0011"
+            ],
+            "answer": "**Comparison of the two companies that serve real‑estate developers**\n\n| Aspect | 3PLAND (stock symbol 3PLAND) | EXXARO (stock symbol EXXARO) |\n|--------|------------------------------|------------------------------|\n| **Primary business focus** | Land re‑development, lease‑yield escalation and NAV unlocking in the Pune region, with a portfolio of prime land banks, lease properties and CIC investments. | Production of vitrified tiles and glazed porcelain slabs, driven by a real‑estate finishing boom and home‑premiumisation trends. |\n| **Core growth driver** | Regional land re‑development and lease‑yield growth. | Demand for high‑quality flooring solutions from the real‑estate finishing boom. |\n| **Quarter‑on‑quarter sales growth** | +3.96 % (0.0396)【S1】 | +40.49 % (0.4049)【S2】 |\n| **Quarter‑on‑quarter operating‑profit growth** | +10.34 % (0.1034)【S1】 | +90.05 % (0.9005)【S2】 |\n| **Quarter‑on‑quarter net‑profit growth** | +9.52 % (0.0952)【S1】 | –68.51 % (‑0.6851)【S2】 |\n| **Quarter‑on‑quarter EPS growth** | +13.04 % (0.1304)【S1】 | –100 % (‑1)【S2】 |\n| **Profitability trend** | Profitable growth business with rising sales, operating profit, net profit and EPS【S1】 | Struggling to maintain profitability; margin compression and declining net profit and EPS despite strong sales and operating‑profit growth【S2】 |\n\n**Key take‑aways**\n\n1. **Revenue growth** – Both companies posted positive sales growth, but EXXARO’s sales increase (+40.49 %) far outpaces 3PLAND’s (+3.96 %).  \n2. **Profitability** – 3PLAND shows a consistent, modest rise in operating profit, net profit and EPS, indicating a healthy profit‑margin trajectory. In contrast, EXXARO’s operating profit growth is high (+90.05 %) but is offset by a sharp decline in net profit and EPS, signalling margin pressure and cost challenges【S2】【S1】.  \n3. **Business model** – 3PLAND’s growth is anchored in land and lease assets, whereas EXXARO’s growth relies on manufacturing and selling flooring products to developers.  \n4. **Overall outlook** – 3PLAND is positioned as a profitable growth business, while EXXARO is experiencing profitability strain despite strong top‑line momentum【S1】【S2】.  \n\nIf you need more detailed financial ratios, balance‑sheet data, or market‑share information, that information is not present in the retrieved context.",
+            "abstained": true,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "Compare the two companies serving real estate developers."
+            ],
+            "notes": "multi-chunk",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "fin_08",
+            "question": "Which company supplies large-diameter SAW pipes to oil and gas majors?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0002"
+            ],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0002",
+              "financial_tabular_sample_stocks_9a90cc_0000",
+              "financial_tabular_sample_stocks_9a90cc_0001",
+              "financial_tabular_sample_stocks_9a90cc_0012",
+              "financial_tabular_sample_stocks_9a90cc_0003"
+            ],
+            "answer": "The company that supplies large‑diameter SAW pipes to oil and gas majors is **WELCORP**【S1】.",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "Which company supplies large-diameter SAW pipes to oil and gas majors?"
+            ],
+            "notes": "",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "fin_09",
+            "question": "What is DIACABS's customer base?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0003"
+            ],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0003",
+              "financial_tabular_sample_stocks_9a90cc_0006",
+              "financial_tabular_sample_stocks_9a90cc_0013",
+              "financial_tabular_sample_stocks_9a90cc_0009",
+              "financial_tabular_sample_stocks_9a90cc_0005"
+            ],
+            "answer": "DIACABS serves the data‑center and power‑utility sectors, with major clients that include Adani, PGCIL, and L&T【S1】.",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "What is DIACABS's customer base?"
+            ],
+            "notes": "",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "fin_10",
+            "question": "Which stock is flagged as having insufficient data?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0013"
+            ],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0013",
+              "financial_tabular_sample_stocks_9a90cc_0009",
+              "financial_tabular_sample_stocks_9a90cc_0010",
+              "financial_tabular_sample_stocks_9a90cc_0003",
+              "financial_tabular_sample_stocks_9a90cc_0000"
+            ],
+            "answer": "The stock flagged as having insufficient data is **ARIHANTCAP**【S1】.",
+            "abstained": true,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "Which stock is flagged as having insufficient data?"
+            ],
+            "notes": "",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "fin_11",
+            "question": "How did KROSS perform, and who are its customers?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0012"
+            ],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0012",
+              "financial_tabular_sample_stocks_9a90cc_0004",
+              "financial_tabular_sample_stocks_9a90cc_0003",
+              "financial_tabular_sample_stocks_9a90cc_0000",
+              "financial_tabular_sample_stocks_9a90cc_0011"
+            ],
+            "answer": "KROSS posted a strong quarter‑on‑quarter performance. In the period ending 1 March 2026 it recorded a sales growth of **0.2703**, an operating‑profit growth of **2.062**, a net‑profit growth of **0.6058**, and an EPS growth of **0.6037**—all figures that underpin its “Strong Growth” status [S1].\n\nIts customer base is concentrated in the heavy‑mobility and agricultural sectors. KROSS supplies critical components such as trailer axles, suspension assemblies, and forged safety‑critical gears to major OEMs and fabricators, including **Ashok Leyland** and **Tata DLT**, as well as a range of **tractor makers** and **trailer fabricators** [S1].",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "How did KROSS perform, and who are its customers?"
+            ],
+            "notes": "",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "fin_12",
+            "question": "What is the dividend policy of TCS?",
+            "answerable": false,
+            "gold_chunk_ids": [],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0013",
+              "financial_tabular_sample_stocks_9a90cc_0009",
+              "financial_tabular_sample_stocks_9a90cc_0007",
+              "financial_tabular_sample_stocks_9a90cc_0012",
+              "financial_tabular_sample_stocks_9a90cc_0011"
+            ],
+            "answer": "I’m sorry, but the retrieved context does not contain any information about Tata Consultancy Services (TCS) or its dividend policy. To answer your question, I would need data that specifically addresses TCS’s dividend history, payout ratio, or stated policy.",
+            "abstained": true,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "What is the dividend policy of TCS?"
+            ],
+            "notes": "unanswerable"
+          },
+          {
+            "id": "fin_13",
+            "question": "What was JGCHEM's share price on 15 March?",
+            "answerable": false,
+            "gold_chunk_ids": [],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0004",
+              "financial_tabular_sample_stocks_9a90cc_0000",
+              "financial_tabular_sample_stocks_9a90cc_0005",
+              "financial_tabular_sample_stocks_9a90cc_0007",
+              "financial_tabular_sample_stocks_9a90cc_0001"
+            ],
+            "answer": "I’m sorry, but the retrieved context does not contain any information about JGCHEM’s share price on 15 March. The available data only describe the company’s quarterly financial performance and business drivers, not its daily stock price.",
+            "abstained": true,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "What was JGCHEM's share price on 15 March?"
+            ],
+            "notes": "unanswerable"
+          },
+          {
+            "id": "fin_14",
+            "question": "How many employees does HUHTAMAKI have?",
+            "answerable": false,
+            "gold_chunk_ids": [],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0001",
+              "financial_tabular_sample_stocks_9a90cc_0000",
+              "financial_tabular_sample_stocks_9a90cc_0002",
+              "financial_tabular_sample_stocks_9a90cc_0003",
+              "financial_tabular_sample_stocks_9a90cc_0007"
+            ],
+            "answer": "The retrieved information about HUHTAMAKI does not include any data on the number of employees. Therefore, I cannot provide an employee count based on the available context.",
+            "abstained": true,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "How many employees does HUHTAMAKI have?"
+            ],
+            "notes": "unanswerable"
+          },
+          {
+            "id": "fin_15",
+            "question": "What is the market capitalisation of AUBANK?",
+            "answerable": false,
+            "gold_chunk_ids": [],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0005",
+              "financial_tabular_sample_stocks_9a90cc_0013",
+              "financial_tabular_sample_stocks_9a90cc_0010",
+              "financial_tabular_sample_stocks_9a90cc_0004",
+              "financial_tabular_sample_stocks_9a90cc_0003"
+            ],
+            "answer": "I couldn’t find any information on AUBANK’s market capitalisation in the provided context. The excerpt about AUBANK (S1) discusses its quarterly performance and business focus, but it does not include a market‑cap figure. If you need that data, you might look at the latest financial statements or market data releases for AUBANK.",
+            "abstained": true,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "What is the market capitalisation of AUBANK?"
+            ],
+            "notes": "unanswerable"
+          }
+        ]
+      },
+      "agentic": {
+        "recall@5": 0.9091,
+        "mrr": 0.9091,
+        "citation_accuracy": 1.0,
+        "abstention_rate": 1.0,
+        "false_abstention_rate": 0.1818,
+        "n_answerable": 11,
+        "n_unanswerable": 4,
+        "per_case": [
+          {
+            "id": "fin_01",
+            "question": "What does JGCHEM supply and to which customers?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0000"
+            ],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0000",
+              "financial_tabular_sample_stocks_9a90cc_0014",
+              "financial_tabular_sample_stocks_9a90cc_0008",
+              "financial_tabular_sample_stocks_9a90cc_0001",
+              "financial_tabular_sample_stocks_9a90cc_0002",
+              "financial_tabular_sample_stocks_9a90cc_0006"
+            ],
+            "answer": "JGCHEM supplies **Zinc Oxide (ZnO)**. Its primary customers are **auto original‑equipment manufacturers (OEMs)** such as **Bajaj** and **Maruti**, along with **tyre makers** that use ZnO in tyre vulcanization processes【S1】.",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "What does JGCHEM supply?",
+              "Which customers does JGCHEM supply to?"
+            ],
+            "notes": "",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "fin_02",
+            "question": "Which critical component does NEOGEN produce?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0014"
+            ],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0014",
+              "financial_tabular_sample_stocks_9a90cc_0006",
+              "financial_tabular_sample_stocks_9a90cc_0003",
+              "financial_tabular_sample_stocks_9a90cc_0008",
+              "financial_tabular_sample_stocks_9a90cc_0007"
+            ],
+            "answer": "NEOGEN’s critical component is its lithium‑electrolyte salts, notably LiPF₆, along with specialty bromine formulations [S1].",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "NEOGEN critical component"
+            ],
+            "notes": "",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "fin_03",
+            "question": "How did FCSSOFT perform this quarter?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0009"
+            ],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0009",
+              "financial_tabular_sample_stocks_9a90cc_0005",
+              "financial_tabular_sample_stocks_9a90cc_0004",
+              "financial_tabular_sample_stocks_9a90cc_0001",
+              "financial_tabular_sample_stocks_9a90cc_0011"
+            ],
+            "answer": "FCSSOFT’s latest quarter (ending 2026‑06‑01) showed a clear contraction across all major financial metrics. The company recorded a quarter‑over‑quarter sales decline of –0.3978, an operating‑profit drop of –0.823, a net‑profit decrease of –0.8833, and an earnings‑per‑share decline of –1.0. These negative growth figures place FCSSOFT in a “Decline” status for the period, indicating that its focus on enterprise digital transformation, IT offshoring, and tech real‑estate leasing has not yet translated into positive quarterly results [S1].",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "FCSSOFT performance this quarter"
+            ],
+            "notes": "",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "fin_04",
+            "question": "Which stock had the highest operating profit growth?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0003"
+            ],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0006",
+              "financial_tabular_sample_stocks_9a90cc_0010",
+              "financial_tabular_sample_stocks_9a90cc_0013",
+              "financial_tabular_sample_stocks_9a90cc_0009",
+              "financial_tabular_sample_stocks_9a90cc_0001"
+            ],
+            "answer": "The stock with the highest quarter‑on‑quarter operating profit growth is **ARIHANTCAP** (symbol ARIHANTCAP), which reported an operating profit growth of **3.375** [ S3 ].",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "stock with highest operating profit growth"
+            ],
+            "notes": "superlative",
+            "recall@5": 0.0,
+            "mrr": 0.0
+          },
+          {
+            "id": "fin_05",
+            "question": "Which stock had the highest sales growth?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0013"
+            ],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0013",
+              "financial_tabular_sample_stocks_9a90cc_0006",
+              "financial_tabular_sample_stocks_9a90cc_0010",
+              "financial_tabular_sample_stocks_9a90cc_0004",
+              "financial_tabular_sample_stocks_9a90cc_0000"
+            ],
+            "answer": "The stock with the highest quarter‑on‑quarter sales growth is **ARIHANTCAP**, reporting a sales growth of **0.5918** [S1].",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "Which stock had the highest sales growth?"
+            ],
+            "notes": "superlative",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "fin_06",
+            "question": "Which companies did not report results for June 2026?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0005",
+              "financial_tabular_sample_stocks_9a90cc_0008"
+            ],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0005",
+              "financial_tabular_sample_stocks_9a90cc_0008",
+              "financial_tabular_sample_stocks_9a90cc_0013",
+              "financial_tabular_sample_stocks_9a90cc_0001",
+              "financial_tabular_sample_stocks_9a90cc_0009"
+            ],
+            "answer": "The companies that did **not** report results for June 2026 are:\n\n- **AUBANK** – its status for June 2026 is listed as “Not Reported”【S1】.  \n- **SURANASOL** – the company’s status remains pending and no report has been released as of June 2026【S2】.  \n- **ARIHANTCAP** – the status is “insufficient data,” indicating that a full report is not yet available for June 2026【S3】.",
+            "abstained": true,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "Which companies did not report results for June 2026?"
+            ],
+            "notes": "multi-chunk",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "fin_07",
+            "question": "Compare the two companies serving real estate developers.",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0006",
+              "financial_tabular_sample_stocks_9a90cc_0010"
+            ],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0010",
+              "financial_tabular_sample_stocks_9a90cc_0006",
+              "financial_tabular_sample_stocks_9a90cc_0009",
+              "financial_tabular_sample_stocks_9a90cc_0003",
+              "financial_tabular_sample_stocks_9a90cc_0011",
+              "financial_tabular_sample_stocks_9a90cc_0013"
+            ],
+            "answer": "**Companies that serve real‑estate developers**\n\n| Company | Stock symbol | Primary focus for developers | Key product / service | Growth driver | Recent quarterly performance |\n|---------|--------------|------------------------------|-----------------------|---------------|------------------------------|\n| 3PLAND | 3PLAND | Land banks, lease properties and CIC investments in Pune | Prime land holdings and lease‑yield assets | Regional land re‑development, lease‑yield escalations and NAV unlocking | QOQ sales ↑ 3.96 %, operating profit ↑ 10.34 %, net profit ↑ 9.52 %, EPS ↑ 13.04 %【S1】 |\n| EXXARO | EXXARO | Vitrified tiles and glazed porcelain slabs for developers, homeowners and distributors | High‑quality flooring solutions | Real‑estate finishing boom and home premiumisation | QOQ sales ↑ 40.49 %, operating profit ↑ 90.05 %, net profit ↓ 68.51 %, EPS ↓ 100 %【S2】 |\n\n**Key differences**\n\n1. **Business model**  \n   * 3PLAND is a *land‑and‑lease* company that generates income from owning and leasing property assets.  \n   * EXXARO is a *product supplier* that sells flooring materials to developers and other customers.\n\n2. **Growth drivers**  \n   * 3PLAND’s growth is driven by land redevelopment and lease‑yield increases, which translate into higher operating margins.  \n   * EXXARO’s growth is tied to a boom in real‑estate finishing and premiumisation trends, but it faces margin pressure from rising costs.\n\n3. **Financial health**  \n   * 3PLAND shows a consistent, profitable growth trajectory across all key metrics, indicating a healthy and expanding business.  \n   * EXXARO, while achieving strong sales and operating‑profit growth, has a significant decline in net profit and EPS, signalling profitability challenges.\n\n**Conclusion**\n\n3PLAND is a profitable growth business focused on land and lease assets, with solid quarterly gains in sales, operating profit, net profit and EPS. EXXARO, though benefiting from a strong sales surge, is experiencing margin compression that has eroded net profit and EPS, reflecting a more precarious profitability position. Thus, 3PLAND appears to be in a stronger financial position relative to EXXARO when serving real‑estate developers.",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "top companies serving real estate developers",
+              "comparison of top two companies serving real estate developers",
+              "customer reviews of top companies serving real estate developers"
+            ],
+            "notes": "multi-chunk",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "fin_08",
+            "question": "Which company supplies large-diameter SAW pipes to oil and gas majors?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0002"
+            ],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0002",
+              "financial_tabular_sample_stocks_9a90cc_0000",
+              "financial_tabular_sample_stocks_9a90cc_0001",
+              "financial_tabular_sample_stocks_9a90cc_0012",
+              "financial_tabular_sample_stocks_9a90cc_0003"
+            ],
+            "answer": "The company that supplies large‑diameter SAW pipes to oil and gas majors is **WELCORP**【S1】.",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "Which company supplies large-diameter SAW pipes to oil and gas majors?"
+            ],
+            "notes": "",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "fin_09",
+            "question": "What is DIACABS's customer base?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0003"
+            ],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0003",
+              "financial_tabular_sample_stocks_9a90cc_0006",
+              "financial_tabular_sample_stocks_9a90cc_0013",
+              "financial_tabular_sample_stocks_9a90cc_0009",
+              "financial_tabular_sample_stocks_9a90cc_0005"
+            ],
+            "answer": "DIACABS serves the data‑center and power‑utility sectors, with major clients that include Adani, PGCIL, and L&T【S1】.",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "What is DIACABS's customer base?"
+            ],
+            "notes": "",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "fin_10",
+            "question": "Which stock is flagged as having insufficient data?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0013"
+            ],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0013",
+              "financial_tabular_sample_stocks_9a90cc_0009",
+              "financial_tabular_sample_stocks_9a90cc_0010",
+              "financial_tabular_sample_stocks_9a90cc_0003",
+              "financial_tabular_sample_stocks_9a90cc_0000"
+            ],
+            "answer": "The stock flagged as having insufficient data is **ARIHANTCAP**【S1】.",
+            "abstained": true,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "Which stock is flagged as having insufficient data?"
+            ],
+            "notes": "",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "fin_11",
+            "question": "How did KROSS perform, and who are its customers?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0012"
+            ],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0012",
+              "financial_tabular_sample_stocks_9a90cc_0003",
+              "financial_tabular_sample_stocks_9a90cc_0001",
+              "financial_tabular_sample_stocks_9a90cc_0004",
+              "financial_tabular_sample_stocks_9a90cc_0013",
+              "financial_tabular_sample_stocks_9a90cc_0002"
+            ],
+            "answer": "KROSS posted a solid quarter‑on‑quarter performance, with sales rising 27.03 % (QOQ sales growth = 0.2703), operating profit up 206.2 % (QOQ operating profit growth = 2.062), net profit increasing 60.58 % (QOQ net profit growth = 0.6058) and earnings per share growing 60.37 % (QOQ EPS growth = 0.6037) in the quarter ending 1 March 2026 [S1].  \n\nIts customer base consists mainly of heavy‑mobility and high‑capacity vehicle original equipment manufacturers (OEMs), including Ashok Leyland and Tata DLT, as well as tractor makers and trailer fabricators [S1].",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "KROSS performance",
+              "KROSS customers"
+            ],
+            "notes": "",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "fin_12",
+            "question": "What is the dividend policy of TCS?",
+            "answerable": false,
+            "gold_chunk_ids": [],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0013",
+              "financial_tabular_sample_stocks_9a90cc_0009",
+              "financial_tabular_sample_stocks_9a90cc_0007",
+              "financial_tabular_sample_stocks_9a90cc_0012",
+              "financial_tabular_sample_stocks_9a90cc_0011"
+            ],
+            "answer": "I’m sorry, but the retrieved context does not contain any information about Tata Consultancy Services (TCS) or its dividend policy. To answer your question, I would need data that specifically addresses TCS’s dividend history, payout ratio, or stated policy.",
+            "abstained": true,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "What is the dividend policy of TCS?"
+            ],
+            "notes": "unanswerable"
+          },
+          {
+            "id": "fin_13",
+            "question": "What was JGCHEM's share price on 15 March?",
+            "answerable": false,
+            "gold_chunk_ids": [],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0004",
+              "financial_tabular_sample_stocks_9a90cc_0000",
+              "financial_tabular_sample_stocks_9a90cc_0005",
+              "financial_tabular_sample_stocks_9a90cc_0007",
+              "financial_tabular_sample_stocks_9a90cc_0001"
+            ],
+            "answer": "I’m sorry, but the retrieved context does not contain any information about JGCHEM’s share price on 15 March. The available data only describe the company’s quarterly financial performance and business drivers, not its daily stock price.",
+            "abstained": true,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "What was JGCHEM's share price on 15 March?"
+            ],
+            "notes": "unanswerable"
+          },
+          {
+            "id": "fin_14",
+            "question": "How many employees does HUHTAMAKI have?",
+            "answerable": false,
+            "gold_chunk_ids": [],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0001",
+              "financial_tabular_sample_stocks_9a90cc_0000",
+              "financial_tabular_sample_stocks_9a90cc_0002",
+              "financial_tabular_sample_stocks_9a90cc_0003",
+              "financial_tabular_sample_stocks_9a90cc_0007"
+            ],
+            "answer": "The retrieved information about HUHTAMAKI does not include any data on the number of employees. Therefore, I cannot provide an employee count based on the available context.",
+            "abstained": true,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "How many employees does HUHTAMAKI have?"
+            ],
+            "notes": "unanswerable"
+          },
+          {
+            "id": "fin_15",
+            "question": "What is the market capitalisation of AUBANK?",
+            "answerable": false,
+            "gold_chunk_ids": [],
+            "retrieved_ids": [
+              "financial_tabular_sample_stocks_9a90cc_0005",
+              "financial_tabular_sample_stocks_9a90cc_0013",
+              "financial_tabular_sample_stocks_9a90cc_0010",
+              "financial_tabular_sample_stocks_9a90cc_0004",
+              "financial_tabular_sample_stocks_9a90cc_0003"
+            ],
+            "answer": "I couldn’t find any information on AUBANK’s market capitalisation in the provided context. The excerpt about AUBANK (S1) discusses its quarterly performance and business focus, but it does not include a market‑cap figure. If you need that data, you might look at the latest financial statements or market data releases for AUBANK.",
+            "abstained": true,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "What is the market capitalisation of AUBANK?"
+            ],
+            "notes": "unanswerable"
+          }
+        ]
+      }
+    },
+    "medical": {
+      "naive": {
+        "recall@5": 0.9545,
+        "mrr": 0.8591,
+        "citation_accuracy": 1.0,
+        "abstention_rate": 1.0,
+        "false_abstention_rate": 0.0909,
+        "n_answerable": 11,
+        "n_unanswerable": 4,
+        "per_case": [
+          {
+            "id": "med_01",
+            "question": "What was the activation score for TC-014?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "medical_tabular_medical_placeholder_3fc69d_0000"
+            ],
+            "retrieved_ids": [
+              "medical_tabular_medical_placeholder_3fc69d_0000",
+              "medical_tabular_medical_placeholder_3fc69d_0003",
+              "medical_tabular_medical_placeholder_3fc69d_0001",
+              "medical_tabular_medical_placeholder_3fc69d_0005",
+              "medical_tabular_medical_placeholder_3fc69d_0002"
+            ],
+            "answer": "The activation score recorded for sample TC‑014 was **0.87**【S1】.",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "What was the activation score for TC-014?"
+            ],
+            "notes": "exact-id",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "med_02",
+            "question": "Which sample showed no significant activation?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "medical_tabular_medical_placeholder_3fc69d_0001"
+            ],
+            "retrieved_ids": [
+              "medical_tabular_medical_placeholder_3fc69d_0001",
+              "medical_tabular_medical_placeholder_3fc69d_0000",
+              "medical_tabular_medical_placeholder_3fc69d_0005",
+              "medical_tabular_medical_placeholder_3fc69d_0003",
+              "medical_tabular_medical_placeholder_3fc69d_0004"
+            ],
+            "answer": "The sample that showed no significant activation was **TC‑015**【S1】.",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "Which sample showed no significant activation?"
+            ],
+            "notes": "",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "med_03",
+            "question": "Which sample had the highest activation score?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "medical_tabular_medical_placeholder_3fc69d_0003"
+            ],
+            "retrieved_ids": [
+              "medical_tabular_medical_placeholder_3fc69d_0000",
+              "medical_tabular_medical_placeholder_3fc69d_0001",
+              "medical_tabular_medical_placeholder_3fc69d_0005",
+              "medical_tabular_medical_placeholder_3fc69d_0003",
+              "medical_tabular_medical_placeholder_3fc69d_0002"
+            ],
+            "answer": "The sample with the highest activation score was **TC‑017**, which recorded an activation score of **0.91**【S4】. This score is higher than the activation scores of the other samples listed (TC‑014: 0.87, TC‑019: 0.63, TC‑016: 0.54, TC‑015: 0.12).",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "Which sample had the highest activation score?"
+            ],
+            "notes": "superlative",
+            "recall@5": 1.0,
+            "mrr": 0.25
+          },
+          {
+            "id": "med_04",
+            "question": "Why is there no reading for TC-018?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "medical_tabular_medical_placeholder_3fc69d_0004"
+            ],
+            "retrieved_ids": [
+              "medical_tabular_medical_placeholder_3fc69d_0004",
+              "medical_tabular_medical_placeholder_3fc69d_0001",
+              "medical_tabular_medical_placeholder_3fc69d_0005",
+              "medical_tabular_medical_placeholder_3fc69d_0000",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0001"
+            ],
+            "answer": "There is no reading for TC‑018 because the specimen degraded during handling. The record notes that the sample, collected from a human‑subject‑filtered cohort at the 24‑hour timepoint and processed with antigen panel A, became unusable and no data could be extracted [S1].",
+            "abstained": true,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "Why is there no reading for TC-018?"
+            ],
+            "notes": "",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "med_05",
+            "question": "Which sample came from the healthy control cohort?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "medical_tabular_medical_placeholder_3fc69d_0005"
+            ],
+            "retrieved_ids": [
+              "medical_tabular_medical_placeholder_3fc69d_0005",
+              "medical_tabular_medical_placeholder_3fc69d_0004",
+              "medical_tabular_medical_placeholder_3fc69d_0000",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0003",
+              "medical_tabular_medical_placeholder_3fc69d_0003"
+            ],
+            "answer": "The sample that came from the healthy control cohort is **TC‑019**【S1】.",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "Which sample came from the healthy control cohort?"
+            ],
+            "notes": "",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "med_06",
+            "question": "Which samples were tested on antigen panel B?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "medical_tabular_medical_placeholder_3fc69d_0000",
+              "medical_tabular_medical_placeholder_3fc69d_0001",
+              "medical_tabular_medical_placeholder_3fc69d_0005"
+            ],
+            "retrieved_ids": [
+              "medical_tabular_medical_placeholder_3fc69d_0005",
+              "medical_tabular_medical_placeholder_3fc69d_0001",
+              "medical_tabular_medical_placeholder_3fc69d_0000",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0001",
+              "medical_tabular_medical_placeholder_3fc69d_0002"
+            ],
+            "answer": "The samples that were tested using **antigen panel B** are:\n\n- **TC‑019** – evaluated at 48 hours after sampling【S1】  \n- **TC‑015** – processed at 48 hours【S2】  \n- **TC‑014** – processed at 48 hours【S3】\n\nThese are the only samples in the provided context that were specifically noted as having been tested with antigen panel B.",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "Which samples were tested on antigen panel B?"
+            ],
+            "notes": "multi-chunk",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "med_07",
+            "question": "What happens during the screening interview?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "medical_textual_medical_guideline_placeholder_52f6a9_0000"
+            ],
+            "retrieved_ids": [
+              "medical_textual_medical_guideline_placeholder_52f6a9_0000",
+              "medical_tabular_medical_placeholder_3fc69d_0004",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0003",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0004",
+              "medical_tabular_medical_placeholder_3fc69d_0000"
+            ],
+            "answer": "During the screening interview, the study staff conduct a structured assessment that includes:\n\n1. **Medical history and medication review** – candidates answer questions about past illnesses, current drugs, and any known allergic reactions.  \n2. **Baseline vital‑sign measurement** – heart rate, blood pressure, and body temperature are recorded and compared against the exclusion criteria listed in section 3 of the protocol.  \n3. **Eligibility check** – candidates with an active infection, uncontrolled chronic disease, or pregnancy are deferred until the condition resolves or the pregnancy ends.  \n4. **Prior study participation review** – the interview also covers whether the candidate has taken part in a similar study within the last twelve months, to avoid overlapping enrollment that could confound results.  \n5. **Documentation and flagging** – the interview outcome is entered into the intake file; any flagged cases are forwarded to the supervising clinician for a secondary opinion before a final enrollment decision is made.  \n\nIf a candidate is flagged during intake, a **second‑tier screening** is performed: liver function, renal function, and coagulation markers are tested, and results are reviewed within 48 hours. Any abnormal value triggers a consult with the site’s principal investigator before the candidate can proceed further.  \n\nThese steps ensure that only eligible, medically stable participants advance to enrollment. [S1]",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "What happens during the screening interview?"
+            ],
+            "notes": "",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "med_08",
+            "question": "What are the exclusion criteria for enrollment?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "medical_textual_medical_guideline_placeholder_52f6a9_0003"
+            ],
+            "retrieved_ids": [
+              "medical_textual_medical_guideline_placeholder_52f6a9_0000",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0002",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0001",
+              "medical_tabular_medical_placeholder_3fc69d_0000",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0003"
+            ],
+            "answer": "**Exclusion criteria for enrollment**\n\n| Criterion | Source |\n|-----------|--------|\n| Active infection | [S1] |\n| Uncontrolled chronic condition | [S1] |\n| Pregnancy | [S1] |\n| Documented history of a severe allergic reaction to any component of the study protocol | [S2] |\n| Current enrollment in a conflicting interventional study | [S2] |\n| Inability to provide informed consent independently | [S2] |\n| Age outside the protocol‑specified range (confirmed with ID) | [S2] |\n| Recent major surgery within the preceding eight weeks | [S2] |\n| Active immunosuppressive therapy **unless** the treating physician provides written clearance | [S2] |\n| Prior participation in a similar study within the past twelve months (screening flag) | [S1] |\n\nThese criteria are applied during the structured screening interview and, if necessary, during a second‑tier laboratory review before a candidate is formally enrolled.",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "What are the exclusion criteria for enrollment?"
+            ],
+            "notes": "",
+            "recall@5": 1.0,
+            "mrr": 0.2
+          },
+          {
+            "id": "med_09",
+            "question": "How are blood samples collected and stored?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "medical_textual_medical_guideline_placeholder_52f6a9_0001",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0002"
+            ],
+            "retrieved_ids": [
+              "medical_textual_medical_guideline_placeholder_52f6a9_0001",
+              "medical_tabular_medical_placeholder_3fc69d_0004",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0000",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0003",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0002"
+            ],
+            "answer": "Blood samples are obtained by **standard venipuncture** and immediately placed into **three separate tubes**: one for a complete blood count, one for the antigen‑panel assay, and a third kept in reserve for repeat testing if needed [S1][S3].  Each tube is labeled at the bedside with the participant’s identifier, the exact collection time, and the technician’s initials to maintain chain‑of‑custody [S1].\n\nAfter collection, the tubes are **transported to the processing laboratory within thirty minutes**.  Upon arrival they are logged into the laboratory information system and stored at the temperature specified for each assay type [S1].  If the transport window is exceeded, the sample is flagged as compromised and a redraw is scheduled rather than using a degraded specimen [S1].\n\nIn the lab, technicians **centrifuge** each tube according to the assay‑specific protocol, then **separate plasma or serum** as required.  The resulting fluid is aliquoted into labeled cryovials for long‑term storage.  These cryovials are kept in monitored freezers; any temperature excursion outside the validated range triggers an automatic alert to the lab supervisor [S1][S5].\n\nThus, collection follows a strict venipuncture protocol with immediate labeling, rapid transport, assay‑specific temperature control, centrifugation, aliquoting, and continuous freezer monitoring to preserve sample integrity.",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "How are blood samples collected and stored?"
+            ],
+            "notes": "multi-chunk",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "med_10",
+            "question": "When must measurements be recorded?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "medical_textual_medical_guideline_placeholder_52f6a9_0003",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0004"
+            ],
+            "retrieved_ids": [
+              "medical_textual_medical_guideline_placeholder_52f6a9_0003",
+              "medical_tabular_medical_placeholder_3fc69d_0004",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0002",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0001",
+              "medical_tabular_medical_placeholder_3fc69d_0003"
+            ],
+            "answer": "Measurements must be entered **at the time of observation** and recorded directly into the electronic case‑report form (eCRF). Retrospective transcription from paper notes is discouraged unless field conditions make direct digital entry impractical, and any blank field must carry an explicit reason code rather than being left ambiguous. Timepoints are logged in the site’s local time zone with the offset explicitly noted to avoid cross‑site discrepancies.  \n\n[S1] , [S3]",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "When must measurements be recorded?"
+            ],
+            "notes": "multi-chunk",
+            "recall@5": 0.5,
+            "mrr": 1.0
+          },
+          {
+            "id": "med_11",
+            "question": "How are adverse events handled?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "medical_textual_medical_guideline_placeholder_52f6a9_0004"
+            ],
+            "retrieved_ids": [
+              "medical_textual_medical_guideline_placeholder_52f6a9_0004",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0003",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0002",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0001",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0000"
+            ],
+            "answer": "Adverse events are managed through a structured, multi‑step process:\n\n1. **Immediate reporting** – Any adverse event (AE), no matter how minor or how clearly it is linked to the study protocol, must be reported to the site’s principal investigator (PI) within **24 hours** of the staff member becoming aware of it.  \n   [S1]\n\n2. **Serious adverse events (SAEs)** – SAEs follow an expedited path. The PI must notify the ethics board (or institutional review board) **within the timeframe required by local regulation**.  \n   [S1]\n\n3. **Follow‑up** – Once reported, the event is monitored until it is either **resolved** or classified as **chronic and stable** (whichever occurs first).  \n   [S1]\n\n4. **Causality assessment** – The PI documents the event’s causality as *unrelated*, *possibly related*, or *definitely related*. This assessment is then **reviewed independently by the site’s medical monitor** before the AE record is closed.  \n   [S1]\n\nThese steps ensure timely notification, regulatory compliance, ongoing monitoring, and thorough review of all adverse events.",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "How are adverse events handled?"
+            ],
+            "notes": "",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "med_12",
+            "question": "What is the recommended dosage of ibuprofen for these subjects?",
+            "answerable": false,
+            "gold_chunk_ids": [],
+            "retrieved_ids": [
+              "medical_textual_medical_guideline_placeholder_52f6a9_0002",
+              "medical_tabular_medical_placeholder_3fc69d_0000",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0004",
+              "medical_tabular_medical_placeholder_3fc69d_0001",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0000"
+            ],
+            "answer": "The retrieved context does not contain any information about the recommended dosage of ibuprofen for the subjects. No dosage guidance is provided in the excerpts.",
+            "abstained": true,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "What is the recommended dosage of ibuprofen for these subjects?"
+            ],
+            "notes": "unanswerable"
+          },
+          {
+            "id": "med_13",
+            "question": "How many subjects were enrolled in total?",
+            "answerable": false,
+            "gold_chunk_ids": [],
+            "retrieved_ids": [
+              "medical_tabular_medical_placeholder_3fc69d_0000",
+              "medical_tabular_medical_placeholder_3fc69d_0001",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0000",
+              "medical_tabular_medical_placeholder_3fc69d_0005",
+              "medical_tabular_medical_placeholder_3fc69d_0003"
+            ],
+            "answer": "The retrieved context does not provide a total enrollment count. It lists individual samples (TC‑014, TC‑015, TC‑019, TC‑017) and describes the screening process, but no overall number of subjects enrolled is given. Therefore, the total number of enrolled subjects cannot be determined from the provided information.",
+            "abstained": true,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "How many subjects were enrolled in total?"
+            ],
+            "notes": "unanswerable"
+          },
+          {
+            "id": "med_14",
+            "question": "What was the p-value for the primary endpoint?",
+            "answerable": false,
+            "gold_chunk_ids": [],
+            "retrieved_ids": [
+              "medical_textual_medical_guideline_placeholder_52f6a9_0003",
+              "medical_tabular_medical_placeholder_3fc69d_0000",
+              "medical_tabular_medical_placeholder_3fc69d_0004",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0004",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0002"
+            ],
+            "answer": "The retrieved context does not contain any information about the p‑value for the primary endpoint. No source in S1–S5 mentions a p‑value or any statistical result related to the primary endpoint.",
+            "abstained": true,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "What was the p-value for the primary endpoint?"
+            ],
+            "notes": "unanswerable"
+          },
+          {
+            "id": "med_15",
+            "question": "Which hospital ran this study?",
+            "answerable": false,
+            "gold_chunk_ids": [],
+            "retrieved_ids": [
+              "medical_tabular_medical_placeholder_3fc69d_0004",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0003",
+              "medical_tabular_medical_placeholder_3fc69d_0000",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0002",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0004"
+            ],
+            "answer": "The provided excerpts do not contain any information about the hospital that conducted the study. No hospital name or affiliation is mentioned in the retrieved context.",
+            "abstained": true,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "Which hospital ran this study?"
+            ],
+            "notes": "unanswerable"
+          }
+        ]
+      },
+      "agentic": {
+        "recall@5": 0.9545,
+        "mrr": 0.8591,
+        "citation_accuracy": 1.0,
+        "abstention_rate": 1.0,
+        "false_abstention_rate": 0.0909,
+        "n_answerable": 11,
+        "n_unanswerable": 4,
+        "per_case": [
+          {
+            "id": "med_01",
+            "question": "What was the activation score for TC-014?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "medical_tabular_medical_placeholder_3fc69d_0000"
+            ],
+            "retrieved_ids": [
+              "medical_tabular_medical_placeholder_3fc69d_0000",
+              "medical_tabular_medical_placeholder_3fc69d_0003",
+              "medical_tabular_medical_placeholder_3fc69d_0001",
+              "medical_tabular_medical_placeholder_3fc69d_0005",
+              "medical_tabular_medical_placeholder_3fc69d_0002"
+            ],
+            "answer": "The activation score recorded for sample TC‑014 was **0.87**【S1】.",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "What was the activation score for TC-014?"
+            ],
+            "notes": "exact-id",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "med_02",
+            "question": "Which sample showed no significant activation?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "medical_tabular_medical_placeholder_3fc69d_0001"
+            ],
+            "retrieved_ids": [
+              "medical_tabular_medical_placeholder_3fc69d_0001",
+              "medical_tabular_medical_placeholder_3fc69d_0000",
+              "medical_tabular_medical_placeholder_3fc69d_0005",
+              "medical_tabular_medical_placeholder_3fc69d_0003",
+              "medical_tabular_medical_placeholder_3fc69d_0004"
+            ],
+            "answer": "The sample that showed no significant activation was **TC‑015**【S1】.",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "Which sample showed no significant activation?"
+            ],
+            "notes": "",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "med_03",
+            "question": "Which sample had the highest activation score?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "medical_tabular_medical_placeholder_3fc69d_0003"
+            ],
+            "retrieved_ids": [
+              "medical_tabular_medical_placeholder_3fc69d_0000",
+              "medical_tabular_medical_placeholder_3fc69d_0001",
+              "medical_tabular_medical_placeholder_3fc69d_0005",
+              "medical_tabular_medical_placeholder_3fc69d_0003",
+              "medical_tabular_medical_placeholder_3fc69d_0002"
+            ],
+            "answer": "The sample with the highest activation score was **TC‑017**, which recorded an activation score of **0.91**【S4】. This score is higher than the activation scores of the other samples listed (TC‑014: 0.87, TC‑019: 0.63, TC‑016: 0.54, TC‑015: 0.12).",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "Which sample had the highest activation score?"
+            ],
+            "notes": "superlative",
+            "recall@5": 1.0,
+            "mrr": 0.25
+          },
+          {
+            "id": "med_04",
+            "question": "Why is there no reading for TC-018?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "medical_tabular_medical_placeholder_3fc69d_0004"
+            ],
+            "retrieved_ids": [
+              "medical_tabular_medical_placeholder_3fc69d_0004",
+              "medical_tabular_medical_placeholder_3fc69d_0001",
+              "medical_tabular_medical_placeholder_3fc69d_0005",
+              "medical_tabular_medical_placeholder_3fc69d_0000",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0001"
+            ],
+            "answer": "There is no reading for TC‑018 because the specimen degraded during handling. The record notes that the sample, collected from a human‑subject‑filtered cohort at the 24‑hour timepoint and processed with antigen panel A, became unusable and no data could be extracted [S1].",
+            "abstained": true,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "Why is there no reading for TC-018?"
+            ],
+            "notes": "",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "med_05",
+            "question": "Which sample came from the healthy control cohort?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "medical_tabular_medical_placeholder_3fc69d_0005"
+            ],
+            "retrieved_ids": [
+              "medical_tabular_medical_placeholder_3fc69d_0005",
+              "medical_tabular_medical_placeholder_3fc69d_0004",
+              "medical_tabular_medical_placeholder_3fc69d_0000",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0003",
+              "medical_tabular_medical_placeholder_3fc69d_0003"
+            ],
+            "answer": "The sample that came from the healthy control cohort is **TC‑019**【S1】.",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "Which sample came from the healthy control cohort?"
+            ],
+            "notes": "",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "med_06",
+            "question": "Which samples were tested on antigen panel B?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "medical_tabular_medical_placeholder_3fc69d_0000",
+              "medical_tabular_medical_placeholder_3fc69d_0001",
+              "medical_tabular_medical_placeholder_3fc69d_0005"
+            ],
+            "retrieved_ids": [
+              "medical_tabular_medical_placeholder_3fc69d_0005",
+              "medical_tabular_medical_placeholder_3fc69d_0001",
+              "medical_tabular_medical_placeholder_3fc69d_0000",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0001",
+              "medical_tabular_medical_placeholder_3fc69d_0002"
+            ],
+            "answer": "The samples that were tested using **antigen panel B** are:\n\n- **TC‑019** – evaluated at 48 hours after sampling【S1】  \n- **TC‑015** – processed at 48 hours【S2】  \n- **TC‑014** – processed at 48 hours【S3】\n\nThese are the only samples in the provided context that were specifically noted as having been tested with antigen panel B.",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "Which samples were tested on antigen panel B?"
+            ],
+            "notes": "multi-chunk",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "med_07",
+            "question": "What happens during the screening interview?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "medical_textual_medical_guideline_placeholder_52f6a9_0000"
+            ],
+            "retrieved_ids": [
+              "medical_textual_medical_guideline_placeholder_52f6a9_0000",
+              "medical_tabular_medical_placeholder_3fc69d_0004",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0003",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0004",
+              "medical_tabular_medical_placeholder_3fc69d_0000"
+            ],
+            "answer": "During the screening interview, the study staff conduct a structured assessment that includes:\n\n1. **Medical history and medication review** – candidates answer questions about past illnesses, current drugs, and any known allergic reactions.  \n2. **Baseline vital‑sign measurement** – heart rate, blood pressure, and body temperature are recorded and compared against the exclusion criteria listed in section 3 of the protocol.  \n3. **Eligibility check** – candidates with an active infection, uncontrolled chronic disease, or pregnancy are deferred until the condition resolves or the pregnancy ends.  \n4. **Prior study participation review** – the interview also covers whether the candidate has taken part in a similar study within the last twelve months, to avoid overlapping enrollment that could confound results.  \n5. **Documentation and flagging** – the interview outcome is entered into the intake file; any flagged cases are forwarded to the supervising clinician for a secondary opinion before a final enrollment decision is made.  \n\nIf a candidate is flagged during intake, a **second‑tier screening** is performed: liver function, renal function, and coagulation markers are tested, and results are reviewed within 48 hours. Any abnormal value triggers a consult with the site’s principal investigator before the candidate can proceed further.  \n\nThese steps ensure that only eligible, medically stable participants advance to enrollment. [S1]",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "What happens during the screening interview?"
+            ],
+            "notes": "",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "med_08",
+            "question": "What are the exclusion criteria for enrollment?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "medical_textual_medical_guideline_placeholder_52f6a9_0003"
+            ],
+            "retrieved_ids": [
+              "medical_textual_medical_guideline_placeholder_52f6a9_0000",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0002",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0001",
+              "medical_tabular_medical_placeholder_3fc69d_0000",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0003"
+            ],
+            "answer": "**Exclusion criteria for enrollment**\n\n| Criterion | Source |\n|-----------|--------|\n| Active infection | [S1] |\n| Uncontrolled chronic condition | [S1] |\n| Pregnancy | [S1] |\n| Documented history of a severe allergic reaction to any component of the study protocol | [S2] |\n| Current enrollment in a conflicting interventional study | [S2] |\n| Inability to provide informed consent independently | [S2] |\n| Age outside the protocol‑specified range (confirmed with ID) | [S2] |\n| Recent major surgery within the preceding eight weeks | [S2] |\n| Active immunosuppressive therapy **unless** the treating physician provides written clearance | [S2] |\n| Prior participation in a similar study within the past twelve months (screening flag) | [S1] |\n\nThese criteria are applied during the structured screening interview and, if necessary, during a second‑tier laboratory review before a candidate is formally enrolled.",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "What are the exclusion criteria for enrollment?"
+            ],
+            "notes": "",
+            "recall@5": 1.0,
+            "mrr": 0.2
+          },
+          {
+            "id": "med_09",
+            "question": "How are blood samples collected and stored?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "medical_textual_medical_guideline_placeholder_52f6a9_0001",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0002"
+            ],
+            "retrieved_ids": [
+              "medical_textual_medical_guideline_placeholder_52f6a9_0001",
+              "medical_tabular_medical_placeholder_3fc69d_0004",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0000",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0003",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0002"
+            ],
+            "answer": "Blood samples are obtained by **standard venipuncture** and immediately placed into **three separate tubes**: one for a complete blood count, one for the antigen‑panel assay, and a third kept in reserve for repeat testing if needed [S1][S3].  Each tube is labeled at the bedside with the participant’s identifier, the exact collection time, and the technician’s initials to maintain chain‑of‑custody [S1].\n\nAfter collection, the tubes are **transported to the processing laboratory within thirty minutes**.  Upon arrival they are logged into the laboratory information system and stored at the temperature specified for each assay type [S1].  If the transport window is exceeded, the sample is flagged as compromised and a redraw is scheduled rather than using a degraded specimen [S1].\n\nIn the lab, technicians **centrifuge** each tube according to the assay‑specific protocol, then **separate plasma or serum** as required.  The resulting fluid is aliquoted into labeled cryovials for long‑term storage.  These cryovials are kept in monitored freezers; any temperature excursion outside the validated range triggers an automatic alert to the lab supervisor [S1][S5].\n\nThus, collection follows a strict venipuncture protocol with immediate labeling, rapid transport, assay‑specific temperature control, centrifugation, aliquoting, and continuous freezer monitoring to preserve sample integrity.",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "How are blood samples collected and stored?"
+            ],
+            "notes": "multi-chunk",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "med_10",
+            "question": "When must measurements be recorded?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "medical_textual_medical_guideline_placeholder_52f6a9_0003",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0004"
+            ],
+            "retrieved_ids": [
+              "medical_textual_medical_guideline_placeholder_52f6a9_0003",
+              "medical_tabular_medical_placeholder_3fc69d_0004",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0002",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0001",
+              "medical_tabular_medical_placeholder_3fc69d_0003"
+            ],
+            "answer": "Measurements must be entered **at the time of observation** and recorded directly into the electronic case‑report form (eCRF). Retrospective transcription from paper notes is discouraged unless field conditions make direct digital entry impractical, and any blank field must carry an explicit reason code rather than being left ambiguous. Timepoints are logged in the site’s local time zone with the offset explicitly noted to avoid cross‑site discrepancies.  \n\n[S1] , [S3]",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "When must measurements be recorded?"
+            ],
+            "notes": "multi-chunk",
+            "recall@5": 0.5,
+            "mrr": 1.0
+          },
+          {
+            "id": "med_11",
+            "question": "How are adverse events handled?",
+            "answerable": true,
+            "gold_chunk_ids": [
+              "medical_textual_medical_guideline_placeholder_52f6a9_0004"
+            ],
+            "retrieved_ids": [
+              "medical_textual_medical_guideline_placeholder_52f6a9_0004",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0003",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0002",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0001",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0000"
+            ],
+            "answer": "Adverse events are managed through a structured, multi‑step process:\n\n1. **Immediate reporting** – Any adverse event (AE), no matter how minor or how clearly it is linked to the study protocol, must be reported to the site’s principal investigator (PI) within **24 hours** of the staff member becoming aware of it.  \n   [S1]\n\n2. **Serious adverse events (SAEs)** – SAEs follow an expedited path. The PI must notify the ethics board (or institutional review board) **within the timeframe required by local regulation**.  \n   [S1]\n\n3. **Follow‑up** – Once reported, the event is monitored until it is either **resolved** or classified as **chronic and stable** (whichever occurs first).  \n   [S1]\n\n4. **Causality assessment** – The PI documents the event’s causality as *unrelated*, *possibly related*, or *definitely related*. This assessment is then **reviewed independently by the site’s medical monitor** before the AE record is closed.  \n   [S1]\n\nThese steps ensure timely notification, regulatory compliance, ongoing monitoring, and thorough review of all adverse events.",
+            "abstained": false,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "How are adverse events handled?"
+            ],
+            "notes": "",
+            "recall@5": 1.0,
+            "mrr": 1.0
+          },
+          {
+            "id": "med_12",
+            "question": "What is the recommended dosage of ibuprofen for these subjects?",
+            "answerable": false,
+            "gold_chunk_ids": [],
+            "retrieved_ids": [
+              "medical_tabular_medical_placeholder_3fc69d_0000",
+              "medical_tabular_medical_placeholder_3fc69d_0003",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0001",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0002",
+              "medical_tabular_medical_placeholder_3fc69d_0002",
+              "medical_tabular_medical_placeholder_3fc69d_0004"
+            ],
+            "answer": "The retrieved context does not contain any information about ibuprofen or its recommended dosage for the subjects.",
+            "abstained": true,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "ibuprofen dosage for adults",
+              "ibuprofen dosage for children",
+              "ibuprofen dosage for pregnant women",
+              "ibuprofen dosage for elderly"
+            ],
+            "notes": "unanswerable"
+          },
+          {
+            "id": "med_13",
+            "question": "How many subjects were enrolled in total?",
+            "answerable": false,
+            "gold_chunk_ids": [],
+            "retrieved_ids": [
+              "medical_tabular_medical_placeholder_3fc69d_0000",
+              "medical_tabular_medical_placeholder_3fc69d_0001",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0000",
+              "medical_tabular_medical_placeholder_3fc69d_0005",
+              "medical_tabular_medical_placeholder_3fc69d_0003"
+            ],
+            "answer": "The retrieved context does not provide a total enrollment count. It lists individual samples (TC‑014, TC‑015, TC‑019, TC‑017) and describes the screening process, but no overall number of subjects enrolled is given. Therefore, the total number of enrolled subjects cannot be determined from the provided information.",
+            "abstained": true,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "How many subjects were enrolled in total?"
+            ],
+            "notes": "unanswerable"
+          },
+          {
+            "id": "med_14",
+            "question": "What was the p-value for the primary endpoint?",
+            "answerable": false,
+            "gold_chunk_ids": [],
+            "retrieved_ids": [
+              "medical_textual_medical_guideline_placeholder_52f6a9_0003",
+              "medical_tabular_medical_placeholder_3fc69d_0000",
+              "medical_tabular_medical_placeholder_3fc69d_0004",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0004",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0002"
+            ],
+            "answer": "The retrieved context does not contain any information about the p‑value for the primary endpoint. No source in S1–S5 mentions a p‑value or any statistical result related to the primary endpoint.",
+            "abstained": true,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "What was the p-value for the primary endpoint?"
+            ],
+            "notes": "unanswerable"
+          },
+          {
+            "id": "med_15",
+            "question": "Which hospital ran this study?",
+            "answerable": false,
+            "gold_chunk_ids": [],
+            "retrieved_ids": [
+              "medical_tabular_medical_placeholder_3fc69d_0004",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0003",
+              "medical_tabular_medical_placeholder_3fc69d_0000",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0002",
+              "medical_textual_medical_guideline_placeholder_52f6a9_0004"
+            ],
+            "answer": "The provided excerpts do not contain any information about the hospital that conducted the study. No hospital name or affiliation is mentioned in the retrieved context.",
+            "abstained": true,
+            "citation_accuracy": 1.0,
+            "subqueries": [
+              "Which hospital ran this study?"
+            ],
+            "notes": "unanswerable"
+          }
+        ]
+      }
+    }
+  },
+  "duration_s": 326.2,
   "cache": {
-    "hits": 0,
-    "misses": 0,
-    "total": 0,
-    "hit_rate": 0.0
+    "hits": 54,
+    "misses": 36,
+    "total": 90,
+    "hit_rate": 0.6
   }
 }

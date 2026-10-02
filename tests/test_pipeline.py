@@ -182,3 +182,18 @@ class TestFullPipeline:
 
         trace = ask("What is the dividend policy of TCS?", "financial", log=False)
         assert trace.synthesis.answer
+
+
+def test_ensure_index_rebuilds_when_units_change(isolated_store, make_unit, monkeypatch):
+    """Re-extracted units used to leave the old narratives in the index, because
+    ensure_index only checked that the collection existed."""
+    import src.unit_store as unit_store
+    from src.build_index import ensure_index
+
+    units = {"financial": [make_unit("DIACABS operating profit grew 10.037%.")]}
+    monkeypatch.setattr(unit_store, "load_units", lambda d: units.get(d, []))
+    ensure_index(("financial",))
+
+    units["financial"] = [make_unit("DIACABS operating profit growth of 10.037.")]
+    ensure_index(("financial",))
+    assert "growth of 10.037." in sparse_search("DIACABS", "financial", k=1)[0][1]

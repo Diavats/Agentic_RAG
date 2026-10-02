@@ -3,10 +3,10 @@
     "id": "medical_tabular_medical_placeholder_3fc69d_0000",
     "domain": "medical",
     "source_type": "tabular",
-    "text": "The sample identified as TC‑014 was processed as part of a human‑subject‑filtered cohort. It was tested using antigen panel B at a 48‑hour timepoint following stimulation. The assay produced an activation score of 0.87, indicating a robust cellular response. Review of the data notes a “Strong positive response,” confirming that the sample behaved as expected for this panel. This record demonstrates that the subject’s immune cells reacted strongly to the antigenic stimulus within the specified timeframe, and the high activation score aligns with the qualitative observation noted in the comments. Overall, the sample’s performance is consistent with the cohort’s expected response profile and supports the validity of the assay conditions used.",
+    "text": "The sample identified as TC‑014 was processed using antigen panel B. The assay was conducted at a timepoint of 48 hours, during which the activation score recorded was 0.87. This sample belongs to the human‑subject‑filtered cohort, indicating that it was derived from a population of human subjects that had been filtered for specific inclusion criteria. The laboratory notes describe the outcome as a strong positive response, underscoring the robust activation observed in this particular test. The combination of a high activation score, a clear positive response, and the specific timepoint and panel used provides a concise snapshot of the sample’s immunological profile, offering a useful reference point for subsequent analyses or comparative studies within the same cohort.",
     "metadata": {
       "source_file": "medical_placeholder.csv",
-      "generated_at": "2026-09-09T06:37:28.424957+00:00",
+      "generated_at": "2026-10-02T10:41:42.151141+00:00",
       "extra": {
         "sample_id": "TC-014",
         "antigen_panel": "B",
@@ -21,10 +21,10 @@
     "id": "medical_tabular_medical_placeholder_3fc69d_0001",
     "domain": "medical",
     "source_type": "tabular",
-    "text": "Sample TC‑015 was collected from a human‑subject‑filtered cohort and processed using antigen panel B. The specimen was analyzed 48 hours after collection, at which time the activation score was measured at 0.12. This low value indicates minimal cellular response, a finding that is consistent with the accompanying note that no significant activation was observed. The data suggest that, under the conditions of this experiment, antigen panel B did not elicit a strong immune reaction in the tested subject. The sample’s identifier, TC‑015, provides a unique reference for tracking within the study’s database, while the cohort designation confirms that the participant was part of the filtered human subject group. Overall, the results support the conclusion that the tested antigen panel produced negligible activation at the 48‑hour time point.",
+    "text": "The sample identified as TC‑015 was processed using antigen panel B at a timepoint of 48 hours. The activation score recorded for this sample was 0.12, indicating minimal cellular response. The cohort for this analysis is human‑subject‑filtered, ensuring that the data reflects a specific subset of human subjects. According to the notes, there was no significant activation observed in this sample. These findings suggest that under the conditions tested, the antigen panel B did not elicit a robust activation response in the human‑subject‑filtered cohort at the 48‑hour mark. The low activation score aligns with the observation noted in the record. Further investigations might explore different timepoints or antigen panels to determine if activation can be achieved under alternative conditions. Thus, the data underscore the limited immunogenicity of panel B in this context.",
     "metadata": {
       "source_file": "medical_placeholder.csv",
-      "generated_at": "2026-09-09T06:37:30.601740+00:00",
+      "generated_at": "2026-10-02T10:41:43.582586+00:00",
       "extra": {
         "sample_id": "TC-015",
         "antigen_panel": "B",
@@ -39,10 +39,10 @@
     "id": "medical_tabular_medical_placeholder_3fc69d_0002",
     "domain": "medical",
     "source_type": "tabular",
-    "text": "The sample identified as TC‑016 was collected from a human subject who had been filtered for the study cohort. It was processed using antigen panel A and the specimen was taken 24 hours after the initial intervention. When analyzed, the activation score for this sample was 0.54, indicating a moderate level of cellular activation. The researcher’s notes describe the response as moderate with a delayed onset, suggesting that the immune reaction was not immediate but reached a measurable level within the 24‑hour window. This information helps contextualize the sample’s behavior relative to the other specimens in the cohort, providing a clear snapshot of its immunological profile at the specified time point.",
+    "text": "The laboratory record for sample TC‑016 documents a human‑subject‑filtered cohort that was examined 24 hours after exposure to antigen panel A. At this timepoint, the activation score recorded was 0.54, indicating a moderate level of cellular response. The notes accompanying the data describe the response as moderate with a delayed onset, suggesting that the immune activation was not immediate but reached measurable levels within the 24‑hour window. This sample thus provides evidence of a measurable, though not robust, activation of the immune system in a filtered human cohort following antigen panel A exposure. The combination of a 0.54 activation score and the noted delayed onset offers a clear snapshot of the immune dynamics at this specific timepoint, useful for comparative analyses across other samples and timepoints.",
     "metadata": {
       "source_file": "medical_placeholder.csv",
-      "generated_at": "2026-09-09T06:37:31.420124+00:00",
+      "generated_at": "2026-10-02T10:41:44.326586+00:00",
       "extra": {
         "sample_id": "TC-016",
         "antigen_panel": "A",
@@ -57,10 +57,10 @@
     "id": "medical_tabular_medical_placeholder_3fc69d_0003",
     "domain": "medical",
     "source_type": "tabular",
-    "text": "The laboratory report for sample TC‑017 documents a detailed immunological assessment performed on a human subject that had been filtered for specific inclusion criteria. The sample was processed using antigen panel C, a set of reagents designed to probe a particular subset of immune markers. Measurements were taken 72 hours after the initial exposure, a time point chosen to capture sustained cellular responses rather than immediate early changes. At this 72‑hour mark, the activation score calculated for the sample was 0.91, indicating a robust level of immune activation relative to the assay’s reference range. The cohort designation “human‑subject‑filtered” confirms that the data come from a carefully selected group of individuals, ensuring that the results are not confounded by unrelated variables. Finally, the accompanying note “Sustained high activation” underscores that the elevated activation score persisted over the observation period, highlighting the sample’s strong and enduring immunological response.",
+    "text": "At 72 hours after exposure, the sample identified as TC‑017 was evaluated using antigen panel C. The human‑subject‑filtered cohort provided a controlled context for measuring immune responses. The activation score recorded for this sample was 0.91, indicating a robust level of cellular activation. Observers noted sustained high activation throughout the observation period, suggesting that the immune response remained elevated rather than declining. This sustained activation could be relevant for understanding the durability of the immune response in this cohort. The data from TC‑017 contribute to a broader analysis of antigen panel C responses across timepoints, and the high activation score aligns with the qualitative note of sustained high activation. These findings underscore the importance of monitoring activation dynamics over extended periods in human‑subject‑filtered studies.",
     "metadata": {
       "source_file": "medical_placeholder.csv",
-      "generated_at": "2026-09-09T06:37:32.442848+00:00",
+      "generated_at": "2026-10-02T10:41:46.083277+00:00",
       "extra": {
         "sample_id": "TC-017",
         "antigen_panel": "C",
@@ -75,10 +75,10 @@
     "id": "medical_tabular_medical_placeholder_3fc69d_0004",
     "domain": "medical",
     "source_type": "tabular",
-    "text": "The laboratory processed sample TC‑018, which was collected from a human subject that had been filtered for the study cohort. The specimen was assigned to antigen panel A and was analyzed 24 hours after collection. Unfortunately, the sample was found to be degraded during handling, preventing any reliable measurement or reading from being obtained. Consequently, no data could be recorded for this specimen, and the notes indicate that the sample was unusable for further analysis.",
+    "text": "Sample TC-018 was collected from a human-subject-filtered cohort at a timepoint of 24 hours. The specimen was processed using antigen panel A, a standard panel for this study. However, during handling the sample degraded, as noted in the accompanying record. The notes explicitly state that the sample degraded and no reading could be obtained. Because of this degradation, the sample was unusable for downstream analysis and no data could be extracted. This outcome underscores the importance of stringent sample handling and storage protocols to preserve integrity, especially when working with human-derived specimens at specific timepoints. The record therefore documents the loss of data for TC-018, highlighting a critical point in the study’s workflow where sample quality was compromised. Future protocols will incorporate additional safeguards to prevent similar degradation.",
     "metadata": {
       "source_file": "medical_placeholder.csv",
-      "generated_at": "2026-09-09T06:37:33.290781+00:00",
+      "generated_at": "2026-10-02T10:41:48.139460+00:00",
       "extra": {
         "sample_id": "TC-018",
         "antigen_panel": "A",
@@ -93,10 +93,10 @@
     "id": "medical_tabular_medical_placeholder_3fc69d_0005",
     "domain": "medical",
     "source_type": "tabular",
-    "text": "The sample identified as TC‑019 was collected from a healthy‑control subject and processed using antigen panel B. The specimen was taken 48 hours after the initial baseline measurement, allowing the researchers to assess changes in immune activation over a two‑day period. Quantitative analysis of the sample yielded an activation score of 0.63, indicating a moderate level of cellular activation relative to the panel’s reference range. The accompanying notes highlight that this activation level represents a baseline observation, suggesting that the measured response is typical for a healthy individual under these experimental conditions. Together, these data points provide a concise snapshot of the subject’s immune status at the specified time point, offering a useful reference for comparing subsequent samples or for validating the consistency of the assay protocol.",
+    "text": "At 48 hours after sampling, the specimen identified as TC‑019 was evaluated using antigen panel B. The subject belonged to the healthy‑control cohort, and the analysis yielded an activation score of 0.63. The notes indicate that baseline activation was observed. This data point provides a snapshot of immune status at a single timepoint, offering a reference for comparison with other samples or timepoints. The activation score, measured at 0.63, suggests a modest level of cellular activation relative to the baseline. The use of antigen panel B allows for targeted detection of specific antigens, while the 48‑hour timepoint captures early post‑sampling changes. The healthy‑control designation indicates that the individual had no known disease or treatment that could confound the results. Overall, the record documents a controlled, baseline measurement of immune activation in a healthy subject.",
     "metadata": {
       "source_file": "medical_placeholder.csv",
-      "generated_at": "2026-09-09T06:37:34.697629+00:00",
+      "generated_at": "2026-10-02T10:41:49.786105+00:00",
       "extra": {
         "sample_id": "TC-019",
         "antigen_panel": "B",
