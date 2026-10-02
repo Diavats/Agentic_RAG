@@ -1,0 +1,293 @@
+{
+ "recorded_at": "2026-10-02T20:35:12.212233+00:00",
+ "trace": {
+  "trace_id": "5fa3d2b79109",
+  "ts": "2026-10-02T20:35:12.212233+00:00",
+  "question": "What are the exclusion criteria, and which samples showed strong antigen activation?",
+  "routing": {
+   "domain": "medical",
+   "method": "embedding:max",
+   "confidence": 0.8252556622028351,
+   "margin": 0.6143,
+   "scores": {
+    "medical": 0.6505,
+    "financial": 0.0362
+   },
+   "latency_ms": 4883.9
+  },
+  "planning": {
+   "subqueries": [
+    "exclusion criteria for the study",
+    "samples that showed strong antigen activation"
+   ],
+   "was_decomposed": true,
+   "latency_ms": 860.1
+  },
+  "retrieval": {
+   "sources": [
+    {
+     "id": "medical_textual_medical_guideline_placeholder_52f6a9_0000",
+     "text": "Before enrollment, every candidate undergoes a structured screening interview covering medical history, current medications, and any known allergic reactions. Screening staff record baseline vital signs including heart rate, blood pressure, and body temperature, and cross-check these against the exclusion criteria defined in section three. Any candidate presenting with an active infection, uncontrolled chronic condition, or pregnancy is deferred from enrollment until the condition resolves or the pregnancy concludes.\n\nScreening also includes a review of prior participation in similar studies within the past twelve months, since overlapping enrollment can confound outcome measurements. Staff document the review outcome in the candidate's intake file and forward flagged cases to the supervising clinician for a secondary opinion before any enrollment decision is finalized.\n\nA second-tier screening step applies to candidates flagged during intake: an extended panel covering liver function, renal function, and coagulation markers. Results are reviewed within forty-eight hours, and any out-of-range value triggers a consult with the site's principal investigator before the candidate proceeds further.\n\nBlood samples are drawn using standard venipuncture technique into three",
+     "score": 0.0328,
+     "rank": 1,
+     "source_file": "medical_guideline_placeholder.docx",
+     "source_type": "textual",
+     "domain": "medical"
+    },
+    {
+     "id": "medical_tabular_medical_placeholder_3fc69d_0000",
+     "text": "The sample identified as TC‑014 was processed using antigen panel B. The assay was conducted at a timepoint of 48 hours, during which the activation score recorded was 0.87. This sample belongs to the human‑subject‑filtered cohort, indicating that it was derived from a population of human subjects that had been filtered for specific inclusion criteria. The laboratory notes describe the outcome as a strong positive response, underscoring the robust activation observed in this particular test. The combination of a high activation score, a clear positive response, and the specific timepoint and panel used provides a concise snapshot of the sample’s immunological profile, offering a useful reference point for subsequent analyses or comparative studies within the same cohort.",
+     "score": 0.0328,
+     "rank": 2,
+     "source_file": "medical_placeholder.csv",
+     "source_type": "tabular",
+     "domain": "medical"
+    },
+    {
+     "id": "medical_textual_medical_guideline_placeholder_52f6a9_0002",
+     "text": "plasma or serum as required, and aliquot the result into labeled cryovials for storage. Storage freezers are monitored continuously, and any excursion outside the validated temperature range triggers an automatic alert to the lab supervisor.\n\nCandidates are excluded if they have a documented history of severe allergic reaction to any component of the study protocol, are currently enrolled in a conflicting interventional study, or are unable to provide informed consent independently. Age restrictions apply per the specific protocol variant being run, and these are confirmed against the candidate's government-issued identification during intake.\n\nAdditional exclusion applies to candidates with recent major surgery within the preceding eight weeks, since post-surgical recovery can independently affect the biomarkers under study and would introduce a confound that the analysis plan is not designed to account for.\n\nCandidates on active immunosuppressive therapy are excluded unless the treating physician provides written clearance, since immune modulation directly interferes with the antigen response measurements central to this protocol's primary endpoint.\n\nAll measurements are recorded directly into the electronic case report form at the time of observation; retrospective transcription from paper notes is discouraged except",
+     "score": 0.032,
+     "rank": 3,
+     "source_file": "medical_guideline_placeholder.docx",
+     "source_type": "textual",
+     "domain": "medical"
+    },
+    {
+     "id": "medical_tabular_medical_placeholder_3fc69d_0005",
+     "text": "At 48 hours after sampling, the specimen identified as TC‑019 was evaluated using antigen panel B. The subject belonged to the healthy‑control cohort, and the analysis yielded an activation score of 0.63. The notes indicate that baseline activation was observed. This data point provides a snapshot of immune status at a single timepoint, offering a reference for comparison with other samples or timepoints. The activation score, measured at 0.63, suggests a modest level of cellular activation relative to the baseline. The use of antigen panel B allows for targeted detection of specific antigens, while the 48‑hour timepoint captures early post‑sampling changes. The healthy‑control designation indicates that the individual had no known disease or treatment that could confound the results. Overall, the record documents a controlled, baseline measurement of immune activation in a healthy subject.",
+     "score": 0.032,
+     "rank": 4,
+     "source_file": "medical_placeholder.csv",
+     "source_type": "tabular",
+     "domain": "medical"
+    },
+    {
+     "id": "medical_tabular_medical_placeholder_3fc69d_0001",
+     "text": "The sample identified as TC‑015 was processed using antigen panel B at a timepoint of 48 hours. The activation score recorded for this sample was 0.12, indicating minimal cellular response. The cohort for this analysis is human‑subject‑filtered, ensuring that the data reflects a specific subset of human subjects. According to the notes, there was no significant activation observed in this sample. These findings suggest that under the conditions tested, the antigen panel B did not elicit a robust activation response in the human‑subject‑filtered cohort at the 48‑hour mark. The low activation score aligns with the observation noted in the record. Further investigations might explore different timepoints or antigen panels to determine if activation can be achieved under alternative conditions. Thus, the data underscore the limited immunogenicity of panel B in this context.",
+     "score": 0.0318,
+     "rank": 5,
+     "source_file": "medical_placeholder.csv",
+     "source_type": "tabular",
+     "domain": "medical"
+    },
+    {
+     "id": "medical_textual_medical_guideline_placeholder_52f6a9_0004",
+     "text": "ing session for that site's data entry staff before the next collection window opens.\n\nAny adverse event, regardless of perceived severity or relatedness to the study protocol, is reported to the site's principal investigator within twenty-four hours of the observing staff member becoming aware of it. Serious adverse events follow an expedited reporting path with notification to the ethics board within the timeframe specified by local regulation.\n\nFollow-up on reported events continues until resolution or until the event is classified as chronic and stable, whichever comes first. The causality assessment — unrelated, possibly related, or definitely related — is documented by the principal investigator and reviewed independently by the site's medical monitor before the record is closed.",
+     "score": 0.0315,
+     "rank": 6,
+     "source_file": "medical_guideline_placeholder.docx",
+     "source_type": "textual",
+     "domain": "medical"
+    },
+    {
+     "id": "medical_tabular_medical_placeholder_3fc69d_0002",
+     "text": "The laboratory record for sample TC‑016 documents a human‑subject‑filtered cohort that was examined 24 hours after exposure to antigen panel A. At this timepoint, the activation score recorded was 0.54, indicating a moderate level of cellular response. The notes accompanying the data describe the response as moderate with a delayed onset, suggesting that the immune activation was not immediate but reached measurable levels within the 24‑hour window. This sample thus provides evidence of a measurable, though not robust, activation of the immune system in a filtered human cohort following antigen panel A exposure. The combination of a 0.54 activation score and the noted delayed onset offers a clear snapshot of the immune dynamics at this specific timepoint, useful for comparative analyses across other samples and timepoints.",
+     "score": 0.0313,
+     "rank": 7,
+     "source_file": "medical_placeholder.csv",
+     "source_type": "tabular",
+     "domain": "medical"
+    },
+    {
+     "id": "medical_textual_medical_guideline_placeholder_52f6a9_0003",
+     "text": "with the antigen response measurements central to this protocol's primary endpoint.\n\nAll measurements are recorded directly into the electronic case report form at the time of observation; retrospective transcription from paper notes is discouraged except where field conditions make direct digital entry impractical. Every field left blank must carry an explicit reason code rather than being left ambiguous between 'not measured' and 'measured as zero'.\n\nTimepoints are recorded in the site's local time zone with the offset explicitly noted, since multi-site studies have previously encountered discrepancies when comparing timepoints across sites without a normalized reference. Discrepancies discovered during data review are resolved by consulting the original source document, never by assuming the most recent entry is correct by default.\n\nWeekly data quality reviews cross-reference a random ten percent sample of entries against source documents. Any discrepancy rate above two percent for a given site triggers a retraining session for that site's data entry staff before the next collection window opens.\n\nAny adverse event, regardless of perceived severity or relatedness to the study protocol, is reported to the site's",
+     "score": 0.0308,
+     "rank": 8,
+     "source_file": "medical_guideline_placeholder.docx",
+     "source_type": "textual",
+     "domain": "medical"
+    }
+   ],
+   "n_candidates": 8,
+   "latency_ms": 10897.5
+  },
+  "synthesis": {
+   "answer": "**Exclusion criteria (as defined in the protocol)**  \n1. **Medical conditions** – active infection, uncontrolled chronic disease, or pregnancy.  \n2. **Recent study participation** – enrollment in a similar study within the past 12 months.  \n3. **Laboratory abnormalities** – out‑of‑range liver, renal, or coagulation markers identified in the second‑tier screening.  \n4. **Allergy history** – documented severe allergic reaction to any component of the study protocol.  \n5. **Concurrent study participation** – currently enrolled in a conflicting interventional study.  \n6. **Consent** – inability to provide informed consent independently.  \n7. **Age** – not meeting the age limits specified for the protocol variant.  \n8. **Recent surgery** – major surgery within the preceding eight weeks.  \n9. **Immunosuppression** – on active immunosuppressive therapy unless the treating physician gives written clearance.  \n\nThese criteria are listed in the screening and exclusion sections of the guideline documents [S1], [S3].\n\n**Samples with strong antigen activation**  \n- **TC‑014** – processed with antigen panel B at 48 hours, activation score **0.87**, described as a “strong positive response” and a robust activation [S2].\n\nNo other samples in the provided data reached a comparable activation level; the next highest score (TC‑019) was 0.63, which is considered moderate.",
+   "citations": [
+    {
+     "marker": "S1",
+     "source_id": "medical_textual_medical_guideline_placeholder_52f6a9_0000",
+     "resolved": true
+    },
+    {
+     "marker": "S3",
+     "source_id": "medical_textual_medical_guideline_placeholder_52f6a9_0002",
+     "resolved": true
+    },
+    {
+     "marker": "S2",
+     "source_id": "medical_tabular_medical_placeholder_3fc69d_0000",
+     "resolved": true
+    }
+   ],
+   "latency_ms": 1071.8
+  },
+  "verification": {
+   "supported_claims": 7,
+   "total_claims": 12,
+   "score": 0.583,
+   "judge_model": "qwen/qwen3.8-27b",
+   "latency_ms": 116272.7
+  },
+  "total_latency_ms": 133986.1,
+  "cold_start": false
+ },
+ "corpus": [
+  {
+   "id": "medical_tabular_medical_placeholder_3fc69d_0000",
+   "domain": "medical",
+   "source_type": "tabular",
+   "source_file": "medical_placeholder.csv"
+  },
+  {
+   "id": "medical_tabular_medical_placeholder_3fc69d_0001",
+   "domain": "medical",
+   "source_type": "tabular",
+   "source_file": "medical_placeholder.csv"
+  },
+  {
+   "id": "medical_tabular_medical_placeholder_3fc69d_0002",
+   "domain": "medical",
+   "source_type": "tabular",
+   "source_file": "medical_placeholder.csv"
+  },
+  {
+   "id": "medical_tabular_medical_placeholder_3fc69d_0003",
+   "domain": "medical",
+   "source_type": "tabular",
+   "source_file": "medical_placeholder.csv"
+  },
+  {
+   "id": "medical_tabular_medical_placeholder_3fc69d_0004",
+   "domain": "medical",
+   "source_type": "tabular",
+   "source_file": "medical_placeholder.csv"
+  },
+  {
+   "id": "medical_tabular_medical_placeholder_3fc69d_0005",
+   "domain": "medical",
+   "source_type": "tabular",
+   "source_file": "medical_placeholder.csv"
+  },
+  {
+   "id": "medical_textual_medical_guideline_placeholder_52f6a9_0000",
+   "domain": "medical",
+   "source_type": "textual",
+   "source_file": "medical_guideline_placeholder.docx"
+  },
+  {
+   "id": "medical_textual_medical_guideline_placeholder_52f6a9_0001",
+   "domain": "medical",
+   "source_type": "textual",
+   "source_file": "medical_guideline_placeholder.docx"
+  },
+  {
+   "id": "medical_textual_medical_guideline_placeholder_52f6a9_0002",
+   "domain": "medical",
+   "source_type": "textual",
+   "source_file": "medical_guideline_placeholder.docx"
+  },
+  {
+   "id": "medical_textual_medical_guideline_placeholder_52f6a9_0003",
+   "domain": "medical",
+   "source_type": "textual",
+   "source_file": "medical_guideline_placeholder.docx"
+  },
+  {
+   "id": "medical_textual_medical_guideline_placeholder_52f6a9_0004",
+   "domain": "medical",
+   "source_type": "textual",
+   "source_file": "medical_guideline_placeholder.docx"
+  },
+  {
+   "id": "financial_tabular_sample_stocks_9a90cc_0000",
+   "domain": "financial",
+   "source_type": "tabular",
+   "source_file": "sample_stocks.csv"
+  },
+  {
+   "id": "financial_tabular_sample_stocks_9a90cc_0001",
+   "domain": "financial",
+   "source_type": "tabular",
+   "source_file": "sample_stocks.csv"
+  },
+  {
+   "id": "financial_tabular_sample_stocks_9a90cc_0002",
+   "domain": "financial",
+   "source_type": "tabular",
+   "source_file": "sample_stocks.csv"
+  },
+  {
+   "id": "financial_tabular_sample_stocks_9a90cc_0003",
+   "domain": "financial",
+   "source_type": "tabular",
+   "source_file": "sample_stocks.csv"
+  },
+  {
+   "id": "financial_tabular_sample_stocks_9a90cc_0004",
+   "domain": "financial",
+   "source_type": "tabular",
+   "source_file": "sample_stocks.csv"
+  },
+  {
+   "id": "financial_tabular_sample_stocks_9a90cc_0005",
+   "domain": "financial",
+   "source_type": "tabular",
+   "source_file": "sample_stocks.csv"
+  },
+  {
+   "id": "financial_tabular_sample_stocks_9a90cc_0006",
+   "domain": "financial",
+   "source_type": "tabular",
+   "source_file": "sample_stocks.csv"
+  },
+  {
+   "id": "financial_tabular_sample_stocks_9a90cc_0007",
+   "domain": "financial",
+   "source_type": "tabular",
+   "source_file": "sample_stocks.csv"
+  },
+  {
+   "id": "financial_tabular_sample_stocks_9a90cc_0008",
+   "domain": "financial",
+   "source_type": "tabular",
+   "source_file": "sample_stocks.csv"
+  },
+  {
+   "id": "financial_tabular_sample_stocks_9a90cc_0009",
+   "domain": "financial",
+   "source_type": "tabular",
+   "source_file": "sample_stocks.csv"
+  },
+  {
+   "id": "financial_tabular_sample_stocks_9a90cc_0010",
+   "domain": "financial",
+   "source_type": "tabular",
+   "source_file": "sample_stocks.csv"
+  },
+  {
+   "id": "financial_tabular_sample_stocks_9a90cc_0011",
+   "domain": "financial",
+   "source_type": "tabular",
+   "source_file": "sample_stocks.csv"
+  },
+  {
+   "id": "financial_tabular_sample_stocks_9a90cc_0012",
+   "domain": "financial",
+   "source_type": "tabular",
+   "source_file": "sample_stocks.csv"
+  },
+  {
+   "id": "financial_tabular_sample_stocks_9a90cc_0013",
+   "domain": "financial",
+   "source_type": "tabular",
+   "source_file": "sample_stocks.csv"
+  },
+  {
+   "id": "financial_tabular_sample_stocks_9a90cc_0014",
+   "domain": "financial",
+   "source_type": "tabular",
+   "source_file": "sample_stocks.csv"
+  }
+ ]
+}

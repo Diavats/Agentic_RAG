@@ -1,0 +1,175 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   1. Colours and sizes, used everywhere. (docs/FRONTEND_RULES.md §1)
+   ------------------------------------------------------------------ */
+:root {
+  --gum: #ff9fd0;    /* bubblegum pink: the page ground */
+  --hot: #ff3d9a;    /* Prismo, citations, focus rings */
+  --ink: #000;       /* text, outlines, shadows */
+  --card: #fff;      /* inside cards only */
+  --sun: #ffe14d;    /* primary buttons, active tab */
+  --lilac: #c9b6ff;  /* your questions, medical stamp */
+  --baby: #a8deff;   /* files drawer, retrieve, info */
+  --mint: #7cf5c4;   /* success, finance stamp */
+  --live: #2b3ae0;   /* ONLY the step that is running right now */
+
+  --line: 3px solid var(--ink);
+  --rim: inset 0 0 0 3px #fff;  /* white die-cut edge inside a sticker's outline */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* Let Tailwind classes use the same colours: bg-gum, text-ink, ... */
+@theme inline {
+  --color-gum: var(--gum);
+  --color-hot: var(--hot);
+  --color-ink: var(--ink);
+  --color-card: var(--card);
+  --color-sun: var(--sun);
+  --color-lilac: var(--lilac);
+  --color-baby: var(--baby);
+  --color-mint: var(--mint);
+  --color-live: var(--live);
+  --font-sans: var(--font-bricolage);
+}
+
+/* ------------------------------------------------------------------
+   2. The page itself: pink ground, black text, one font.
+   ------------------------------------------------------------------ */
+html { background: var(--gum); }
+body {
+  /* No body background: the pink lives on <html> so the drifting
+     prisms (z-index -10) can show through. */
+  color: var(--ink);
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.55;
+}
+h1, h2, h3 { font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; }
+::selection { background: var(--sun); }
+
+/* Keyboard users always see where they are. */
+:focus-visible { outline: 3px solid var(--hot); outline-offset: 3px; }
+
+@layer components {
+/* ------------------------------------------------------------------
+   3. The sticker look: thick outline + hard shadow. (§3)
+   Inside @layer components so a Tailwind class like bg-sun can override
+   the default background (unlayered CSS would always win).
+   ------------------------------------------------------------------ */
+.sticker {
+  border: var(--line);
+  border-radius: 14px;
+  box-shadow: var(--rim), 4px 4px 0 var(--ink);
+}
+.card {
+  border: var(--line);
+  border-radius: 6px;
+  background: var(--card);
+  box-shadow: 8px 8px 0 var(--ink);
+}
+
+/* A button that drops into its own shadow when pressed
+   (idea from 21st.dev "Brutal Button"; Emil: press feedback ≤160ms). */
+.btn {
+  border: var(--line);
+  border-radius: 12px;
+  background: var(--sun);
+  box-shadow: 5px 5px 0 var(--ink);
+  font-weight: 800;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: transform 140ms var(--ease-out), box-shadow 140ms var(--ease-out);
+}
+.btn:active { transform: translate(4px, 4px); box-shadow: 1px 1px 0 var(--ink); }
+.btn:disabled { background: var(--card); color: rgb(0 0 0 / 0.45); cursor: not-allowed; transform: none; box-shadow: 5px 5px 0 var(--ink); }
+
+/* Lift on hover, but only for real mice (taps don't get stuck "hovered"). */
+@media (hover: hover) and (pointer: fine) {
+  .btn:not(:disabled):hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--ink); }
+  .btn:not(:disabled):active { transform: translate(4px, 4px); box-shadow: 1px 1px 0 var(--ink); }
+  .lift { transition: transform 180ms var(--ease-out), box-shadow 180ms var(--ease-out); }
+  .lift:hover { transform: translate(-2px, -2px) rotate(var(--tilt, 0deg)); box-shadow: var(--rim), 6px 6px 0 var(--ink); }
+}
+
+}
+
+/* ------------------------------------------------------------------
+   4. The signature move: a sticker pressing into its slot. (§7)
+   ------------------------------------------------------------------ */
+@keyframes press-in {
+  from { transform: scale(1.06) rotate(var(--tilt, 0deg)); box-shadow: var(--rim), 7px 7px 0 var(--ink); opacity: 0; }
+  to   { transform: scale(1) rotate(var(--tilt, 0deg)); box-shadow: var(--rim), 4px 4px 0 var(--ink); opacity: 1; }
+}
+.press-in { animation: press-in 220ms var(--ease-out) both; }
+
+/* The one running step pulses its blue outline. */
+@keyframes live-pulse { 50% { border-color: transparent; } }
+.live { border-color: var(--live) !important; color: var(--live); animation: live-pulse 900ms linear infinite; }
+
+/* Dashed "marching ants" while a file is dragged over (21st.dev "Halo Dropzone" idea). */
+@keyframes ants { to { background-position: 40px 0, -40px 100%, 0 -40px, 100% 40px; } }
+.ants {
+  background:
+    linear-gradient(90deg, var(--ink) 50%, transparent 0) repeat-x,
+    linear-gradient(90deg, var(--ink) 50%, transparent 0) repeat-x,
+    linear-gradient(0deg, var(--ink) 50%, transparent 0) repeat-y,
+    linear-gradient(0deg, var(--ink) 50%, transparent 0) repeat-y;
+  background-size: 20px 3px, 20px 3px, 3px 20px, 3px 20px;
+  background-position: 0 0, 0 100%, 0 0, 100% 0;
+  animation: ants 600ms linear infinite;
+}
+
+/* Prismo floats gently, and spins its facet while thinking. */
+@keyframes bob { 50% { transform: translateY(-6px); } }
+@keyframes think { to { transform: rotate(360deg); } }
+.bob { animation: bob 2.6s ease-in-out infinite; }
+
+/* Background prisms drift slowly across the pink. */
+@keyframes drift {
+  from { transform: translate3d(0, 0, 0) rotate(0deg); }
+  to   { transform: translate3d(var(--dx), -110vh, 0) rotate(var(--spin)); }
+}
+.drift { animation: drift var(--dur) linear infinite; animation-delay: var(--delay); }
+
+/* Welcome stickers arrive once, staggered 60ms. */
+@keyframes arrive { from { opacity: 0; transform: translateY(10px) rotate(var(--tilt, 0deg)) scale(0.96); } }
+.arrive { animation: arrive 420ms var(--ease-out) both; animation-delay: calc(var(--i, 0) * 60ms); }
+
+/* Popovers open from the sticker that triggered them, never from scale(0). */
+.pop { transform-origin: top left; transition: transform 160ms var(--ease-out), opacity 160ms var(--ease-out); }
+@starting-style { .pop { transform: scale(0.95); opacity: 0; } }
+
+/* ------------------------------------------------------------------
+   5. Reduced motion: keep colour/opacity, drop movement. (§7)
+   ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .drift, .bob, .ants { animation: none; }
+  .press-in, .arrive { animation-name: fade-only; }
+  .live { animation: none; }
+  .btn, .lift, .pop { transition-property: opacity, background-color; }
+  /* Inline transitions (star chart, bars, step cards) keep colour/opacity only. */
+  [style*="transition"] { transition-property: opacity, background-color, fill !important; }
+  @keyframes fade-only { from { opacity: 0; } }
+}
+
+/* ------------------------------------------------------------------
+   6. Answer text (rendered from markdown): readable, still on-brand.
+   ------------------------------------------------------------------ */
+.answer p { margin: 0 0 0.75em; }
+.answer ul, .answer ol { margin: 0 0 0.75em 1.3em; list-style: disc; }
+.answer ol { list-style: decimal; }
+.answer li { margin: 0.2em 0; }
+.answer strong { font-weight: 800; }
+.answer table { border-collapse: collapse; margin: 0.5em 0 1em; font-size: 15px; display: block; overflow-x: auto; }
+.answer th, .answer td { border: 2px solid var(--ink); padding: 6px 10px; text-align: left; vertical-align: top; }
+.answer th { background: var(--sun); }
+
+/* The files drawer hides below the screen on phones, to the right on desktop. */
+:root { --drawer-hidden: translateY(100%); }
+@media (min-width: 640px) { :root { --drawer-hidden: translateX(100%); } }
+
+/* Hide the sideways scrollbar under the nav tabs (still scrolls by swipe). */
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }

@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-03T00:00:00Z",
+  "title": "Design System: PRISM",
+  "extensions": {
+    "colorMeta": {
+      "gum":   { "role": "primary",   "displayName": "Bubblegum Ground", "canonical": "#ff9fd0", "tonalRamp": ["oklch(15% 0.05 350)", "oklch(27% 0.09 350)", "oklch(39% 0.12 350)", "oklch(51% 0.14 350)", "oklch(63% 0.15 350)", "oklch(75% 0.14 350)", "oklch(85% 0.1 350)", "oklch(95% 0.04 350)"] },
+      "sun":   { "role": "primary",   "displayName": "Sun Yellow", "canonical": "#ffe14d", "tonalRamp": ["oklch(15% 0.03 98)", "oklch(27% 0.06 98)", "oklch(39% 0.09 98)", "oklch(51% 0.11 98)", "oklch(63% 0.13 98)", "oklch(75% 0.15 98)", "oklch(85% 0.16 98)", "oklch(95% 0.08 98)"] },
+      "hot":   { "role": "secondary", "displayName": "Hot Pink", "canonical": "#ff3d9a", "tonalRamp": ["oklch(15% 0.06 358)", "oklch(27% 0.11 358)", "oklch(39% 0.16 358)", "oklch(51% 0.2 358)", "oklch(63% 0.23 358)", "oklch(75% 0.17 358)", "oklch(85% 0.1 358)", "oklch(95% 0.04 358)"] },
+      "lilac": { "role": "secondary", "displayName": "Lilac", "canonical": "#c9b6ff", "tonalRamp": ["oklch(15% 0.05 295)", "oklch(27% 0.08 295)", "oklch(39% 0.11 295)", "oklch(51% 0.12 295)", "oklch(63% 0.12 295)", "oklch(75% 0.11 295)", "oklch(85% 0.08 295)", "oklch(95% 0.03 295)"] },
+      "baby":  { "role": "tertiary",  "displayName": "Baby Blue", "canonical": "#a8deff", "tonalRamp": ["oklch(15% 0.03 235)", "oklch(27% 0.05 235)", "oklch(39% 0.07 235)", "oklch(51% 0.08 235)", "oklch(63% 0.09 235)", "oklch(75% 0.09 235)", "oklch(87% 0.07 235)", "oklch(95% 0.03 235)"] },
+      "mint":  { "role": "tertiary",  "displayName": "Mint", "canonical": "#7cf5c4", "tonalRamp": ["oklch(15% 0.03 165)", "oklch(27% 0.06 165)", "oklch(39% 0.08 165)", "oklch(51% 0.1 165)", "oklch(63% 0.12 165)", "oklch(75% 0.13 165)", "oklch(88% 0.13 165)", "oklch(95% 0.05 165)"] },
+      "live":  { "role": "tertiary",  "displayName": "Carbon Live Blue", "canonical": "#2b3ae0", "tonalRamp": ["oklch(15% 0.08 268)", "oklch(27% 0.14 268)", "oklch(39% 0.2 268)", "oklch(46% 0.24 268)", "oklch(58% 0.2 268)", "oklch(70% 0.14 268)", "oklch(83% 0.08 268)", "oklch(95% 0.02 268)"] },
+      "ink":   { "role": "neutral",   "displayName": "Ink", "canonical": "#000000", "tonalRamp": ["#000000", "#1a1a1a", "#333333", "#4d4d4d", "#666666", "#808080", "#b3b3b3", "#e6e6e6"] },
+      "card":  { "role": "neutral",   "displayName": "Card White", "canonical": "#ffffff", "tonalRamp": ["#262626", "#404040", "#5c5c5c", "#7a7a7a", "#999999", "#bfbfbf", "#e0e0e0", "#ffffff"] }
+    },
+    "typographyMeta": {
+      "display":  { "displayName": "Display", "purpose": "The PRISM wordmark only, inside a tilted sun sticker." },
+      "headline": { "displayName": "Headline", "purpose": "Page titles on How it works and Benchmarks." },
+      "title":    { "displayName": "Title", "purpose": "Section headings; 30px for step cards and the drawer, 24px for card sub-heads." },
+      "lead":     { "displayName": "Lead", "purpose": "One-breath intro under a title, 34 to 62ch." },
+      "body":     { "displayName": "Body", "purpose": "Answers and explanations, 60 to 70ch." },
+      "label":    { "displayName": "Label", "purpose": "Sticker text, slot captions, tabs, notes." },
+      "numeral":  { "displayName": "Numeral", "purpose": "Slot numbers, timings, scores; always tabular figures." }
+    },
+    "shadows": [
+      { "name": "sticker-rest", "value": "inset 0 0 0 3px #fff, 4px 4px 0 #000", "purpose": "Every sticker, tab, slot and pill: white die-cut rim plus hard ink shadow." },
+      { "name": "sticker-lifted", "value": "inset 0 0 0 3px #fff, 6px 6px 0 #000", "purpose": "Hover on a pressable sticker, fine pointers only." },
+      { "name": "press-in-start", "value": "inset 0 0 0 3px #fff, 7px 7px 0 #000", "purpose": "First frame of the press-in signature." },
+      { "name": "button-rest", "value": "5px 5px 0 #000", "purpose": "Buttons at rest." },
+      { "name": "button-hover", "value": "7px 7px 0 #000", "purpose": "Button hover lift." },
+      { "name": "button-pressed", "value": "1px 1px 0 #000", "purpose": "Button :active, dropped into its shadow." },
+      { "name": "dock", "value": "6px 6px 0 #000", "purpose": "The chat input dock." },
+      { "name": "card", "value": "8px 8px 0 #000", "purpose": "Album pages, step cards, popovers, benchmark panels." },
+      { "name": "hero", "value": "inset 0 0 0 5px #fff, 10px 10px 0 #000", "purpose": "The PRISM wordmark only." }
+    ],
+    "motion": [
+      { "name": "ease-out", "value": "cubic-bezier(0.23, 1, 0.32, 1)", "purpose": "Default easing: press-in, buttons, lifts, popovers, entrances." },
+      { "name": "ease-drawer", "value": "cubic-bezier(0.32, 0.72, 0, 1)", "purpose": "Files drawer slide." },
+      { "name": "press-in", "value": "220ms ease-out; scale 1.06 to 1, shadow 7px to 4px, opacity 0 to 1", "purpose": "Signature: a sticker pressing into its slot as a streamed stage lands." },
+      { "name": "button-press", "value": "140ms ease-out; translate(4px,4px), shadow 5px to 1px", "purpose": "Button :active drops into its own shadow." },
+      { "name": "lift", "value": "180ms ease-out; translate(-2px,-2px), shadow 4px to 6px", "purpose": "Sticker hover, (hover:hover) and (pointer:fine) only." },
+      { "name": "pop", "value": "160ms ease-out; scale 0.95 to 1 from top left, opacity 0 to 1", "purpose": "Source popovers open from their trigger." },
+      { "name": "drawer-in", "value": "320ms ease-drawer", "purpose": "Drawer enter, transform only." },
+      { "name": "drawer-out", "value": "200ms ease-drawer", "purpose": "Drawer exit, faster than enter." },
+      { "name": "arrive", "value": "420ms ease-out, 60ms stagger", "purpose": "Welcome stickers arrive once." },
+      { "name": "live-pulse", "value": "900ms linear infinite", "purpose": "Outline of the one running step." },
+      { "name": "drift", "value": "38 to 52s linear infinite", "purpose": "Background prisms, xl gutters only." },
+      { "name": "reduced-motion", "value": "@media (prefers-reduced-motion: reduce)", "purpose": "Drift, bob, ants and live pulse off; press-in and arrive become fades; transitions keep opacity and colour only." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Sun block that lifts on hover and drops into its shadow on press.",
+      "html": "<button class=\"ds-btn\">Start chatting</button>",
+      "css": ".ds-btn { font-family: inherit; font-size: 17px; font-weight: 800; color: var(--ink, #000); background: var(--sun, #ffe14d); border: 3px solid var(--ink, #000); border-radius: 12px; padding: 10px 20px; box-shadow: 5px 5px 0 #000; cursor: pointer; transition: transform 140ms cubic-bezier(0.23,1,0.32,1), box-shadow 140ms cubic-bezier(0.23,1,0.32,1); } .ds-btn:hover { transform: translate(-2px,-2px); box-shadow: 7px 7px 0 #000; } .ds-btn:active { transform: translate(4px,4px); box-shadow: 1px 1px 0 #000; } .ds-btn:focus-visible { outline: 3px solid var(--hot, #ff3d9a); outline-offset: 3px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Same button on card white, for the lesser of two actions.",
+      "html": "<button class=\"ds-btn-2\">See the real numbers</button>",
+      "css": ".ds-btn-2 { font-family: inherit; font-size: 17px; font-weight: 800; color: #000; background: var(--card, #fff); border: 3px solid #000; border-radius: 12px; padding: 10px 20px; box-shadow: 5px 5px 0 #000; cursor: pointer; transition: transform 140ms cubic-bezier(0.23,1,0.32,1), box-shadow 140ms cubic-bezier(0.23,1,0.32,1); } .ds-btn-2:hover { transform: translate(-2px,-2px); box-shadow: 7px 7px 0 #000; } .ds-btn-2:active { transform: translate(4px,4px); box-shadow: 1px 1px 0 #000; } .ds-btn-2:focus-visible { outline: 3px solid #ff3d9a; outline-offset: 3px; }"
+    },
+    {
+      "name": "Nav Tabs",
+      "kind": "nav",
+      "refersTo": "nav-tab",
+      "description": "Sticky bubblegum bar: tilted hot logo sticker, sticker tabs (sun = current).",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-logo\" href=\"#\">PRISM</a><a class=\"ds-tab ds-tab-on\" href=\"#\" aria-current=\"page\">Welcome</a><a class=\"ds-tab\" href=\"#\">Chat</a><a class=\"ds-tab\" href=\"#\">How it works</a><a class=\"ds-tab\" href=\"#\">Benchmarks</a></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: rgb(255 159 208 / 0.9); border-bottom: 3px solid #000; font-family: inherit; } .ds-logo { font-size: 20px; font-weight: 800; color: #000; text-decoration: none; background: var(--hot, #ff3d9a); border: 3px solid #000; border-radius: 14px; padding: 4px 12px; box-shadow: inset 0 0 0 3px #fff, 4px 4px 0 #000; transform: rotate(-3deg); margin-right: 4px; } .ds-tab { font-size: 14px; font-weight: 700; color: #000; text-decoration: none; background: #fff; border: 3px solid #000; border-radius: 14px; padding: 4px 12px; box-shadow: inset 0 0 0 3px #fff, 4px 4px 0 #000; transition: transform 180ms cubic-bezier(0.23,1,0.32,1), box-shadow 180ms cubic-bezier(0.23,1,0.32,1); } .ds-tab-on { background: var(--sun, #ffe14d); } .ds-tab:hover { transform: translate(-2px,-2px); box-shadow: inset 0 0 0 3px #fff, 6px 6px 0 #000; } .ds-tab:focus-visible, .ds-logo:focus-visible { outline: 3px solid #ff3d9a; outline-offset: 3px; }"
+    },
+    {
+      "name": "Sticker",
+      "kind": "chip",
+      "refersTo": "sticker",
+      "description": "The base look: outline, die-cut rim, hard shadow, slight tilt. Sample questions, stamps, notes.",
+      "html": "<a class=\"ds-sticker\" href=\"#\">What are the exclusion criteria for the study?</a>",
+      "css": ".ds-sticker { display: inline-block; max-width: 320px; font-family: inherit; font-weight: 700; color: #000; text-decoration: none; background: var(--lilac, #c9b6ff); border: 3px solid #000; border-radius: 14px; padding: 12px 16px; box-shadow: inset 0 0 0 3px #fff, 4px 4px 0 #000; transform: rotate(-2deg); transition: transform 180ms cubic-bezier(0.23,1,0.32,1), box-shadow 180ms cubic-bezier(0.23,1,0.32,1); } .ds-sticker:hover { transform: translate(-2px,-2px) rotate(-2deg); box-shadow: inset 0 0 0 3px #fff, 6px 6px 0 #000; } .ds-sticker:focus-visible { outline: 3px solid #ff3d9a; outline-offset: 3px; }"
+    },
+    {
+      "name": "Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "White card stock for reading: album pages, step cards, popovers.",
+      "html": "<article class=\"ds-card\"><h3>Pick the topic</h3><p>Your question sits much closer to the medical files than to finance, so I only search medical.</p></article>",
+      "css": ".ds-card { max-width: 420px; font-family: inherit; color: #000; background: var(--card, #fff); border: 3px solid #000; border-radius: 6px; padding: 20px; box-shadow: 8px 8px 0 #000; } .ds-card h3 { margin: 0; font-size: 30px; font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; } .ds-card p { margin: 12px 0 0; font-size: 17px; line-height: 1.55; }"
+    },
+    {
+      "name": "Pipeline Slots",
+      "kind": "custom",
+      "refersTo": "slot-empty",
+      "description": "Signature: numbered slots; filled stickers press in, the running one pulses carbon blue, empty ones stay dashed ghosts.",
+      "html": "<ol class=\"ds-slots\"><li class=\"ds-slot ds-filled\" style=\"background:#c9b6ff;transform:rotate(-1.5deg)\"><span>01</span>Topic: medical<span>0.0s</span></li><li class=\"ds-slot ds-filled\" style=\"background:#ffe14d;transform:rotate(1deg)\"><span>02</span>Split into 2 searches<span>1.2s</span></li><li class=\"ds-slot ds-live\"><span>03</span>Find sources…</li><li class=\"ds-slot\"><span>04</span>Write the answer</li><li class=\"ds-slot\"><span>05</span>Check my work</li></ol>",
+      "css": ".ds-slots { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; list-style: none; padding: 0; margin: 0; font-family: inherit; } .ds-slot { min-height: 86px; border-radius: 10px; padding: 12px; font-size: 14px; font-weight: 700; border: 3px dashed rgb(0 0 0 / 0.4); color: rgb(0 0 0 / 0.6); } .ds-slot span { display: block; font-size: 12px; font-variant-numeric: tabular-nums; } .ds-filled { color: #000; border: 3px solid #000; border-radius: 14px; box-shadow: inset 0 0 0 3px #fff, 4px 4px 0 #000; animation: ds-press 220ms cubic-bezier(0.23,1,0.32,1) both; } .ds-live { border: 3px solid var(--live, #2b3ae0); color: var(--live, #2b3ae0); animation: ds-pulse 900ms linear infinite; } @keyframes ds-press { from { scale: 1.06; opacity: 0; box-shadow: inset 0 0 0 3px #fff, 7px 7px 0 #000; } } @keyframes ds-pulse { 50% { border-color: transparent; } } @media (prefers-reduced-motion: reduce) { .ds-filled { animation-name: ds-fade; } .ds-live { animation: none; } @keyframes ds-fade { from { opacity: 0; } } }"
+    },
+    {
+      "name": "Source Sticker",
+      "kind": "custom",
+      "refersTo": "citation-chip",
+      "description": "A citation: hot chip, file name, kind, opening words. Opens a popover with the exact passage.",
+      "html": "<button class=\"ds-source\"><span class=\"ds-cite\">S1</span>study_protocol.docx <span class=\"ds-kind\">(document)</span><span class=\"ds-quote\">“Participants will be excluded if they…”</span></button>",
+      "css": ".ds-source { font-family: inherit; text-align: left; font-size: 14px; font-weight: 700; color: #000; background: #fff; border: 3px solid #000; border-radius: 14px; padding: 8px 12px; box-shadow: inset 0 0 0 3px #fff, 4px 4px 0 #000; transform: rotate(-1.5deg); cursor: pointer; transition: transform 180ms cubic-bezier(0.23,1,0.32,1), box-shadow 180ms cubic-bezier(0.23,1,0.32,1); } .ds-source:hover { transform: translate(-2px,-2px) rotate(-1.5deg); box-shadow: inset 0 0 0 3px #fff, 6px 6px 0 #000; } .ds-source:focus-visible { outline: 3px solid #ff3d9a; outline-offset: 3px; } .ds-cite { margin-right: 8px; font-size: 12px; font-weight: 800; background: var(--hot, #ff3d9a); border: 2px solid #000; border-radius: 6px; padding: 0 4px; } .ds-kind { font-weight: 600; color: rgb(0 0 0 / 0.6); } .ds-quote { display: block; max-width: 260px; margin-top: 2px; font-size: 12px; font-weight: 600; color: rgb(0 0 0 / 0.7); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }"
+    },
+    {
+      "name": "Input Dock",
+      "kind": "input",
+      "refersTo": "input-dock",
+      "description": "Sun dock with Files button, white field and hot Ask button.",
+      "html": "<form class=\"ds-dock\" onsubmit=\"return false\"><button type=\"button\" class=\"ds-dock-btn\" style=\"background:#a8deff\">Files</button><input class=\"ds-field\" placeholder=\"What are the exclusion criteria?\" aria-label=\"Your question\"><button class=\"ds-dock-btn\" style=\"background:#ff3d9a\">Ask</button></form>",
+      "css": ".ds-dock { display: flex; align-items: flex-end; gap: 12px; max-width: 640px; padding: 12px; background: var(--sun, #ffe14d); border: 3px solid #000; border-radius: 16px; box-shadow: 6px 6px 0 #000; font-family: inherit; } .ds-field { flex: 1; min-height: 48px; box-sizing: border-box; font: inherit; font-weight: 600; color: #000; background: #fff; border: 3px solid #000; border-radius: 12px; padding: 10px 12px; } .ds-field::placeholder { color: rgb(0 0 0 / 0.6); } .ds-field:focus { outline: none; } .ds-field:focus-visible { outline: 3px solid #ff3d9a; outline-offset: 3px; } .ds-dock-btn { font: inherit; font-weight: 800; color: #000; border: 3px solid #000; border-radius: 12px; padding: 10px 16px; box-shadow: 5px 5px 0 #000; cursor: pointer; transition: transform 140ms cubic-bezier(0.23,1,0.32,1), box-shadow 140ms cubic-bezier(0.23,1,0.32,1); } .ds-dock-btn:active { transform: translate(4px,4px); box-shadow: 1px 1px 0 #000; } .ds-dock-btn:focus-visible { outline: 3px solid #ff3d9a; outline-offset: 3px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Sticker Album",
+    "overview": "Every answer is an album page. The pipeline's five steps are numbered slots; as each streamed stage lands, a glossy sticker presses down into its slot and settles. Sources are stickers you can peel open to read the exact quote. A slot that stays a dashed ghost is the system being honest about what it did not do or did not find. The world is loud on purpose: bubblegum ground, ink outlines, candy fills, hard shadows, a little tilt. It stays legible because reading always happens on white card stock.\n\nThe material is printed vinyl on a pink page: thick black die-cut outlines, an inner white rim, a hard offset ink shadow that reads as the sticker standing proud of the paper. Depth is never blurred. Hierarchy comes from shadow length and tilt, not from grey tones. One typeface, Bricolage Grotesque, carries everything from a 168px tilted wordmark to 12px tabular timings.\n\nMotion is physical and short: stickers press in, buttons drop into their own shadow, the drawer slides on a soft spring. The only ambient motion is a handful of outlined prisms drifting in the side gutters of wide screens. Everything that moves is gated by `prefers-reduced-motion`.",
+    "keyCharacteristics": [
+      "Bubblegum pink ground on `<html>`; white only inside cards and inputs.",
+      "3px ink outline on every sticker, card, button, input and slot.",
+      "Hard offset ink shadows, never blurred; stickers add an inset 3px white die-cut rim.",
+      "Placed stickers tilt between -2deg and +2deg; reading text inside cards never tilts.",
+      "One family (Bricolage Grotesque), weights 400 to 800, tabular figures for every number.",
+      "Carbon blue appears only on the one pipeline step that is running right now.",
+      "Prismo, an inline-SVG prism mascot, is the guide and the loading/error state."
+    ],
+    "rules": [
+      { "name": "The Pink Ground Rule", "body": "The page ground is always bubblegum. White is card stock, never the page.", "section": "colors" },
+      { "name": "The One Live Rule", "body": "Carbon blue marks exactly one thing: the step running right now. When nothing is running, it is absent from the screen.", "section": "colors" },
+      { "name": "The Stamp Rule", "body": "Domains keep fixed colours everywhere: medical is lilac, finance is mint, on stamps, stickers and stars alike.", "section": "colors" },
+      { "name": "The One Family Rule", "body": "Bricolage Grotesque only. Weight and size do the work; no second face, no monospace.", "section": "typography" },
+      { "name": "The Sentence Case Rule", "body": "Headings, buttons and labels are sentence case. No all-caps labels and no label-above-the-heading lines.", "section": "typography" },
+      { "name": "The No-Blur Rule", "body": "Shadows are solid ink at an offset down and to the right. Never blurred, never grey, never another direction.", "section": "elevation" },
+      { "name": "The Press Rule", "body": "Pressing an object shrinks its shadow and moves it the same distance toward the shadow, so it visibly drops into place.", "section": "elevation" }
+    ],
+    "dos": [
+      "**Do** put the bubblegum ground on the page and keep white for card stock, inputs and the die-cut rim.",
+      "**Do** give every sticker, card, button, input and slot a 3px ink outline and a hard ink offset shadow sized to its role (4, 5, 6, 8px).",
+      "**Do** tilt placed stickers between -2deg and +2deg and keep text inside cards straight.",
+      "**Do** press new stickers in with the 220ms `cubic-bezier(0.23, 1, 0.32, 1)` press-in; keep feedback at 140 to 220ms.",
+      "**Do** reserve carbon blue for the one running step, and keep lilac = medical and mint = finance.",
+      "**Do** show what did not happen as a dashed ghost in the same shape, with words saying why.",
+      "**Do** use tabular figures for every number, and gate every movement behind `prefers-reduced-motion` (keep opacity and colour, drop movement).",
+      "**Do** restrict hover lifts to `(hover: hover) and (pointer: fine)`."
+    ],
+    "donts": [
+      "**Don't** use white as a page ground or blurred grey shadows.",
+      "**Don't** use carbon blue for anything that is not running right now.",
+      "**Don't** add a second typeface, monospace labels, all-caps labels or label-above-the-heading lines.",
+      "**Don't** scale popovers from zero; open them from their trigger at 0.95.",
+      "**Don't** let ambient motion near text: background prisms stay in the `xl` gutters only.",
+      "**Don't** set secondary text on the pink ground below 60% ink."
+    ]
+  }
+}
