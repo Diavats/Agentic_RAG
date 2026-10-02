@@ -1,0 +1,27 @@
+# Blind evaluation questions — written by people who never saw the corpus.
+#
+# Paste each question EXACTLY as received: same spelling, same typos, same
+# punctuation. Do not rephrase. Lines starting with # are ignored.
+# Format:   <who> | <question> | <their expected answer, if they gave one>
+#
+# Commit this file BEFORE running PRISM on any of these questions.
+
+# --- sir ---
+
+1. What criteria must a participant meet to be eligible for the clinical study, and what are the main reasons a participant would be excluded?
+2. How should blood samples be collected, stored, and handled according to the study protocol before the immune-response measurements are performed?
+3. Among the listed Indian companies, which company recorded the highest combined growth in sales and profit during the reported quarters? [Expected: requires comparing quarterly sales/profit growth across companies.]
+4. For a sample tested at multiple time points, how does its immune response change over time, and does the study protocol specify how such measurements should be recorded or interpreted? [Requires combining the lab-results spreadsheet with the clinical protocol.]
+5. Which company had the largest increase in its number of customers during the reported period? [The system should say it cannot determine this if the available data only identifies who the customers are, without customer counts or changes over time.]
+
+
+# --- classmate 1 ---
+
+1. Which company had the highest quarterly growth, and what does that company sell and who are its main customers?
+2. According to the medical study protocol, what should be done when a participant experiences an adverse event, and how should it be recorded?
+3. Among the available lab samples, which sample shows the highest immune response, and what is the corresponding result?
+4. If a participant is excluded from the study because of a screening criterion, does the protocol also specify how their blood sample should be handled and documented?
+5. Can you determine whether the company with the highest quarterly growth also had the strongest immune response among the lab samples?
+
+# --- classmate 2 ---
+
