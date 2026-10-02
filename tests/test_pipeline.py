@@ -72,6 +72,14 @@ class TestRetrievalIntegration:
                for h in hybrid_search(q, "medical", k=2)}
         assert ids == {u.id for u in indexed["medical"]}
 
+    def test_hits_carry_their_source_file(self, indexed):
+        """Every citation reached the API with source_file == "" — the fused
+        hits dropped the metadata the index already stored."""
+        files = {h["row_id"]: (h["source_file"], h["source_type"])
+                 for q in ("activation score", "excluded from enrollment")
+                 for h in hybrid_search(q, "medical", k=2)}
+        assert files == {u.id: (u.metadata.source_file, u.source_type) for u in indexed["medical"]}
+
     def test_unknown_domain_raises(self, indexed):
         with pytest.raises(Exception):
             hybrid_search("anything", "legal", k=1)

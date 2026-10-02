@@ -127,9 +127,15 @@ def _resolve_domain(request: AskRequest) -> str | None:
     if not request.session_id:
         return request.domain
     try:
-        return sandbox.STORE.get(request.session_id).collection
+        session = sandbox.STORE.get(request.session_id)
     except sandbox.SandboxError as exc:
         raise HTTPException(404, str(exc)) from exc
+    # The collection only exists once an upload finishes indexing. Asking
+    # before that was a 500 (Chroma NotFoundError), measured in a live run.
+    if not session.units:
+        raise HTTPException(409, "No documents indexed in this session yet — "
+                                 "wait for the upload job to finish.")
+    return session.collection
 
 
 @app.post("/ask")
