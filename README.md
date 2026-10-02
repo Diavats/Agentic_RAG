@@ -1,100 +1,146 @@
-# Agentic AI Powered Retrieval-Augmented Generation System
+# PRISM: one RAG pipeline, two domains, two formats
 
-A data-agnostic RAG pipeline: any tabular dataset (CSV/Excel) is turned into
-narrative story documents, indexed with hybrid search (dense + BM25), and
-queried through an agentic layer that decomposes complex questions before
-retrieving.
+Ask plain-English questions about **finance** and **medical** documents and get
+answers that cite the exact passage they came from. Word-document prose and
+spreadsheet rows go through the *same* pipeline: nothing downstream knows or
+cares which format or domain a passage came from.
 
-Two sample datasets are included to prove the pipeline is not hardcoded to
-one domain:
-- `data/sample_stocks.csv` — 15 real rows pulled from the watchlist/quarterly
-  results sheet
-- `data/sample_products.csv` — 12 rows of an unrelated coffee shop product
-  catalog
+| | |
+|---|---|
+| **Live app** | https://prism-ten-red.vercel.app |
+| **Live API** | https://prism-api-y5op.onrender.com/docs |
+| **Eval report** | [`docs/EVAL_RESULTS.md`](docs/EVAL_RESULTS.md) |
+| **Real runs, failures included** | [`docs/TRACES.md`](docs/TRACES.md) |
+
+> The free backend sleeps after 15 minutes idle. The first visit takes about a
+> minute to wake it; the app shows "Waking up the server…" while it does.
+
+BTech final-year project. Built in 40 days, aimed at a viva panel and a technical screen.
 
 ---
 
-## 1. Setup (run once)
+## What makes it more than "a RAG chatbot"
 
-Open this folder in VS Code, then open a terminal (`` Ctrl+` ``) and run:
+| Claim | Evidence |
+|---|---|
+| **Hybrid retrieval, measured.** Dense (MiniLM) + sparse (BM25), fused with Reciprocal Rank Fusion | Ablation in `EVAL_RESULTS.md`: hybrid gives the best ranking (MRR) in both domains, but **not** always the best recall. Reported as measured |
+| **One schema, two formats.** DOCX chunks and CSV/Excel rows both become a `KnowledgeUnit` | `src/schema.py`; a single question is answered from a Word doc **and** a spreadsheet row together (TRACES.md) |
+| **The router decides the domain**, with no LLM call | 29/30 on the golden set, about 15 ms; ambiguous questions search both domains instead of guessing |
+| **Every step is visible.** Route → plan → retrieve → answer → verify, streamed live | `/ask/stream` (server-sent events). Measured in a real browser: steps arrive at 5.0s, 5.9s, 10.3s, 11.2s, i.e. truly progressive |
+| **An evaluation designed to be hard to fool** | Golden set, 3 ablations, a judge from a **different vendor** than the generator, and 10 **blind** questions from people who never saw the corpus (`src/eval/blind_questions.txt`, committed before any run) |
+| **Honest numbers** | "Naive == agentic" on this test set is reported because it is true. Known failures (superlatives) are documented, not hidden |
+
+---
+
+## Architecture
+
+```
+ Word (.docx) ──► text extractor ─┐                       ┌── dense (Chroma, MiniLM)
+                                  ├─► KnowledgeUnit ──► index ─┤
+ CSV / Excel ───► tabular extractor┘   (one schema)        └── sparse (BM25)
+                  (LLM writes a narrative per row)
+
+ Question ─► router (cosine margin) ─► planner (split if multi-part)
+          ─► hybrid search per sub-query (RRF fusion) ─► synthesis with [S1] citations
+          ─► verifier (different-vendor judge, claim by claim) ─► answer + trace
+```
+
+| Layer | Tech | Why |
+|---|---|---|
+| Generator | `openai/gpt-oss-20b` on Groq | Free tier, fast |
+| Judge | `qwen/qwen3.8-27b` | Different company than the generator, so it isn't grading its own team |
+| Embeddings | `all-MiniLM-L6-v2` (local, CPU) | Free; chunk size is **derived** from its 256-token limit |
+| Vector store | Chroma (rebuilt from committed units at startup) | The index is derived data; the units are the source of truth |
+| Backend | FastAPI on Render (free) | Streaming, upload sandbox, per-visitor quota |
+| Frontend | Next.js 16 + Tailwind on Vercel | Auto-deploys on every push to `main` |
+
+### The app (frontend/)
+
+| Page | What it does |
+|---|---|
+| **Welcome** | Prismo, the prism mascot, explains PRISM; sample questions you can tap |
+| **Chat** | Each answer is an "album page": five numbered slots fill in as the stream arrives; source stickers open the exact passage. A **Files** drawer accepts your own CSV/Excel/Word file (finance or medical only, checked first) |
+| **How it works** | Replays one **real recorded** question on a star chart; star size = real retrieval score |
+| **Benchmarks** | Live numbers from `GET /benchmark`, with plain-language notes |
+
+Design decisions: [`docs/adr/ADR-001-chat-frontend.md`](docs/adr/ADR-001-chat-frontend.md), [`DESIGN.md`](DESIGN.md), [`PRODUCT.md`](PRODUCT.md).
+
+---
+
+## Results (from `docs/eval_results.json`)
+
+Recall@5 / MRR, 11 answerable questions per domain:
+
+| | dense | sparse | **hybrid** |
+|---|---|---|---|
+| Finance | 0.909 / 0.864 | 1.000 / 0.871 | 0.909 / **0.909** |
+| Medical | 1.000 / 0.818 | 0.955 / 0.814 | 0.955 / **0.859** |
+
+- With n=11, **one question moves recall by about 0.09**, so small gaps are within noise. The per-case data shows each domain's gap between methods is a single question.
+- Router: 29/30 correct. Citation accuracy 1.000. Abstention on unanswerable questions 1.000.
+- The judge has **not** been validated against human grading. Treat its scores as indicative.
+
+---
+
+## Run it locally
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate        # on Windows: venv\Scripts\activate
+python -m venv venv
+venv\Scripts\activate                       # Windows (source venv/bin/activate elsewhere)
 pip install -r requirements.txt
+copy .env.example .env                       # then add your Groq key (console.groq.com)
+
+venv/Scripts/python.exe -m src.main setup                 # build indexes: zero API calls
+venv/Scripts/python.exe -m src.main ask --question "What are the exclusion criteria?"
+venv/Scripts/python.exe -m pytest                         # ~1 min, zero API calls
+venv/Scripts/python.exe -m src.eval.run_eval --quick      # retrieval + router ablations, free
+venv/Scripts/python.exe -m uvicorn src.api.main_api:app --port 8077
+
+cd frontend && npm install && npm run dev                 # app on http://localhost:3000
 ```
 
-Copy the env file and add your OpenAI key:
-
-```bash
-cp .env.example .env
-```
-
-Open `.env` in VS Code and replace `sk-your-key-here` with your real
-OpenAI API key (get one at platform.openai.com if you don't have one).
+The frontend talks to the live Render API by default. To use a local backend,
+put `NEXT_PUBLIC_API_URL=http://localhost:8077` in `frontend/.env.local`.
 
 ---
 
-## 2. Run it on the stock data
+## Security and limits
 
-Three steps: ingest (generate narratives) → index (build hybrid search) → ask.
+| Protection | How |
+|---|---|
+| Daily quota per visitor: 15 questions, 3 uploads, 10 sessions, 20 file checks | Keyed on Cloudflare's `CF-Connecting-IP`, which visitors can't forge |
+| Uploads land in a private per-session collection, never the evaluated corpora | `src/api/sessions.py` |
+| Off-topic files refused before any LLM call | Embedding gate, threshold 0.20, calibrated in ADR-001 |
+| 25-row cap on spreadsheets (one LLM call per row), 2 MB cap, zip-bomb check, safe filenames | `src/api/sessions.py`, `src/api/main_api.py` |
+| Answers rendered without raw HTML | react-markdown, no `dangerouslySetInnerHTML` |
 
-```bash
-python -m src.main ingest --data data/sample_stocks.csv --dataset-name stocks
-python -m src.main index --dataset-name stocks
-python -m src.main ask --dataset-name stocks --question "Which stocks are tied to auto production and how did they perform this quarter?"
-```
+## Known limitations
 
-Try a second, more complex question to see the agentic decomposition kick in:
+- **"Which is the highest?" questions are unreliable.** Retrieval fetches the closest passages, not every row.
+- **The test set is small** (11 answerable per domain) and was written by the builder; the blind set exists to counter this.
+- **The medical data is a placeholder** until the real datasets arrive.
+- **Free-tier hosting.** About 1 min cold start; uploads and quotas reset when the server restarts.
 
-```bash
-python -m src.main ask --dataset-name stocks --question "Compare the profit growth of auto-linked stocks against power/energy-linked stocks this quarter"
-```
+## Future scope
 
----
+| Next step | Why |
+|---|---|
+| A structured-query path (pandas/SQL) for superlatives and aggregates | Fixes the main known failure |
+| Score the 10 blind questions; grow the golden set past n=11 | Tighter numbers, less builder bias |
+| Validate the judge against human grading | Turns judge scores from indicative into evidence |
+| Real medical datasets; re-measure the 0.20 upload threshold | Placeholder data today |
+| Redis for quota and sessions; paid instance | Survive restarts; no cold start |
+| A reranker after RRF; PDF support | Better ranking; the most common real-world format |
 
-## 3. Prove it's data-agnostic — swap the dataset, zero code changes
-
-```bash
-python -m src.main ingest --data data/sample_products.csv --dataset-name products
-python -m src.main index --dataset-name products
-python -m src.main ask --dataset-name products --question "Which products are growing fastest and which are underperforming?"
-```
-
-Same three commands, same code, completely different domain. This is the
-proof that the ingestion → narrative → retrieval pipeline generalizes.
-
----
-
-## How it works
+## Repository map
 
 ```
-Any CSV/Excel  ->  Narrative agent  ->  Story corpus  ->  Hybrid index (BM25 + dense)
-                                                                |
-User question  ->  Query planner agent (decomposes if complex) |
-                                     |                          |
-                                     v                          v
-                              Retrieval across sub-queries -----+
-                                     |
-                                     v
-                         Synthesis agent -> cited answer
+src/            pipeline: schema, extractors, index, router, agent, verifier, CLI
+src/api/        FastAPI app + upload sandbox
+src/eval/       golden sets, blind questions, eval harness, report renderer
+frontend/       Next.js app (Vercel)
+data/           source files + committed units (data/generated/*_units.json)
+docs/           PRD, TRD, AGENTS, ROADMAP, ADRs, EVAL_RESULTS, TRACES, FRONTEND_RULES
+tests/          305 offline tests (live ones marked @pytest.mark.live)
+CLAUDE.md       working rules, lessons learned, constraints
 ```
-
-- **`src/loader.py`** — generic tabular loader, no hardcoded schema
-- **`src/narrative_generator.py`** — LLM turns each row into a story (the
-  automated version of the excel → Gemini workflow)
-- **`src/build_index.py`** — builds a Chroma (dense) index and a BM25
-  (sparse) index over the generated stories
-- **`src/hybrid_retrieval.py`** — fuses dense + sparse results with
-  Reciprocal Rank Fusion
-- **`src/agent.py`** — the agentic layer: decomposes complex questions,
-  retrieves per sub-query, synthesizes one grounded answer with citations
-- **`src/main.py`** — CLI entrypoint (`ingest`, `index`, `ask`)
-
-## Next steps (not yet built — for the full 45-day project)
-
-- Eval harness: hand-labelled Q&A pairs, faithfulness + citation accuracy scoring
-- FastAPI wrapper around `src/agent.py` for a real API endpoint
-- Streamlit dashboard for a visual query interface
-- Docker packaging
-- Quarterly re-ingestion so the corpus grows over time

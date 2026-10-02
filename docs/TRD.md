@@ -147,7 +147,7 @@ agentic-rag/
 │   ├── medical_tcell_antigen/            [new — sir's zipped experimental dataset, CSV, arrives in pieces]
 │   └── medical_human_filtered/           [new — filtered human-subject dataset, CSV, arrives in pieces]
 ├── docs/
-│   ├── PRD.md / TRD.md / RULES_AND_GOALS.md / ROADMAP.md
+│   ├── PRD.md / TRD.md / ROADMAP.md (working rules: CLAUDE.md)
 ├── requirements.txt
 ├── .env.example
 └── README.md
