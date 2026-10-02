@@ -50,14 +50,7 @@ def extract_any(file_path: str, domain: str) -> list[KnowledgeUnit]:
         return extract_tabular(file_path, domain=domain)
 
     if suffix in TEXTUAL_SUFFIXES:
-        if domain != "medical":
-            raise ValueError(
-                f"The text extractor is tied to the medical domain, but "
-                f"--domain {domain} was passed for {file_path}. DOCX ingestion "
-                "for another domain would need its own extractor (the domain is "
-                "hardcoded there deliberately — see AGENTS.md, Agent 5)."
-            )
-        return extract_text(file_path)
+        return extract_text(file_path, domain=domain)
 
     supported = sorted(TABULAR_SUFFIXES | TEXTUAL_SUFFIXES)
     raise ValueError(f"Unsupported file type '{suffix}'. Supported: {', '.join(supported)}")

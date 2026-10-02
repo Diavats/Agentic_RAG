@@ -177,14 +177,14 @@ def _chunk_by_tokens(
     return chunks
 
 
-def extract_text(file_path: str) -> list[KnowledgeUnit]:
+def extract_text(file_path: str, domain: str = "medical") -> list[KnowledgeUnit]:
     """Turn one .docx file into a list of KnowledgeUnits, one per chunk.
 
     Args:
-        file_path: path to a .docx file. domain is always "medical" —
-            hardcoded deliberately, since this extractor is semantically
-            tied to the medical domain (unlike the tabular extractor,
-            which is cross-domain and requires an explicit domain arg).
+        file_path: path to a .docx file.
+        domain: "medical" or "financial". Defaults to medical because the
+            curated DOCX corpus is medical; visitors can upload a finance
+            Word document too, and chunking does not depend on the domain.
 
     Returns:
         One KnowledgeUnit per chunk, source_type="textual". IDs are unique
@@ -192,6 +192,9 @@ def extract_text(file_path: str) -> list[KnowledgeUnit]:
         documents arrive in pieces, and a per-file counter would make the
         second document silently overwrite the first on Chroma upsert.
     """
+    if domain not in ("medical", "financial"):
+        raise ValueError(f"domain must be 'medical' or 'financial', got: {domain!r}")
+
     document_title, tagged_paragraphs = _read_docx(file_path)
     source_file = Path(file_path).name
     chunks = _chunk_by_tokens(tagged_paragraphs)
@@ -199,8 +202,8 @@ def extract_text(file_path: str) -> list[KnowledgeUnit]:
     units: list[KnowledgeUnit] = []
     for i, (chunk_text, section_label) in enumerate(chunks):
         unit = KnowledgeUnit(
-            id=make_unit_id("medical", "textual", source_file, i),
-            domain="medical",
+            id=make_unit_id(domain, "textual", source_file, i),
+            domain=domain,
             source_type="textual",
             text=chunk_text,
             metadata=KnowledgeUnitMetadata(

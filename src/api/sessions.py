@@ -37,6 +37,14 @@ MAX_UPLOAD_BYTES = 2 * 1024 * 1024
 SESSION_TTL_SECONDS = 60 * 60
 MAX_SESSIONS = 50
 
+# How close (cosine) an upload must sit to OUR corpora to count as finance or
+# medical. Measured 2026-10-03 (ADR-001): on-topic text scored 0.338-0.620,
+# off-topic text (recipe, football, poem, code) 0.010-0.104.
+# ponytail: calibrated on 8 samples vs a 26-unit corpus; re-measure when the
+# real medical dataset lands, since far-from-corpus medical text scores lower.
+DOMAIN_GATE_MIN_SCORE = 0.20
+DOMAIN_GATE_SAMPLES = 8  # rows/chunks we read to decide; enough to vote, cheap to embed
+
 TABULAR_SUFFIXES = {".csv", ".xlsx", ".xls"}
 TEXTUAL_SUFFIXES = {".docx"}
 
@@ -185,6 +193,51 @@ def check_row_cap(rows: int) -> None:
         )
 
 
+def guess_domain(path: Path) -> tuple[str, dict[str, float]]:
+    """Decide whether an upload is finance or medical — or neither.
+
+    Step 1: take a few pieces of the file (rows for a spreadsheet, chunks for
+            a Word document). Both are read locally: zero LLM calls.
+    Step 2: ask the embedding router how close each piece is to our two
+            corpora, and average the scores per domain.
+    Step 3: if even the best domain is far away, refuse the file.
+
+    Returns (domain, averaged scores). Raises SandboxError for off-topic files.
+    """
+    from src.domain_router import route_embedding
+
+    # Step 1: a small, free sample of the file's text.
+    if path.suffix.lower() in TABULAR_SUFFIXES:
+        from src.loader import load_tabular
+        from src.narrative_generator import row_to_text
+
+        pieces = [row_to_text(row) for row in load_tabular(str(path))[:DOMAIN_GATE_SAMPLES]]
+    else:
+        from src.extractors.text_extractor import extract_text
+
+        pieces = [u.text for u in extract_text(str(path))[:DOMAIN_GATE_SAMPLES]]
+    pieces = [p for p in pieces if p.strip()]
+    if not pieces:
+        raise SandboxError("That file looks empty — there is no text to read.")
+
+    # Step 2: average each domain's score across the sampled pieces.
+    totals: dict[str, float] = {}
+    for piece in pieces:
+        for domain, score in route_embedding(piece).scores.items():
+            totals[domain] = totals.get(domain, 0.0) + score
+    scores = {d: round(s / len(pieces), 4) for d, s in totals.items()}
+
+    # Step 3: the winner must actually be close to one of our corpora.
+    best = max(scores, key=scores.get)
+    if scores[best] < DOMAIN_GATE_MIN_SCORE:
+        raise SandboxError(
+            "This file doesn't look like finance or medical content, and those "
+            "are the only two topics I can answer about. Try a financial report, "
+            "a stock/company sheet, a clinical document or lab results."
+        )
+    return best, scores
+
+
 def ingest_into_session(session: Session, path: Path, domain: str, job: Job) -> None:
     """Extract and index one uploaded file into the session's own collection.
 
@@ -202,7 +255,7 @@ def ingest_into_session(session: Session, path: Path, domain: str, job: Job) -> 
             check_row_cap(job.total)
             units = extract_tabular(str(path), domain=domain)
         else:
-            units = extract_text(str(path))
+            units = extract_text(str(path), domain=domain)
             job.total = len(units)
 
         job.done = len(units)

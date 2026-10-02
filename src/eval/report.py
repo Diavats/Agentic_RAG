@@ -33,7 +33,9 @@ def render(data: dict) -> str:
     ]
     lines += _table(
         [["Generator", f"`{m['generator']}`"],
-         ["Judge", f"`{m['judge']}` — a different family, deliberately"],
+         ["Judge", f"`{m['judge']}` — a different family, deliberately. **Not validated "
+                   "against human scores**: judge-human agreement was not measured, so "
+                   "treat judge scores as indicative only."],
          ["Embeddings", f"`{m['embeddings']}` (256-token limit, 224-token chunks)"],
          ["Corpus", f"financial {data['corpus']['financial']} · medical {data['corpus']['medical']} units"],
          ["Golden set", f"{g['financial']} financial + {g['medical']} medical "

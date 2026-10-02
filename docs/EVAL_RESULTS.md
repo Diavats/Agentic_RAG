@@ -7,7 +7,7 @@ Generated 2026-10-02 · 326.2s · 36 API calls (54 served from cache)
 |  |  |
 |---|---|
 | Generator | `openai/gpt-oss-20b` |
-| Judge | `qwen/qwen3.8-27b` — a different family, deliberately |
+| Judge | `qwen/qwen3.8-27b` — a different family, deliberately. **Not validated against human scores**: judge-human agreement was not measured, so treat judge scores as indicative only. |
 | Embeddings | `all-MiniLM-L6-v2` (256-token limit, 224-token chunks) |
 | Corpus | financial 15 · medical 11 units |
 | Golden set | 15 financial + 15 medical (8 deliberately unanswerable) + 4 routing-only |
