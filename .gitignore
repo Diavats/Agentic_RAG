@@ -49,3 +49,8 @@ eval_run.log
 
 # Local API server log
 server.log
+
+# Local design/test scratch (screenshots, decision-page state)
+.playwright-mcp/
+.impeccable/review/
+.impeccable/questions/
