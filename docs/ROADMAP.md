@@ -177,7 +177,11 @@ don't share state.*
 
 ---
 
-## Phase 8 — Streamlit dashboard + polish (Days 37–40)
+## Phase 8 — Frontend + polish (Days 37–40) ✅
+
+> **Shipped differently:** a Next.js app on Vercel instead of Streamlit, with a
+> per-visitor quota instead of an access code. Reasons in
+> `docs/adr/ADR-001-chat-frontend.md`. The plan below is kept as written.
 
 - **Why:** UI last, as planned; final packaging for viva + portfolio.
 - **Where:** `app/streamlit_app.py`, `README.md`

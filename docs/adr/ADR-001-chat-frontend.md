@@ -78,8 +78,8 @@ limit lets anyone try it while capping cost. Chosen: per-visitor limit.
 
 ## Action items
 
-1. [ ] Backend: domain gate + `/session/{id}/classify`, DOCX domain, quota, CORS DELETE (+ tests)
-2. [ ] Frontend: Next.js app in `frontend/`, 4 pages, mascot, streaming chat
-3. [ ] Verify each page with Playwright against the live API
-4. [ ] Deploy `frontend/` to Vercel from GitHub (auto-deploy on push)
-5. [ ] EVAL_RESULTS.md: state that the judge is not human-validated
+1. [x] Backend: domain gate + `/session/{id}/classify`, DOCX domain, quota, CORS DELETE (+ tests)
+2. [x] Frontend: Next.js app in `frontend/`, 4 pages, mascot, streaming chat
+3. [x] Verify each page with Playwright against the live API
+4. [x] Deploy `frontend/` to Vercel from GitHub (auto-deploy on push)
+5. [x] EVAL_RESULTS.md: state that the judge is not human-validated
