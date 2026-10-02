@@ -251,6 +251,7 @@ def ask_iter(
         RetrievedSource(
             id=doc["row_id"], text=doc["text"], score=doc["score"], rank=rank,
             domain=doc.get("domain", ""),
+            source_file=doc.get("source_file", ""), source_type=doc.get("source_type", ""),
         )
         for rank, doc in enumerate(candidates[:MAX_SYNTHESIS_SOURCES], start=1)
     ]

@@ -112,4 +112,16 @@ def hybrid_search(query: str, domain: str, k: int = 5, rrf_k: int = 60) -> list[
         docs[doc_id] = text
 
     fused = sorted(scores.items(), key=lambda x: x[1], reverse=True)[:k]
-    return [{"row_id": doc_id, "text": docs[doc_id], "score": round(score, 4)} for doc_id, score in fused]
+    # Neither ranking carries metadata, so every citation went out with an empty
+    # source_file. One lookup for the k winners restores it.
+    meta = {}
+    if fused:
+        got = _get_chroma_client().get_collection(domain).get(
+            ids=[doc_id for doc_id, _ in fused], include=["metadatas"])
+        meta = dict(zip(got["ids"], got["metadatas"]))
+    return [
+        {"row_id": doc_id, "text": docs[doc_id], "score": round(score, 4),
+         "source_file": (meta.get(doc_id) or {}).get("source_file", ""),
+         "source_type": (meta.get(doc_id) or {}).get("source_type", "")}
+        for doc_id, score in fused
+    ]

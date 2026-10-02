@@ -237,9 +237,15 @@ class TestAsk:
     def test_a_session_id_redirects_to_the_sandbox_collection(self, client, stub_pipeline):
         """A sandbox question must never reach the curated corpora."""
         session = client.post("/session").json()
+        sandbox.STORE.get(session["session_id"]).units.append(object())
         client.post("/ask", json={"question": "q", "session_id": session["session_id"]})
         assert stub_pipeline["domain"] == session["collection"]
         assert stub_pipeline["domain"] not in ("medical", "financial")
+
+    def test_asking_before_the_upload_finishes_is_409_not_500(self, client, stub_pipeline):
+        sid = client.post("/session").json()["session_id"]
+        assert client.post("/ask", json={"question": "q", "session_id": sid}).status_code == 409
+        assert client.post("/ask/stream", json={"question": "q", "session_id": sid}).status_code == 409
 
     def test_an_unknown_session_is_404(self, client, stub_pipeline):
         response = client.post("/ask", json={"question": "q", "session_id": "nope"})
