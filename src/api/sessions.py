@@ -18,8 +18,10 @@ This is the translation rather than a reversal. Uploads work, but:
 The curated corpora remain read-only at query time and are still ingested
 offline, which is what PRD section 3 actually protects.
 """
+import logging
 import time
 import uuid
+import zipfile
 from dataclasses import dataclass, field
 from pathlib import Path
 from threading import Lock
@@ -36,6 +38,11 @@ MAX_TABULAR_ROWS = 25
 MAX_UPLOAD_BYTES = 2 * 1024 * 1024
 SESSION_TTL_SECONDS = 60 * 60
 MAX_SESSIONS = 50
+# .docx and .xlsx are zip files. A 2 MB zip can unpack to gigabytes and kill
+# a 512 MB server before any row cap applies, so the unpacked size is capped too.
+MAX_UNPACKED_BYTES = 30 * 1024 * 1024
+
+log = logging.getLogger("prism.sandbox")
 
 # How close (cosine) an upload must sit to OUR corpora to count as finance or
 # medical. Measured 2026-10-03 (ADR-001): on-topic text scored 0.338-0.620,
@@ -177,6 +184,22 @@ def validate_upload(filename: str, size_bytes: int) -> str:
     return suffix
 
 
+def check_not_zip_bomb(path: Path) -> None:
+    """Refuse a .docx/.xlsx whose contents unpack to more than MAX_UNPACKED_BYTES.
+
+    Reads only the zip's table of contents (stdlib), never the contents.
+    """
+    if path.suffix.lower() not in {".docx", ".xlsx"}:
+        return
+    try:
+        with zipfile.ZipFile(path) as z:
+            unpacked = sum(info.file_size for info in z.infolist())
+    except zipfile.BadZipFile as exc:
+        raise SandboxError("That file is damaged or isn't really a Word/Excel file.") from exc
+    if unpacked > MAX_UNPACKED_BYTES:
+        raise SandboxError("That file unpacks to far more data than its size suggests, so I won't open it.")
+
+
 def count_rows(path: Path) -> int:
     from src.loader import load_tabular
 
@@ -280,9 +303,10 @@ def ingest_into_session(session: Session, path: Path, domain: str, job: Job) -> 
     except SandboxError as exc:
         job.status = "failed"
         job.message = str(exc)
-    except Exception as exc:  # noqa: BLE001 — surfaced to the user, not swallowed
+    except Exception:  # noqa: BLE001 — logged in full, summarised to the user
+        log.exception("ingest failed for %s", path.name)
         job.status = "failed"
-        job.message = f"{type(exc).__name__}: {exc}"
+        job.message = "I couldn't read that file. Check it opens normally and try again."
 
 
 STORE = SessionStore()

@@ -26,6 +26,7 @@ a slow synthesis looks like progress rather than a hang.
 import asyncio
 import datetime
 import json
+import logging
 import shutil
 import tempfile
 from contextlib import asynccontextmanager
@@ -40,6 +41,7 @@ from src.api import sessions as sandbox
 from src.config import EMBEDDING_MODEL, LLM_MODEL, VERIFIER_MODEL
 
 BENCHMARK_PATH = Path("docs/eval_results.json")
+log = logging.getLogger("prism.api")
 
 
 @asynccontextmanager
@@ -77,7 +79,11 @@ app.add_middleware(
 # --------------------------------------------------------------------------
 # The app is public and Groq's free tier has a daily cap. Each visitor gets a
 # small allowance so one person can't use up everyone's day (ADR-001).
-DAILY_LIMITS = {"question": 15, "upload": 3}
+DAILY_LIMITS = {"question": 15, "upload": 3,
+                # Free actions, capped so one visitor can't flood the server:
+                # sessions (only 50 exist at once, so a flood would evict
+                # everyone else's uploads) and file checks (CPU on 512 MB).
+                "session": 10, "check": 20}
 
 # {(visitor, kind): times used today}. Wiped when the date changes.
 # ponytail: in memory, so a Render restart/sleep resets everyone's count;
@@ -87,12 +93,17 @@ _quota_day = datetime.date.today()
 
 
 def _visitor(request: Request) -> str:
-    """Who is asking. Render sits in front of us as a proxy, so the real
-    address is the FIRST entry of X-Forwarded-For, not the socket's."""
-    forwarded = request.headers.get("x-forwarded-for")
-    if forwarded:
-        return forwarded.split(",")[0].strip()
-    return request.client.host if request.client else "unknown"
+    """Who is asking, in a way the visitor cannot fake.
+
+    Render sits behind Cloudflare. Cloudflare sets CF-Connecting-IP to the real
+    address and overwrites any value a visitor sends. X-Forwarded-For is NOT
+    safe here: Render's proxy appends to whatever the client sent, so its first
+    entry is attacker-controlled. Measured 2026-10-03: a forged
+    "X-Forwarded-For: 1.2.3.4" got its own fresh quota (a full bypass).
+    Locally (no Cloudflare) we fall back to the socket address.
+    """
+    return (request.headers.get("cf-connecting-ip")
+            or (request.client.host if request.client else "unknown"))
 
 
 def _remaining(visitor: str, kind: str) -> int:
@@ -237,9 +248,12 @@ async def ask_stream(request: AskRequest, http: Request) -> StreamingResponse:
                     request.question, domain, True, request.router, request.verify
                 ):
                     loop.call_soon_threadsafe(queue.put_nowait, (stage, payload))
-            except Exception as exc:  # noqa: BLE001 — delivered as an event
+            except Exception:  # noqa: BLE001 — delivered as an event
+                # Full details go to the server log; the browser gets a plain
+                # message (raw exceptions can leak paths and library internals).
+                log.exception("pipeline failed")
                 loop.call_soon_threadsafe(
-                    queue.put_nowait, ("error", {"message": f"{type(exc).__name__}: {exc}"})
+                    queue.put_nowait, ("error", {"message": "the pipeline failed. Please try again in a minute."})
                 )
             finally:
                 loop.call_soon_threadsafe(queue.put_nowait, None)
@@ -269,7 +283,8 @@ def _sse(stage: str, data: dict) -> str:
 # --------------------------------------------------------------------------
 
 @app.post("/session")
-def create_session() -> dict:
+def create_session(http: Request) -> dict:
+    _spend(http, "session")
     return sandbox.STORE.create().as_dict()
 
 
@@ -298,8 +313,14 @@ async def _receive(file: UploadFile, session_id: str) -> tuple[Path, Path]:
         raise HTTPException(400, str(exc)) from exc
 
     tmp_dir = Path(tempfile.mkdtemp(prefix=f"prism_{session_id}_"))
-    path = tmp_dir / (file.filename or f"upload{suffix}")
+    # Keep only the bare name: "../../x.csv" or "C:/x.csv" must not escape tmp_dir.
+    path = tmp_dir / (Path(file.filename or "").name or f"upload{suffix}")
     path.write_bytes(payload)
+    try:
+        sandbox.check_not_zip_bomb(path)
+    except sandbox.SandboxError as exc:
+        shutil.rmtree(tmp_dir, ignore_errors=True)
+        raise HTTPException(400, str(exc)) from exc
 
     # Reject an oversized tabular file now, so the user gets the refusal as an
     # HTTP error rather than having to poll a job for it.
@@ -328,13 +349,15 @@ def _session_or_404(session_id: str) -> sandbox.Session:
 
 
 @app.post("/session/{session_id}/classify")
-async def classify(session_id: str, file: UploadFile = File(...)) -> dict:
-    """Preview: which domain would this file land in? Free — no LLM, no quota.
+async def classify(session_id: str, http: Request, file: UploadFile = File(...)) -> dict:
+    """Preview: which domain would this file land in? No LLM call, so it costs
+    no question/upload quota (only the cheap "check" allowance).
 
     The UI calls this first, shows the guess, and lets the user switch
     finance <-> medical before the (quota-spending) upload.
     """
     _session_or_404(session_id)
+    _spend(http, "check")
     tmp_dir, path = await _receive(file, session_id)
     try:
         domain, scores = await _gate(path)

@@ -363,7 +363,9 @@ class TestStreaming:
                 for line in response.iter_lines() if line.startswith("data: ")
             ]
         assert payloads[-1]["stage"] == "error"
-        assert "groq is down" in payloads[-1]["data"]["message"]
+        # The browser gets a plain message; the raw exception stays in the log.
+        assert "groq is down" not in payloads[-1]["data"]["message"]
+        assert "try again" in payloads[-1]["data"]["message"]
 
 
 class TestBenchmark:
@@ -430,14 +432,55 @@ class TestQuota:
         r = client.post("/ask", json={"question": "q"})
         assert r.status_code == 429 and "tomorrow" in r.json()["detail"]
 
-    def test_visitors_behind_the_proxy_are_counted_separately(self, client):
+    def test_visitors_behind_cloudflare_are_counted_separately(self, client):
         import src.api.main_api as api
         api._quota[("1.1.1.1", "question")] = api.DAILY_LIMITS["question"]
-        a = client.get("/quota", headers={"x-forwarded-for": "1.1.1.1, 10.0.0.1"}).json()
-        b = client.get("/quota", headers={"x-forwarded-for": "2.2.2.2"}).json()
+        a = client.get("/quota", headers={"cf-connecting-ip": "1.1.1.1"}).json()
+        b = client.get("/quota", headers={"cf-connecting-ip": "2.2.2.2"}).json()
         assert (a["question"]["left"], b["question"]["left"]) == (0, 15)
+
+    def test_a_forged_x_forwarded_for_does_not_reset_the_quota(self, client):
+        """Measured on Render: a fake X-Forwarded-For used to get a fresh quota."""
+        import src.api.main_api as api
+        api._quota[("testclient", "question")] = api.DAILY_LIMITS["question"]
+        r = client.get("/quota", headers={"x-forwarded-for": "9.9.9.9"}).json()
+        assert r["question"]["left"] == 0
+
+    def test_session_creation_is_capped_per_visitor(self, client):
+        import src.api.main_api as api
+        codes = [client.post("/session").status_code for _ in range(api.DAILY_LIMITS["session"] + 1)]
+        assert codes[-1] == 429 and set(codes[:-1]) == {200}
 
     def test_the_browser_may_delete_a_session(self, client):
         r = client.options("/session/x", headers={
             "Origin": "https://prism.vercel.app", "Access-Control-Request-Method": "DELETE"})
         assert "DELETE" in r.headers["access-control-allow-methods"]
+
+
+class TestUploadSafety:
+    def test_a_path_in_the_filename_cannot_escape_the_temp_folder(self, client, monkeypatch):
+        seen = {}
+        monkeypatch.setattr(sandbox, "ingest_into_session",
+                            lambda session, path, domain, job: seen.update(path=path))
+        sid = client.post("/session").json()["session_id"]
+        r = client.post(f"/session/{sid}/upload",
+                        files={"file": ("../../../evil.csv", csv_bytes(2), "text/csv")})
+        assert r.status_code == 200
+        import time
+        for _ in range(50):
+            if "path" in seen:
+                break
+            time.sleep(0.05)
+        assert seen["path"].name == "evil.csv"
+        assert seen["path"].parent.name.startswith("prism_")
+
+    def test_a_zip_bomb_is_refused_before_it_is_opened(self, client):
+        import zipfile
+        buf = io.BytesIO()
+        with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as z:
+            z.writestr("word/document.xml", b"0" * (sandbox.MAX_UNPACKED_BYTES + 1))
+        assert len(buf.getvalue()) < sandbox.MAX_UPLOAD_BYTES  # small on the wire
+        sid = client.post("/session").json()["session_id"]
+        r = client.post(f"/session/{sid}/upload",
+                        files={"file": ("bomb.docx", buf.getvalue(), "application/octet-stream")})
+        assert r.status_code == 400 and "unpacks" in r.json()["detail"]
