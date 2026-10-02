@@ -1,6 +1,6 @@
 # Evaluation Results
 
-Generated 2026-09-11 · 5.0s · 0 API calls (90 served from cache)
+Generated 2026-10-02 · 326.2s · 36 API calls (54 served from cache)
 
 ## Setup
 
@@ -45,25 +45,22 @@ IDs against hand-labelled gold IDs.*
 
 | method | Recall@5 | MRR | Hit@5 | P@5 / max possible |
 |---|---|---|---|---|
-| **dense** | 0.864 | 0.768 | 0.909 | 0.200 / 0.236 |
-| **sparse** | 0.818 | 0.773 | 0.818 | 0.200 / 0.236 |
-| **hybrid** | 0.909 ✅ | 0.788 | 0.909 | 0.218 / 0.236 |
+| **dense** | 0.909 | 0.864 | 0.909 | 0.218 / 0.236 |
+| **sparse** | 1.000 ✅ | 0.871 | 1.000 | 0.236 / 0.236 |
+| **hybrid** | 0.909 | 0.909 | 0.909 | 0.218 / 0.236 |
 
 ### medical
 
 | method | Recall@5 | MRR | Hit@5 | P@5 / max possible |
 |---|---|---|---|---|
-| **dense** | 0.909 ✅ | 0.746 | 0.909 | 0.255 / 0.273 |
-| **sparse** | 0.909 ✅ | 0.821 | 1.000 | 0.236 / 0.273 |
-| **hybrid** | 0.864 | 0.841 | 0.909 | 0.236 / 0.273 |
+| **dense** | 1.000 ✅ | 0.818 | 1.000 | 0.273 / 0.273 |
+| **sparse** | 0.955 | 0.814 | 1.000 | 0.255 / 0.273 |
+| **hybrid** | 0.955 | 0.859 | 1.000 | 0.255 / 0.273 |
 
 **Hybrid retrieval is not uniformly better, and that is the finding.**
 
-On financial it wins clearly — recall 0.909 against
-0.864 dense and 0.818 sparse.
-On medical it **loses** recall (0.864 against
-0.909 for both single methods) while winning MRR
-(0.841 against 0.746 dense).
+On financial hybrid **loses** on recall (0.909 vs 0.909 dense, 1.000 sparse) and scores MRR 0.909 vs 0.864 dense / 0.871 sparse. With n=11, one case moves recall by up to 0.091.
+On medical hybrid **loses** on recall (0.955 vs 1.000 dense, 0.955 sparse) and scores MRR 0.859 vs 0.818 dense / 0.814 sparse. With n=11, one case moves recall by up to 0.091.
 
 That is Reciprocal Rank Fusion behaving exactly as designed: it rewards
 documents *both* rankers agree on, so a document one ranker loves and the
@@ -87,15 +84,15 @@ decomposition and not k.*
 
 | pipeline | Recall@5 | MRR | Citation acc. | Abstained (should) | Abstained (shouldn't) |
 |---|---|---|---|---|---|
-| **naive** | 0.909 | 0.788 | 1.000 | 1.000 | 0.182 |
-| **agentic** | 0.909 | 0.788 | 1.000 | 1.000 | 0.182 |
+| **naive** | 0.909 | 0.909 | 1.000 | 1.000 | 0.273 |
+| **agentic** | 0.909 | 0.909 | 1.000 | 1.000 | 0.182 |
 
 ### medical
 
 | pipeline | Recall@5 | MRR | Citation acc. | Abstained (should) | Abstained (shouldn't) |
 |---|---|---|---|---|---|
-| **naive** | 0.864 | 0.841 | 1.000 | 1.000 | 0.091 |
-| **agentic** | 0.864 | 0.841 | 1.000 | 1.000 | 0.091 |
+| **naive** | 0.955 | 0.859 | 1.000 | 1.000 | 0.091 |
+| **agentic** | 0.955 | 0.859 | 1.000 | 1.000 | 0.091 |
 
 **The agentic layer buys nothing measurable at this corpus size. Reported as
 found.**
@@ -162,7 +159,7 @@ away.
 |---|---|---|---|
 | Routing accuracy | ≥ 90% | 96.7% | ✅ |
 | Citation accuracy | ≥ 85% | 100.0% / 100.0% | ✅ |
-| Retrieval (Recall@5) | — (replaces P@5) | 0.909 / 0.864 | — |
+| Retrieval (Recall@5) | — (replaces P@5) | 0.909 / 0.955 | — |
 | Golden set size | ≥ 15/domain | 15 / 15 | ✅ |
 | Retrieval ablation | required | 3 methods × 2 domains | ✅ |
 | Naive-vs-agentic ablation | required | reported, no difference found | ✅ |

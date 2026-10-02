@@ -88,15 +88,23 @@ def render(data: dict) -> str:
         lines += _table(rows, ["method", "Recall@5", "MRR", "Hit@5", "P@5 / max possible"])
         lines.append("")
 
-    fin, med = data["retrieval_ablation"]["financial"], data["retrieval_ablation"]["medical"]
+    # Verdicts are computed, not written. The previous prose said "wins
+    # clearly" and "both single methods" as literals; after a re-extraction the
+    # numbers moved and the sentences became false while the tables updated.
+    def verdict(domain: str, arms: dict) -> str:
+        h, d, s = (arms[a]["recall@5"] for a in ("hybrid", "dense", "sparse"))
+        best_single = max(d, s)
+        word = ("**wins**" if h > best_single else "**ties**" if h == best_single
+                else "**loses**")
+        one_case = 1 / arms["hybrid"]["n"]
+        return (f"On {domain} hybrid {word} on recall ({h:.3f} vs {d:.3f} dense, "
+                f"{s:.3f} sparse) and scores MRR {arms['hybrid']['mrr']:.3f} vs "
+                f"{arms['dense']['mrr']:.3f} dense / {arms['sparse']['mrr']:.3f} sparse. "
+                f"With n={arms['hybrid']['n']}, one case moves recall by up to {one_case:.3f}.")
+
+    lines += ["**Hybrid retrieval is not uniformly better, and that is the finding.**", ""]
+    lines += [verdict(dom, arms) for dom, arms in data["retrieval_ablation"].items()]
     lines += [
-        "**Hybrid retrieval is not uniformly better, and that is the finding.**",
-        "",
-        f"On financial it wins clearly — recall {fin['hybrid']['recall@5']:.3f} against",
-        f"{fin['dense']['recall@5']:.3f} dense and {fin['sparse']['recall@5']:.3f} sparse.",
-        f"On medical it **loses** recall ({med['hybrid']['recall@5']:.3f} against",
-        f"{med['dense']['recall@5']:.3f} for both single methods) while winning MRR",
-        f"({med['hybrid']['mrr']:.3f} against {med['dense']['mrr']:.3f} dense).",
         "",
         "That is Reciprocal Rank Fusion behaving exactly as designed: it rewards",
         "documents *both* rankers agree on, so a document one ranker loves and the",

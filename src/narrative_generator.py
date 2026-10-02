@@ -17,6 +17,8 @@ Rules:
 - Mention every field that has a meaningful (non-N/A) value.
 - Write in plain prose, not bullet points.
 - Do not just repeat the raw field names — turn them into natural sentences.
+- Copy every number exactly as written in the record. Do not convert it to a
+  percentage, do not add a % sign, do not multiply, round or rescale it.
 
 Record:
 {record_text}
@@ -31,6 +33,10 @@ def row_to_text(row: dict) -> str:
             continue
         if value is None or str(value).strip().upper() in ("N/A", "NAN", ""):
             continue
+        if isinstance(value, float):
+            # 0.0243999999999999 -> 0.0244: binary-float noise is not data, and
+            # the prompt tells the model to copy numbers verbatim.
+            value = f"{value:.10g}"
         lines.append(f"{key}: {value}")
     return "\n".join(lines)
 
