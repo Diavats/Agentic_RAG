@@ -43,6 +43,11 @@ def client(monkeypatch, tmp_path):
     # Empty lifespan: the real one loads a ~90MB model and rebuilds the index.
     monkeypatch.setattr(api.app.router, "lifespan_context", _noop_lifespan)
     sandbox.STORE = sandbox.SessionStore()
+    # The real gate needs the real index; tests of the gate itself live in
+    # TestDomainGate. Here every upload is "medical" unless a test says not.
+    monkeypatch.setattr(sandbox, "guess_domain",
+                        lambda path: ("medical", {"medical": 0.5, "financial": 0.1}))
+    api._quota.clear()
     try:
         with TestClient(api.app) as c:
             yield c
@@ -379,3 +384,60 @@ class TestSessionEviction:
         created = [store.create() for _ in range(6)]
         assert len(store.active()) <= 3
         assert created[-1].id in {s.id for s in store.active()}
+
+
+class TestUploadDomainGate:
+    """The gate's HTTP behaviour, with the gate itself stubbed."""
+
+    def _upload(self, client, domain="auto"):
+        sid = client.post("/session").json()["session_id"]
+        return client.post(f"/session/{sid}/upload", data={"domain": domain},
+                           files={"file": ("a.csv", csv_bytes(2), "text/csv")})
+
+    def test_auto_uses_the_guess(self, client, monkeypatch):
+        monkeypatch.setattr(sandbox, "ingest_into_session", lambda *a, **k: None)
+        monkeypatch.setattr(sandbox, "guess_domain", lambda p: ("financial", {"financial": 0.6}))
+        body = self._upload(client).json()
+        assert body["domain"] == body["guessed"] == "financial"
+
+    def test_user_can_correct_finance_vs_medical(self, client, monkeypatch):
+        monkeypatch.setattr(sandbox, "ingest_into_session", lambda *a, **k: None)
+        monkeypatch.setattr(sandbox, "guess_domain", lambda p: ("financial", {"financial": 0.6}))
+        body = self._upload(client, domain="medical").json()
+        assert (body["domain"], body["guessed"]) == ("medical", "financial")
+
+    def test_off_topic_is_422_and_costs_no_quota(self, client, monkeypatch):
+        def refuse(path):
+            raise sandbox.SandboxError("not finance or medical")
+        monkeypatch.setattr(sandbox, "guess_domain", refuse)
+        assert self._upload(client, domain="medical").status_code == 422
+        assert client.get("/quota").json()["upload"]["left"] == 3
+
+    def test_classify_previews_without_spending_quota(self, client):
+        sid = client.post("/session").json()["session_id"]
+        r = client.post(f"/session/{sid}/classify",
+                        files={"file": ("a.csv", csv_bytes(2), "text/csv")})
+        assert r.json()["domain"] == "medical"
+        assert client.get("/quota").json()["upload"]["left"] == 3
+
+
+class TestQuota:
+    def test_the_16th_question_is_refused(self, client, monkeypatch):
+        import src.agent as agent
+        monkeypatch.setattr(agent, "ask", lambda *a, **k: (_ for _ in ()).throw(RuntimeError("stop")))
+        import src.api.main_api as api
+        api._quota[("testclient", "question")] = api.DAILY_LIMITS["question"]
+        r = client.post("/ask", json={"question": "q"})
+        assert r.status_code == 429 and "tomorrow" in r.json()["detail"]
+
+    def test_visitors_behind_the_proxy_are_counted_separately(self, client):
+        import src.api.main_api as api
+        api._quota[("1.1.1.1", "question")] = api.DAILY_LIMITS["question"]
+        a = client.get("/quota", headers={"x-forwarded-for": "1.1.1.1, 10.0.0.1"}).json()
+        b = client.get("/quota", headers={"x-forwarded-for": "2.2.2.2"}).json()
+        assert (a["question"]["left"], b["question"]["left"]) == (0, 15)
+
+    def test_the_browser_may_delete_a_session(self, client):
+        r = client.options("/session/x", headers={
+            "Origin": "https://prism.vercel.app", "Access-Control-Request-Method": "DELETE"})
+        assert "DELETE" in r.headers["access-control-allow-methods"]

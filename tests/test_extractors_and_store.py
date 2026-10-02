@@ -63,19 +63,22 @@ class TestFormatDispatch:
 
         called = {}
         monkeypatch.setattr(
-            "src.main.extract_text", lambda p: called.setdefault("path", p) or []
+            "src.main.extract_text",
+            lambda p, domain: called.update(path=p, domain=domain) or [],
         )
         extract_any(str(path), "medical")
         assert called["path"] == str(path)
 
-    def test_docx_with_a_non_medical_domain_is_refused(self, tmp_path):
-        """Better to fail loudly than to mislabel the corpus."""
+    def test_a_finance_docx_keeps_its_domain(self, tmp_path):
+        """Word docs used to be forced to medical (ADR-001 lifts that): a finance
+        report must be indexed as finance, not mislabelled."""
         import docx
 
         path = tmp_path / "doc.docx"
-        docx.Document().save(path)
-        with pytest.raises(ValueError, match="medical"):
-            extract_any(str(path), "financial")
+        document = docx.Document()
+        document.add_paragraph("Quarterly revenue grew while margins narrowed.")
+        document.save(path)
+        assert {u.domain for u in extract_any(str(path), "financial")} == {"financial"}
 
     def test_unsupported_extension_is_refused(self, tmp_path):
         path = tmp_path / "notes.pdf"

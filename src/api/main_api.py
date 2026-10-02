@@ -24,13 +24,14 @@ stage as it completes, so the UI's pipeline rail lights up progressively — and
 a slow synthesis looks like progress rather than a hang.
 """
 import asyncio
+import datetime
 import json
 import shutil
 import tempfile
 from contextlib import asynccontextmanager
 from pathlib import Path
 
-from fastapi import FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse, StreamingResponse
 from pydantic import BaseModel, Field
@@ -66,9 +67,50 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_methods=["GET", "POST"],
+    allow_methods=["GET", "POST", "DELETE"],  # DELETE: the UI's "clear my files"
     allow_headers=["*"],
 )
+
+
+# --------------------------------------------------------------------------
+# Per-visitor daily quota
+# --------------------------------------------------------------------------
+# The app is public and Groq's free tier has a daily cap. Each visitor gets a
+# small allowance so one person can't use up everyone's day (ADR-001).
+DAILY_LIMITS = {"question": 15, "upload": 3}
+
+# {(visitor, kind): times used today}. Wiped when the date changes.
+# ponytail: in memory, so a Render restart/sleep resets everyone's count;
+# move to Redis if the demo ever gets real traffic.
+_quota: dict[tuple[str, str], int] = {}
+_quota_day = datetime.date.today()
+
+
+def _visitor(request: Request) -> str:
+    """Who is asking. Render sits in front of us as a proxy, so the real
+    address is the FIRST entry of X-Forwarded-For, not the socket's."""
+    forwarded = request.headers.get("x-forwarded-for")
+    if forwarded:
+        return forwarded.split(",")[0].strip()
+    return request.client.host if request.client else "unknown"
+
+
+def _remaining(visitor: str, kind: str) -> int:
+    """How many of `kind` this visitor has left today."""
+    global _quota_day
+    if datetime.date.today() != _quota_day:  # a new day: everyone starts fresh
+        _quota.clear()
+        _quota_day = datetime.date.today()
+    return DAILY_LIMITS[kind] - _quota.get((visitor, kind), 0)
+
+
+def _spend(request: Request, kind: str) -> None:
+    """Use one of today's allowance, or refuse with 429 if it is used up."""
+    visitor = _visitor(request)
+    if _remaining(visitor, kind) <= 0:
+        raise HTTPException(429, f"You've used all {DAILY_LIMITS[kind]} of today's "
+                                 f"{kind}s. Come back tomorrow!")
+    _quota[(visitor, kind)] = _quota.get((visitor, kind), 0) + 1
 
 
 class AskRequest(BaseModel):
@@ -101,6 +143,14 @@ def health() -> dict:
         "models": {"generator": LLM_MODEL, "judge": VERIFIER_MODEL,
                    "embeddings": EMBEDDING_MODEL},
     }
+
+
+@app.get("/quota")
+def quota(request: Request) -> dict:
+    """What this visitor has left today, so the UI can show it up front."""
+    visitor = _visitor(request)
+    return {kind: {"left": max(0, _remaining(visitor, kind)), "limit": limit}
+            for kind, limit in DAILY_LIMITS.items()}
 
 
 @app.get("/benchmark")
@@ -139,13 +189,15 @@ def _resolve_domain(request: AskRequest) -> str | None:
 
 
 @app.post("/ask")
-def ask_endpoint(request: AskRequest) -> dict:
+def ask_endpoint(request: AskRequest, http: Request) -> dict:
     """Full pipeline, one JSON response. The complete QueryTrace."""
     from src.agent import ask
 
+    domain = _resolve_domain(request)
+    _spend(http, "question")
     trace = ask(
         request.question,
-        domain=_resolve_domain(request),
+        domain=domain,
         router=request.router,
         verify=request.verify,
     )
@@ -153,7 +205,7 @@ def ask_endpoint(request: AskRequest) -> dict:
 
 
 @app.post("/ask/stream")
-async def ask_stream(request: AskRequest) -> StreamingResponse:
+async def ask_stream(request: AskRequest, http: Request) -> StreamingResponse:
     """Same pipeline, streamed stage by stage as server-sent events.
 
     Each event is {"stage": ..., "data": ...}. The UI lights up its pipeline
@@ -165,6 +217,7 @@ async def ask_stream(request: AskRequest) -> StreamingResponse:
     # Resolved BEFORE the stream opens, so a bad session id is a clean 404
     # rather than an error event on a 200 response.
     domain = _resolve_domain(request)
+    _spend(http, "question")
 
     async def events():
         yield _sse("started", {"question": request.question})
@@ -222,10 +275,7 @@ def create_session() -> dict:
 
 @app.get("/session/{session_id}")
 def get_session(session_id: str) -> dict:
-    try:
-        return sandbox.STORE.get(session_id).as_dict()
-    except sandbox.SandboxError as exc:
-        raise HTTPException(404, str(exc)) from exc
+    return _session_or_404(session_id).as_dict()
 
 
 @app.delete("/session/{session_id}")
@@ -234,26 +284,13 @@ def delete_session(session_id: str) -> dict:
     return {"deleted": session_id}
 
 
-@app.post("/session/{session_id}/upload")
-async def upload(
-    session_id: str,
-    file: UploadFile = File(...),
-    domain: str = Form("medical"),
-) -> dict:
-    """Accept one file into the session's own collection.
+async def _receive(file: UploadFile, session_id: str) -> tuple[Path, Path]:
+    """Save one upload to a temp folder, after the cheap checks.
 
-    Returns immediately with a job id. Ingestion runs in the background because
-    a tabular file costs one LLM call per row, and a request blocking on 25
-    sequential API calls times out behind any proxy.
+    Checks, in order: file type and size (400), then the row cap (413). Both
+    run before any LLM call. Returns (temp folder, file path); the caller
+    deletes the folder when done with it.
     """
-    try:
-        session = sandbox.STORE.get(session_id)
-    except sandbox.SandboxError as exc:
-        raise HTTPException(404, str(exc)) from exc
-
-    if domain not in ("medical", "financial"):
-        raise HTTPException(400, "domain must be 'medical' or 'financial'")
-
     payload = await file.read()
     try:
         suffix = sandbox.validate_upload(file.filename or "", len(payload))
@@ -264,14 +301,78 @@ async def upload(
     path = tmp_dir / (file.filename or f"upload{suffix}")
     path.write_bytes(payload)
 
-    # Reject an oversized tabular file BEFORE starting the job, so the user
-    # gets the refusal as an HTTP error rather than having to poll for it.
+    # Reject an oversized tabular file now, so the user gets the refusal as an
+    # HTTP error rather than having to poll a job for it.
     if suffix in sandbox.TABULAR_SUFFIXES:
         try:
             sandbox.check_row_cap(sandbox.count_rows(path))
         except sandbox.SandboxError as exc:
             shutil.rmtree(tmp_dir, ignore_errors=True)
             raise HTTPException(413, str(exc)) from exc
+    return tmp_dir, path
+
+
+async def _gate(path: Path) -> tuple[str, dict]:
+    """Finance, medical, or refuse (422). Embedding only — zero LLM calls."""
+    try:
+        return await asyncio.to_thread(sandbox.guess_domain, path)
+    except sandbox.SandboxError as exc:
+        raise HTTPException(422, str(exc)) from exc
+
+
+def _session_or_404(session_id: str) -> sandbox.Session:
+    try:
+        return sandbox.STORE.get(session_id)
+    except sandbox.SandboxError as exc:
+        raise HTTPException(404, str(exc)) from exc
+
+
+@app.post("/session/{session_id}/classify")
+async def classify(session_id: str, file: UploadFile = File(...)) -> dict:
+    """Preview: which domain would this file land in? Free — no LLM, no quota.
+
+    The UI calls this first, shows the guess, and lets the user switch
+    finance <-> medical before the (quota-spending) upload.
+    """
+    _session_or_404(session_id)
+    tmp_dir, path = await _receive(file, session_id)
+    try:
+        domain, scores = await _gate(path)
+    finally:
+        shutil.rmtree(tmp_dir, ignore_errors=True)
+    return {"domain": domain, "scores": scores}
+
+
+@app.post("/session/{session_id}/upload")
+async def upload(
+    session_id: str,
+    http: Request,
+    file: UploadFile = File(...),
+    domain: str = Form("auto"),
+) -> dict:
+    """Accept one file into the session's own collection.
+
+    domain="auto" uses the gate's guess. "medical"/"financial" lets the user
+    correct a finance<->medical guess — but the gate still runs, so an
+    off-topic file cannot be forced in by naming a domain.
+
+    Returns immediately with a job id. Ingestion runs in the background because
+    a tabular file costs one LLM call per row, and a request blocking on 25
+    sequential API calls times out behind any proxy.
+    """
+    session = _session_or_404(session_id)
+    if domain not in ("auto", "medical", "financial"):
+        raise HTTPException(400, "domain must be 'auto', 'medical' or 'financial'")
+
+    tmp_dir, path = await _receive(file, session_id)
+    try:
+        guessed, scores = await _gate(path)
+        _spend(http, "upload")  # only after every check passed: refusals are free
+    except HTTPException:
+        shutil.rmtree(tmp_dir, ignore_errors=True)
+        raise
+    if domain == "auto":
+        domain = guessed
 
     job = sandbox.Job(id=f"job_{len(session.jobs) + 1}")
     session.jobs[job.id] = job
@@ -283,16 +384,13 @@ async def upload(
             shutil.rmtree(tmp_dir, ignore_errors=True)
 
     asyncio.create_task(run())
-    return {"session_id": session_id, **job.as_dict()}
+    return {"session_id": session_id, "domain": domain, "guessed": guessed,
+            "scores": scores, **job.as_dict()}
 
 
 @app.get("/session/{session_id}/job/{job_id}")
 def job_status(session_id: str, job_id: str) -> dict:
-    try:
-        session = sandbox.STORE.get(session_id)
-    except sandbox.SandboxError as exc:
-        raise HTTPException(404, str(exc)) from exc
-    job = session.jobs.get(job_id)
+    job = _session_or_404(session_id).jobs.get(job_id)
     if job is None:
         raise HTTPException(404, f"No job {job_id} in session {session_id}")
     return job.as_dict()
