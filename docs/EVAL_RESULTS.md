@@ -173,12 +173,45 @@ unsupported claims and disagree. It is labelled a *self-check* rather than a
 hallucination score, because a system grading itself is a signal, not a
 measurement.
 
+## Blind questions
+
+**6/10 pass, 1 partial, 3 fail.** 10 questions from people who never saw the corpus (sir and a classmate), run through the deployed configuration: no domain given, groundedness check on.
+
+How this was kept honest, in git order: questions committed verbatim → answer key written from the corpus and committed → run → graded. **The grades are the builder's own judgment** against that key, not the LLM judge (judge–human agreement was never measured). Superlatives in the key were computed from the CSV, not taken from PRISM.
+
+| Question kind | Pass |
+|---|---|
+| multi-chunk | 0/1 |
+| single-topic | 2/2 |
+| superlative | 0/3 |
+| false-premise | 1/1 |
+| unanswerable | 2/2 |
+| cross-domain-nonsense | 1/1 |
+
+Router sent 10/10 to an acceptable domain.
+
+| Case | Kind | Routed | Recall | Grounded | Grade | Why |
+|---|---|---|---|---|---|---|
+| sir_1 | multi-chunk | medical | 1.00 | 0.58 | **partial** | All 6 exclusions and 3 deferrals correct, but it turns the lab-panel 'consult the PI' step into an exclusion and invents 'vitals within normal limits'. Does not say the corpus has no inclusion criteria. |
+| sir_2 | single-topic | medical | 1.00 | 1.00 | **pass** | 3 tubes, bedside labelling, 30-min window, compromised -> redraw, cryovials, freezer alerts; says temperatures are not given rather than inventing them. |
+| sir_3 | superlative | financial | 0.00 | 0.50 | **fail** | Says HUHTAMAKI (0.9356). Under its own net-profit definition WELCORP is higher (1.771). Neither DIACABS nor WELCORP was retrieved: a superlative over 15 rows, top-k sees 7. |
+| sir_4 | false-premise | medical | 1.00 | 0.92 | **pass** | Catches the false premise ('only one measurement per sample') and gives the eCRF, time-zone and reason-code rules. One unrelated bullet invents an adverse-event 'safety monitoring system'. |
+| sir_5 | unanswerable | financial | — | 1.00 | **pass** | Correct abstention: no customer counts exist in the data. |
+| classmate1_1 | superlative | financial | 0.00 | 0.91 | **fail** | Says DIACABS has the highest QOQ sales growth (0.4678); ARIHANTCAP is higher (0.5918) but was not retrieved. Product and customers it gives for DIACABS are correct. |
+| classmate1_2 | single-topic | medical | 1.00 | 0.56 | **pass** | 24-hour PI reporting, expedited SAE path, follow-up rule, causality reviewed by the medical monitor. |
+| classmate1_3 | superlative | medical | 0.00 | 0.75 | **fail** | Says TC-014 (0.87); TC-017 (0.91) is higher and was not retrieved, even though there are only 6 samples. |
+| classmate1_4 | unanswerable | medical | — | 0.00 | **pass** | Correctly says the protocol does not specify it. The groundedness self-check scored this 0.0: it cannot grade an abstention. |
+| classmate1_5 | cross-domain-nonsense | medical | — | 1.00 | **pass** | Correctly says no link can be determined, though it wrongly claims the context had no growth figures. |
+
+Full answers, retrieved IDs and sub-queries: `docs/blind_results.json`. Answer key: `src/eval/blind_expected.json`.
+
 ## Reproduce
 
 ```bash
 python -m src.main setup                 # rebuild indexes, no API calls
 python -m src.eval.run_eval --quick      # experiments 1 and 3, no API calls
 python -m src.eval.run_eval              # all three
+python -m src.eval.run_blind            # the 10 blind questions (live, cached)
 python -m src.eval.report                # re-render this file
 ```
 

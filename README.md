@@ -116,8 +116,8 @@ put `NEXT_PUBLIC_API_URL=http://localhost:8077` in `frontend/.env.local`.
 
 ## Known limitations
 
-- **"Which is the highest?" questions are unreliable.** Retrieval fetches the closest passages, not every row.
-- **The test set is small** (11 answerable per domain) and was written by the builder; the blind set exists to counter this.
+- **"Which is the highest?" questions are unreliable.** Retrieval fetches the closest passages, not every row. Confirmed blind: all 3 blind superlatives failed, each because the winning row was never retrieved (`docs/EVAL_RESULTS.md`).
+- **The test set is small** (11 answerable per domain) and was written by the builder. The 10 blind questions scored 6 pass, 1 partial, 3 fail, graded by the builder against a key committed before the run.
 - **The medical data is a placeholder** until the real datasets arrive.
 - **Free-tier hosting.** About 1 min cold start; uploads and quotas reset when the server restarts.
 
@@ -126,7 +126,7 @@ put `NEXT_PUBLIC_API_URL=http://localhost:8077` in `frontend/.env.local`.
 | Next step | Why |
 |---|---|
 | A structured-query path (pandas/SQL) for superlatives and aggregates | Fixes the main known failure |
-| Score the 10 blind questions; grow the golden set past n=11 | Tighter numbers, less builder bias |
+| Grow the golden and blind sets past n=11 / n=10 | Tighter numbers, less builder bias |
 | Validate the judge against human grading | Turns judge scores from indicative into evidence |
 | Real medical datasets; re-measure the 0.20 upload threshold | Placeholder data today |
 | Redis for quota and sessions; paid instance | Survive restarts; no cold start |

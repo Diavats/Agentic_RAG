@@ -9,6 +9,8 @@ from pathlib import Path
 
 RESULTS = Path("docs/eval_results.json")
 OUT = Path("docs/EVAL_RESULTS.md")
+BLIND_RESULTS = Path("docs/blind_results.json")
+BLIND_GRADES = Path(__file__).parent / "blind_grades.json"
 
 
 def _table(rows: list[list], headers: list[str]) -> list[str]:
@@ -253,12 +255,14 @@ def render(data: dict) -> str:
         "hallucination score, because a system grading itself is a signal, not a",
         "measurement.",
         "",
+        *render_blind(),
         "## Reproduce",
         "",
         "```bash",
         "python -m src.main setup                 # rebuild indexes, no API calls",
         "python -m src.eval.run_eval --quick      # experiments 1 and 3, no API calls",
         "python -m src.eval.run_eval              # all three",
+        "python -m src.eval.run_blind            # the 10 blind questions (live, cached)",
         "python -m src.eval.report                # re-render this file",
         "```",
         "",
@@ -268,6 +272,53 @@ def render(data: dict) -> str:
         "",
     ]
     return "\n".join(lines)
+
+
+def render_blind() -> list[str]:
+    """The blind section. Every count below is computed from the two files —
+    nothing about the outcome is written by hand (non-negotiable 12)."""
+    if not (BLIND_RESULTS.exists() and BLIND_GRADES.exists()):
+        return ["## Blind questions", "", "Not yet run.", ""]
+    cases = json.loads(BLIND_RESULTS.read_text(encoding="utf-8"))["cases"]
+    grades = json.loads(BLIND_GRADES.read_text(encoding="utf-8"))["grades"]
+    n = len(cases)
+    passed = sum(1 for c in cases if grades[c["id"]]["grade"] == "pass")
+    partial = sum(1 for c in cases if grades[c["id"]]["grade"] == "partial")
+    by_kind: dict[str, list[str]] = {}
+    for c in cases:
+        by_kind.setdefault(c["kind"], []).append(grades[c["id"]]["grade"])
+    routed_ok = sum(1 for c in cases if c["expected_domain"] == "both"
+                    or c["routed_to"] in (c["expected_domain"], "both"))
+
+    lines = [
+        "## Blind questions",
+        "",
+        f"**{passed}/{n} pass, {partial} partial, {n - passed - partial} fail.** "
+        f"{n} questions from people who never saw the corpus (sir and a classmate), "
+        "run through the deployed configuration: no domain given, groundedness check on.",
+        "",
+        "How this was kept honest, in git order: questions committed verbatim → answer "
+        "key written from the corpus and committed → run → graded. **The grades are the "
+        "builder's own judgment** against that key, not the LLM judge (judge–human "
+        "agreement was never measured). Superlatives in the key were computed from the "
+        "CSV, not taken from PRISM.",
+        "",
+    ]
+    lines += _table(
+        [[kind, f"{g.count('pass')}/{len(g)}"] for kind, g in by_kind.items()],
+        ["Question kind", "Pass"],
+    )
+    lines += ["", f"Router sent {routed_ok}/{n} to an acceptable domain.", ""]
+    lines += _table(
+        [[c["id"], c["kind"], c["routed_to"], f"{c['recall']:.2f}" if c["answerable"] else "—",
+          "—" if c["groundedness"] is None else f"{c['groundedness']:.2f}",
+          f"**{grades[c['id']]['grade']}**", grades[c["id"]]["why"]]
+         for c in cases],
+        ["Case", "Kind", "Routed", "Recall", "Grounded", "Grade", "Why"],
+    )
+    lines += ["", "Full answers, retrieved IDs and sub-queries: `docs/blind_results.json`. "
+              "Answer key: `src/eval/blind_expected.json`.", ""]
+    return lines
 
 
 def main():

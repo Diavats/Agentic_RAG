@@ -1,0 +1,15 @@
+{
+  "_about": "Builder's grades of docs/blind_results.json against blind_expected.json (committed before the run). Human judgment by the person who built the system, not the LLM judge. pass = meets the key's 'accept' line; partial = right core, but a stated fact is not in the corpus; fail = wrong answer.",
+  "grades": {
+    "sir_1": {"grade": "partial", "why": "All 6 exclusions and 3 deferrals correct, but it turns the lab-panel 'consult the PI' step into an exclusion and invents 'vitals within normal limits'. Does not say the corpus has no inclusion criteria."},
+    "sir_2": {"grade": "pass", "why": "3 tubes, bedside labelling, 30-min window, compromised -> redraw, cryovials, freezer alerts; says temperatures are not given rather than inventing them."},
+    "sir_3": {"grade": "fail", "why": "Says HUHTAMAKI (0.9356). Under its own net-profit definition WELCORP is higher (1.771). Neither DIACABS nor WELCORP was retrieved: a superlative over 15 rows, top-k sees 7."},
+    "sir_4": {"grade": "pass", "why": "Catches the false premise ('only one measurement per sample') and gives the eCRF, time-zone and reason-code rules. One unrelated bullet invents an adverse-event 'safety monitoring system'."},
+    "sir_5": {"grade": "pass", "why": "Correct abstention: no customer counts exist in the data."},
+    "classmate1_1": {"grade": "fail", "why": "Says DIACABS has the highest QOQ sales growth (0.4678); ARIHANTCAP is higher (0.5918) but was not retrieved. Product and customers it gives for DIACABS are correct."},
+    "classmate1_2": {"grade": "pass", "why": "24-hour PI reporting, expedited SAE path, follow-up rule, causality reviewed by the medical monitor."},
+    "classmate1_3": {"grade": "fail", "why": "Says TC-014 (0.87); TC-017 (0.91) is higher and was not retrieved, even though there are only 6 samples."},
+    "classmate1_4": {"grade": "pass", "why": "Correctly says the protocol does not specify it. The groundedness self-check scored this 0.0: it cannot grade an abstention."},
+    "classmate1_5": {"grade": "pass", "why": "Correctly says no link can be determined, though it wrongly claims the context had no growth figures."}
+  }
+}

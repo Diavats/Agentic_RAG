@@ -1,0 +1,292 @@
+{
+  "cases": [
+    {
+      "id": "sir_1",
+      "question": "What criteria must a participant meet to be eligible for the clinical study, and what are the main reasons a participant would be excluded?",
+      "kind": "multi-chunk",
+      "answerable": true,
+      "expected_domain": "medical",
+      "routed_to": "medical",
+      "router_margin": 0.4628,
+      "gold_chunk_ids": [
+        "medical_textual_medical_guideline_placeholder_52f6a9_0000",
+        "medical_textual_medical_guideline_placeholder_52f6a9_0002"
+      ],
+      "retrieved_ids": [
+        "medical_textual_medical_guideline_placeholder_52f6a9_0000",
+        "medical_textual_medical_guideline_placeholder_52f6a9_0002",
+        "medical_tabular_medical_placeholder_3fc69d_0004",
+        "medical_tabular_medical_placeholder_3fc69d_0000",
+        "medical_textual_medical_guideline_placeholder_52f6a9_0003"
+      ],
+      "recall": 1.0,
+      "answer": "**Eligibility criteria**\n\n| Criterion | Source |\n|-----------|--------|\n| Structured screening interview covering medical history, current medications, and known allergic reactions. | [S1] |\n| Baseline vital signs (heart rate, blood pressure, body temperature) must fall within normal limits as defined in the exclusion criteria. | [S1] |\n| Age must fall within the protocol‑specific range, verified against government‑issued ID. | [S2] |\n| Ability to provide informed consent independently. | [S2] |\n| No documented history of a severe allergic reaction to any component of the study protocol. | [S2] |\n| No active infection, uncontrolled chronic condition, or pregnancy at the time of screening. | [S1] |\n| No recent major surgery (within the preceding eight weeks). | [S2] |\n| No active immunosuppressive therapy unless the treating physician provides written clearance. | [S2] |\n| No prior participation in a similar study within the past twelve months (to avoid overlapping enrollment). | [S1] |\n| No out‑of‑range liver function, renal function, or coagulation markers (second‑tier screening). | [S1] |\n\n**Main exclusion reasons**\n\n1. **Severe allergic reaction** to any study component. | [S2]  \n2. **Current enrollment** in a conflicting interventional study. | [S2]  \n3. **Inability to provide informed consent** independently. | [S2]  \n4. **Age outside the protocol‑defined range**. | [S2]  \n5. **Recent major surgery** (within eight weeks). | [S2]  \n6. **Active immunosuppressive therapy** without physician clearance. | [S2]  \n7. **Active infection, uncontrolled chronic condition, or pregnancy** at screening. | [S1]  \n8. **Prior participation** in a similar study within the last twelve months. | [S1]  \n9. **Abnormal laboratory values** (liver, renal, coagulation) identified in the second‑tier screening. | [S1]  \n10. **Out‑of‑range baseline vital signs** that do not meet the protocol’s safety thresholds. | [S1]  \n\nThese points summarize the eligibility requirements and the principal exclusion factors as outlined in the retrieved guidelines.",
+      "abstained": false,
+      "citation_accuracy": 1.0,
+      "groundedness": 0.583,
+      "subqueries": [
+        "Eligibility criteria for participants in the clinical study",
+        "Common exclusion reasons for participants in the clinical study"
+      ]
+    },
+    {
+      "id": "sir_2",
+      "question": "How should blood samples be collected, stored, and handled according to the study protocol before the immune-response measurements are performed?",
+      "kind": "single-topic",
+      "answerable": true,
+      "expected_domain": "medical",
+      "routed_to": "medical",
+      "router_margin": 0.5864,
+      "gold_chunk_ids": [
+        "medical_textual_medical_guideline_placeholder_52f6a9_0001"
+      ],
+      "retrieved_ids": [
+        "medical_textual_medical_guideline_placeholder_52f6a9_0001",
+        "medical_tabular_medical_placeholder_3fc69d_0004",
+        "medical_textual_medical_guideline_placeholder_52f6a9_0003",
+        "medical_textual_medical_guideline_placeholder_52f6a9_0002"
+      ],
+      "recall": 1.0,
+      "answer": "**Blood‑sample handling as outlined in the protocol**\n\n1. **Collection**  \n   * Blood is drawn by standard venipuncture into **three separate tubes**:  \n     – one for a complete blood count,  \n     – one for the antigen‑panel assay, and  \n     – one held in reserve for repeat testing if the first result is ambiguous.  \n   * Each tube is **labeled immediately at the bedside** with the participant identifier, collection timestamp, and the collecting technician’s initials to preserve chain of custody. [S1]\n\n2. **Transport**  \n   * Samples must be **transported to the processing laboratory within 30 minutes** of collection.  \n   * During transport they are kept at the temperature specified for each assay type.  \n   * On arrival the samples are logged into the laboratory information system.  \n   * Any specimen that exceeds the 30‑minute window is **flagged as compromised** and a redraw is scheduled instead of using the degraded sample. [S1]\n\n3. **Processing**  \n   * Technicians **centrifuge each tube according to the assay‑specific protocol**.  \n   * Plasma or serum is separated as required and then **aliquoted into labeled cryovials** for storage.  \n   * Storage freezers are monitored continuously; any excursion outside the validated temperature range triggers an automatic alert to the lab supervisor. [S1, S4]\n\n4. **Quality safeguards**  \n   * The protocol emphasizes that sample degradation (e.g., the loss of data for TC‑018) can render a specimen unusable, underscoring the need for strict adherence to the above steps. [S2]\n\n**What’s missing**  \nThe exact temperature ranges for each assay type and the specific centrifugation parameters are not provided in the retrieved excerpts.",
+      "abstained": true,
+      "citation_accuracy": 1.0,
+      "groundedness": 1.0,
+      "subqueries": [
+        "How should blood samples be collected, stored, and handled according to the study protocol before the immune-response measurements are performed?"
+      ]
+    },
+    {
+      "id": "sir_3",
+      "question": "Among the listed Indian companies, which company recorded the highest combined growth in sales and profit during the reported quarters?",
+      "kind": "superlative",
+      "answerable": true,
+      "expected_domain": "financial",
+      "routed_to": "financial",
+      "router_margin": 0.466,
+      "gold_chunk_ids": [
+        "financial_tabular_sample_stocks_9a90cc_0003",
+        "financial_tabular_sample_stocks_9a90cc_0002"
+      ],
+      "retrieved_ids": [
+        "financial_tabular_sample_stocks_9a90cc_0007",
+        "financial_tabular_sample_stocks_9a90cc_0005",
+        "financial_tabular_sample_stocks_9a90cc_0013",
+        "financial_tabular_sample_stocks_9a90cc_0001",
+        "financial_tabular_sample_stocks_9a90cc_0010",
+        "financial_tabular_sample_stocks_9a90cc_0000",
+        "financial_tabular_sample_stocks_9a90cc_0006"
+      ],
+      "recall": 0.0,
+      "answer": "The company with the highest combined growth in sales and net profit during the reported quarters is **HUHTAMAKI**.  \nIts quarter‑on‑quarter sales growth was 0.2274 and its net‑profit growth was 0.7082, giving a combined growth of 0.9356 [ S4 ].\n\n*Note:* For ARIHANTCAP the net‑profit growth figure is not provided in the retrieved context, so it cannot be included in the comparison.",
+      "abstained": true,
+      "citation_accuracy": 1.0,
+      "groundedness": 0.5,
+      "subqueries": [
+        "Sales growth percentages for each listed Indian company in the reported quarters.",
+        "Profit growth percentages for each listed Indian company in the reported quarters.",
+        "Combined sales and profit growth percentages for each listed Indian company in the reported quarters.",
+        "Which listed Indian company had the highest combined growth in sales and profit during the reported quarters?"
+      ]
+    },
+    {
+      "id": "sir_4",
+      "question": "For a sample tested at multiple time points, how does its immune response change over time, and does the study protocol specify how such measurements should be recorded or interpreted?",
+      "kind": "false-premise",
+      "answerable": true,
+      "expected_domain": "medical",
+      "routed_to": "medical",
+      "router_margin": 0.5708,
+      "gold_chunk_ids": [
+        "medical_textual_medical_guideline_placeholder_52f6a9_0003"
+      ],
+      "retrieved_ids": [
+        "medical_textual_medical_guideline_placeholder_52f6a9_0003",
+        "medical_tabular_medical_placeholder_3fc69d_0003",
+        "medical_tabular_medical_placeholder_3fc69d_0002",
+        "medical_textual_medical_guideline_placeholder_52f6a9_0002",
+        "medical_tabular_medical_placeholder_3fc69d_0001"
+      ],
+      "recall": 1.0,
+      "answer": "**Immune‑response dynamics**\n\n| Sample | Time point | Antigen panel | Activation score | Interpretation |\n|--------|------------|---------------|------------------|----------------|\n| TC‑017 | 72 h after exposure | C | 0.91 | “Sustained high activation” – the response remained elevated rather than declining, suggesting durable cellular activation【S2】. |\n| TC‑016 | 24 h after exposure | A | 0.54 | “Moderate with delayed onset” – activation was measurable but not robust, indicating a slower rise in cellular response【S3】. |\n| TC‑015 | 48 h after exposure | B | 0.12 | “Minimal cellular response” – essentially no activation was observed at this time point【S5】. |\n\nBecause the data set contains only one measurement per sample, the protocol does not provide a longitudinal trajectory for a single specimen.  The available evidence shows that, at the recorded time points, the immune response can range from minimal (TC‑015) to sustained high (TC‑017), with a moderate, delayed response seen in TC‑016.  If a sample were measured at multiple time points, the expectation would be that the activation score could rise, plateau, or decline, and the protocol’s interpretation guidance would apply to each observation.\n\n**Protocol requirements for recording and interpreting measurements**\n\n* All antigen‑response measurements are entered **directly into the electronic case report form (eCRF) at the time of observation**; retrospective transcription from paper notes is discouraged unless unavoidable【S1】【S4】.  \n* Time points are logged in the site’s local time zone with the offset explicitly noted to avoid cross‑site discrepancies【S1】.  \n* Any field left blank must carry an explicit reason code (e.g., “not measured”) rather than being ambiguous between “not measured” and “measured as zero”【S1】.  \n* Data quality checks include weekly reviews that cross‑reference a random 10 % sample of entries against source documents; a discrepancy rate above 2 % triggers retraining of the site’s data‑entry staff before the next collection window opens【S1】.  \n* Adverse events, regardless of severity, are reported to the site’s safety monitoring system (the text is truncated but the requirement is implied)【S1】.\n\nThese procedures ensure that each immune‑response measurement is captured accurately, time‑stamped consistently, and interpreted within a standardized framework, allowing reliable comparison across time points and sites.",
+      "abstained": true,
+      "citation_accuracy": 1.0,
+      "groundedness": 0.917,
+      "subqueries": [
+        "How does the immune response of a sample change over time when tested at multiple time points?",
+        "Does the study protocol specify how measurements of immune response at multiple time points should be recorded or interpreted?"
+      ]
+    },
+    {
+      "id": "sir_5",
+      "question": "Which company had the largest increase in its number of customers during the reported period?",
+      "kind": "unanswerable",
+      "answerable": false,
+      "expected_domain": "financial",
+      "routed_to": "financial",
+      "router_margin": 0.3375,
+      "gold_chunk_ids": [],
+      "retrieved_ids": [
+        "financial_tabular_sample_stocks_9a90cc_0005",
+        "financial_tabular_sample_stocks_9a90cc_0001",
+        "financial_tabular_sample_stocks_9a90cc_0006",
+        "financial_tabular_sample_stocks_9a90cc_0013",
+        "financial_tabular_sample_stocks_9a90cc_0003",
+        "financial_tabular_sample_stocks_9a90cc_0011"
+      ],
+      "recall": 1.0,
+      "answer": "None of the retrieved reports provide data on the number of customers for any of the companies, so it is not possible to determine which company had the largest increase in customers during the reported period. The context lacks customer‑count information for AUBANK, HUHTAMAKI, EXXARO, ARIHANTCAP, DIACABS, and ALLDIGI.",
+      "abstained": true,
+      "citation_accuracy": 1.0,
+      "groundedness": 1.0,
+      "subqueries": [
+        "Customer count for each company at the beginning of the reported period",
+        "Customer count for each company at the end of the reported period",
+        "Customer growth (increase) for each company during the reported period"
+      ]
+    },
+    {
+      "id": "classmate1_1",
+      "question": "Which company had the highest quarterly growth, and what does that company sell and who are its main customers?",
+      "kind": "superlative",
+      "answerable": true,
+      "expected_domain": "financial",
+      "routed_to": "financial",
+      "router_margin": 0.586,
+      "gold_chunk_ids": [
+        "financial_tabular_sample_stocks_9a90cc_0013"
+      ],
+      "retrieved_ids": [
+        "financial_tabular_sample_stocks_9a90cc_0002",
+        "financial_tabular_sample_stocks_9a90cc_0006",
+        "financial_tabular_sample_stocks_9a90cc_0003",
+        "financial_tabular_sample_stocks_9a90cc_0011",
+        "financial_tabular_sample_stocks_9a90cc_0009",
+        "financial_tabular_sample_stocks_9a90cc_0008",
+        "financial_tabular_sample_stocks_9a90cc_0000"
+      ],
+      "recall": 0.0,
+      "answer": "The company with the highest quarter‑on‑quarter sales growth is **DIACABS**.  \n- **What it sells:** DIACABS produces **power cables and AL59 conductors** that are essential for power‑grid and data‑center infrastructure.  \n- **Main customers:** Its key clients are large utilities and infrastructure firms such as **Adani, PGCIL, and L&T**.  \n\nThese details come from the financial snapshot for DIACABS, which reports a QOQ sales growth of 0.4678 and lists Adani, PGCIL, and L&T as major customers【S3】.",
+      "abstained": false,
+      "citation_accuracy": 1.0,
+      "groundedness": 0.909,
+      "subqueries": [
+        "Which company had the highest quarterly growth?",
+        "What does that company sell?",
+        "Who are its main customers?"
+      ]
+    },
+    {
+      "id": "classmate1_2",
+      "question": "According to the medical study protocol, what should be done when a participant experiences an adverse event, and how should it be recorded?",
+      "kind": "single-topic",
+      "answerable": true,
+      "expected_domain": "medical",
+      "routed_to": "medical",
+      "router_margin": 0.6597,
+      "gold_chunk_ids": [
+        "medical_textual_medical_guideline_placeholder_52f6a9_0004"
+      ],
+      "retrieved_ids": [
+        "medical_textual_medical_guideline_placeholder_52f6a9_0004",
+        "medical_textual_medical_guideline_placeholder_52f6a9_0003",
+        "medical_textual_medical_guideline_placeholder_52f6a9_0002",
+        "medical_textual_medical_guideline_placeholder_52f6a9_0001",
+        "medical_tabular_medical_placeholder_3fc69d_0004"
+      ],
+      "recall": 1.0,
+      "answer": "When a participant experiences an adverse event, the protocol requires the following steps:\n\n1. **Immediate reporting** – Any adverse event, no matter how severe or how related it appears to the study, must be reported to the site’s principal investigator (PI) within **24 hours** of the staff member becoming aware of it. Serious adverse events (SAEs) are reported through an expedited pathway that also includes notification of the ethics board within the local‑regulation‑specified timeframe. [S1]\n\n2. **Follow‑up** – The PI continues to monitor the event until it is either resolved or classified as chronic and stable, whichever occurs first. [S1]\n\n3. **Causality assessment** – The PI documents the causality (unrelated, possibly related, or definitely related) and this assessment is independently reviewed by the site’s medical monitor before the event record is closed. [S1]\n\n4. **Recording** – The adverse event is entered directly into the electronic case report form (eCRF) at the time of observation, with all relevant details (time, severity, causality, follow‑up actions, etc.) captured in the eCRF. [S2]\n\nThus, an adverse event must be reported promptly to the PI, followed by SAE‑specific expedited reporting, ongoing monitoring until resolution or stability, a documented causality assessment reviewed by the medical monitor, and complete entry of the event details into the eCRF.",
+      "abstained": false,
+      "citation_accuracy": 1.0,
+      "groundedness": 0.556,
+      "subqueries": [
+        "According to the medical study protocol, what should be done when a participant experiences an adverse event?",
+        "According to the medical study protocol, how should an adverse event be recorded?"
+      ]
+    },
+    {
+      "id": "classmate1_3",
+      "question": "Among the available lab samples, which sample shows the highest immune response, and what is the corresponding result?",
+      "kind": "superlative",
+      "answerable": true,
+      "expected_domain": "medical",
+      "routed_to": "medical",
+      "router_margin": 0.5764,
+      "gold_chunk_ids": [
+        "medical_tabular_medical_placeholder_3fc69d_0003"
+      ],
+      "retrieved_ids": [
+        "medical_tabular_medical_placeholder_3fc69d_0000",
+        "medical_tabular_medical_placeholder_3fc69d_0002",
+        "medical_tabular_medical_placeholder_3fc69d_0005",
+        "medical_textual_medical_guideline_placeholder_52f6a9_0001"
+      ],
+      "recall": 0.0,
+      "answer": "The sample with the highest recorded immune response is **TC‑014**.  \nIts activation score was **0.87** at 48 hours after exposure to antigen panel B, described as a strong positive response [S1].",
+      "abstained": false,
+      "citation_accuracy": 1.0,
+      "groundedness": 0.75,
+      "subqueries": [
+        "Among the available lab samples, which sample shows the highest immune response, and what is the corresponding result?"
+      ]
+    },
+    {
+      "id": "classmate1_4",
+      "question": "If a participant is excluded from the study because of a screening criterion, does the protocol also specify how their blood sample should be handled and documented?",
+      "kind": "unanswerable",
+      "answerable": false,
+      "expected_domain": "medical",
+      "routed_to": "medical",
+      "router_margin": 0.6532,
+      "gold_chunk_ids": [],
+      "retrieved_ids": [
+        "medical_textual_medical_guideline_placeholder_52f6a9_0000",
+        "medical_textual_medical_guideline_placeholder_52f6a9_0002",
+        "medical_textual_medical_guideline_placeholder_52f6a9_0001",
+        "medical_tabular_medical_placeholder_3fc69d_0004"
+      ],
+      "recall": 1.0,
+      "answer": "The protocol does not contain a separate procedure for blood‑sample handling or documentation for participants who are excluded during screening.  The sample‑handling sections (S2 and S3) describe how venous blood is drawn, labeled, transported, processed, aliquoted, and stored for participants who are ultimately enrolled, but they do not reference any special steps for those who are deferred or excluded.  Consequently, the protocol does not specify how to treat or record a blood sample from an excluded participant.  The only related information is the general emphasis on proper labeling, transport, and storage to preserve sample integrity for all collected specimens, as illustrated in the example of a degraded sample (S4).  Thus, the protocol’s guidance on excluded participants’ blood samples is missing.",
+      "abstained": true,
+      "citation_accuracy": 1.0,
+      "groundedness": 0.0,
+      "subqueries": [
+        "If a participant is excluded from the study because of a screening criterion, does the protocol also specify how their blood sample should be handled and documented?"
+      ]
+    },
+    {
+      "id": "classmate1_5",
+      "question": "Can you determine whether the company with the highest quarterly growth also had the strongest immune response among the lab samples?",
+      "kind": "cross-domain-nonsense",
+      "answerable": false,
+      "expected_domain": "both",
+      "routed_to": "medical",
+      "router_margin": 0.1797,
+      "gold_chunk_ids": [],
+      "retrieved_ids": [
+        "medical_textual_medical_guideline_placeholder_52f6a9_0004",
+        "medical_textual_medical_guideline_placeholder_52f6a9_0000",
+        "medical_tabular_medical_placeholder_3fc69d_0005",
+        "medical_tabular_medical_placeholder_3fc69d_0002",
+        "medical_textual_medical_guideline_placeholder_52f6a9_0001",
+        "medical_tabular_medical_placeholder_3fc69d_0003",
+        "medical_tabular_medical_placeholder_3fc69d_0000",
+        "medical_textual_medical_guideline_placeholder_52f6a9_0003"
+      ],
+      "recall": 1.0,
+      "answer": "I’m sorry, but the provided context does not contain any information about company quarterly growth figures, nor does it link any of the lab samples to specific companies. Therefore, I cannot determine whether the company with the highest quarterly growth also had the strongest immune response among the lab samples.",
+      "abstained": true,
+      "citation_accuracy": 1.0,
+      "groundedness": 1.0,
+      "subqueries": [
+        "Company with highest quarterly growth",
+        "Company with strongest immune response among lab samples"
+      ]
+    }
+  ],
+  "cache": {
+    "hits": 85,
+    "misses": 21,
+    "total": 106,
+    "hit_rate": 0.802
+  }
+}

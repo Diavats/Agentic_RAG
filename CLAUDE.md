@@ -15,7 +15,7 @@ Read before changing architecture: `docs/PRD.md`, `docs/TRD.md`,
 | Part | Status | Where |
 |---|---|---|
 | Pipeline (phases 1–6) | Done | `src/` |
-| Eval harness + report | Done; blind questions collected, not yet scored | `src/eval/`, `docs/EVAL_RESULTS.md` |
+| Eval harness + report | Done; blind set scored 6 pass / 1 partial / 3 fail (all 3 fails superlatives) | `src/eval/`, `docs/EVAL_RESULTS.md` |
 | Backend (phase 7) | Live, auto-deploys on push | Render: https://prism-api-y5op.onrender.com |
 | Frontend (phase 8) | Live, auto-deploys on push | Vercel: https://prism-ten-red.vercel.app |
 | Judge–human agreement | **Declined by Dia.** Report states the judge is unvalidated | `docs/EVAL_RESULTS.md` |
