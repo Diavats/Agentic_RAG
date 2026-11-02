@@ -1,0 +1,97 @@
+{
+  "_about": "Answer key for blind_questions.txt, written by the builder FROM THE CORPUS and committed BEFORE PRISM was run on any blind question. Superlatives were computed from data/sample_stocks.csv directly, not from PRISM output. 'accept' says what a passing answer must contain; grading against it happens after the run and is recorded in blind_grades.json.",
+  "cases": [
+    {
+      "id": "sir_1",
+      "domain": "medical",
+      "kind": "multi-chunk",
+      "answerable": true,
+      "gold_chunk_ids": ["medical_textual_medical_guideline_placeholder_52f6a9_0000",
+                         "medical_textual_medical_guideline_placeholder_52f6a9_0002"],
+      "expected": "Screening: interview (history, medications, allergies), baseline vitals, prior-study review within 12 months, second-tier liver/renal/coagulation panel for flagged candidates. Deferred: active infection, uncontrolled chronic condition, pregnancy. Excluded: severe allergy to a protocol component, conflicting interventional study, unable to consent independently, major surgery within 8 weeks, immunosuppressive therapy without written clearance; age limits per protocol variant. The corpus lists no positive inclusion criteria.",
+      "accept": "At least 4 of the exclusion/deferral reasons, no invented criteria (e.g. a specific age range)."
+    },
+    {
+      "id": "sir_2",
+      "domain": "medical",
+      "kind": "single-topic",
+      "answerable": true,
+      "gold_chunk_ids": ["medical_textual_medical_guideline_placeholder_52f6a9_0001"],
+      "expected": "Venipuncture into 3 tubes (CBC, antigen panel assay, reserve); labelled at bedside with participant ID, timestamp, technician initials; to the lab within 30 minutes; stored at the assay-specific temperature and logged in the LIS; over the window = flagged compromised and redrawn; centrifuged, plasma/serum separated, aliquoted into labelled cryovials; freezers monitored, excursions alert the lab supervisor.",
+      "accept": "3 tubes, 30-minute transport window, and the compromised/redraw rule; no invented temperatures."
+    },
+    {
+      "id": "sir_3",
+      "domain": "financial",
+      "kind": "superlative",
+      "answerable": true,
+      "gold_chunk_ids": ["financial_tabular_sample_stocks_9a90cc_0003",
+                         "financial_tabular_sample_stocks_9a90cc_0002"],
+      "expected": "Depends on 'profit'. Sales + operating profit growth: DIACABS (0.4678 + 10.037). Sales + net profit growth: WELCORP (-0.0538 + 1.8248 = 1.771). Requires comparing all 15 rows.",
+      "accept": "DIACABS with operating profit, or WELCORP with net profit, with the figures stated verbatim. Known weak spot: top-k retrieval cannot see all 15 rows."
+    },
+    {
+      "id": "sir_4",
+      "domain": "medical",
+      "kind": "false-premise",
+      "answerable": true,
+      "gold_chunk_ids": ["medical_textual_medical_guideline_placeholder_52f6a9_0003"],
+      "expected": "False premise: every sample (TC-014..TC-019) is measured at ONE timepoint only, so no within-sample change over time can be shown. The protocol does say how timepoints are recorded: directly into the eCRF, local time zone with the offset noted, blank fields need a reason code, discrepancies resolved against source documents.",
+      "accept": "Says no sample has multiple timepoints (or that change over time cannot be determined) AND gives at least one recording rule. Fails if it invents a trajectory for a sample."
+    },
+    {
+      "id": "sir_5",
+      "domain": "financial",
+      "kind": "unanswerable",
+      "answerable": false,
+      "gold_chunk_ids": [],
+      "expected": "Cannot be determined: the data names client types (e.g. Bajaj, Maruti) but has no customer counts or changes over time.",
+      "accept": "Abstains / says it cannot determine. Fails if it names a company as having the largest increase."
+    },
+    {
+      "id": "classmate1_1",
+      "domain": "financial",
+      "kind": "superlative",
+      "answerable": true,
+      "gold_chunk_ids": ["financial_tabular_sample_stocks_9a90cc_0013"],
+      "expected": "By QOQ sales growth: ARIHANTCAP (0.5918); sells Broking App (ArihantPlus), Merchant Banking, SME IPOs, MTF; customers Tier 2/3 retail investors, HNI clients, regional MSMEs. Also defensible: DIACABS by operating profit (10.037), WELCORP by net profit (1.8248), ARIHANTCAP by EPS (38.2).",
+      "accept": "A company that is truly highest on the metric it names, plus its product and customers. Known weak spot as sir_3."
+    },
+    {
+      "id": "classmate1_2",
+      "domain": "medical",
+      "kind": "single-topic",
+      "answerable": true,
+      "gold_chunk_ids": ["medical_textual_medical_guideline_placeholder_52f6a9_0004"],
+      "expected": "Report every adverse event to the site PI within 24 hours regardless of severity or relatedness; serious events take an expedited path to the ethics board per local regulation; follow up until resolved or chronic and stable; PI documents causality (unrelated / possibly / definitely related), reviewed independently by the medical monitor before the record closes.",
+      "accept": "24-hour PI reporting and the causality documentation step."
+    },
+    {
+      "id": "classmate1_3",
+      "domain": "medical",
+      "kind": "superlative",
+      "answerable": true,
+      "gold_chunk_ids": ["medical_tabular_medical_placeholder_3fc69d_0003"],
+      "expected": "TC-017: activation score 0.91, antigen panel C, 72 hours, sustained high activation.",
+      "accept": "TC-017 with 0.91."
+    },
+    {
+      "id": "classmate1_4",
+      "domain": "medical",
+      "kind": "unanswerable",
+      "answerable": false,
+      "gold_chunk_ids": [],
+      "expected": "Not specified. The protocol covers screening/exclusion and sample handling separately; it never says what happens to an excluded candidate's sample.",
+      "accept": "Says the protocol does not specify. Fails if it invents a disposal or documentation rule for excluded candidates."
+    },
+    {
+      "id": "classmate1_5",
+      "domain": "both",
+      "kind": "cross-domain-nonsense",
+      "answerable": false,
+      "gold_chunk_ids": [],
+      "expected": "Cannot be determined / not meaningful: companies and lab samples are unrelated datasets with no link between them.",
+      "accept": "Says there is no connection or it cannot be determined. Fails if it asserts a link."
+    }
+  ]
+}
