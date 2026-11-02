@@ -256,6 +256,13 @@ class TestAsk:
         response = client.post("/ask", json={"question": "q", "session_id": "nope"})
         assert response.status_code == 404
 
+    def test_unknown_domain_or_router_is_422_before_the_pipeline_runs(
+            self, client, stub_pipeline):
+        for bad in ({"domain": "legal"}, {"router": "bogus"}):
+            response = client.post("/ask", json={"question": "q", **bad})
+            assert response.status_code == 422, bad
+        assert stub_pipeline == {}  # ask() never called, so no Groq call spent
+
     def test_empty_question_is_rejected(self, client, stub_pipeline):
         assert client.post("/ask", json={"question": ""}).status_code == 422
 

@@ -29,6 +29,7 @@ import json
 import logging
 import shutil
 import tempfile
+from typing import Literal
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -126,10 +127,12 @@ def _spend(request: Request, kind: str) -> None:
 
 class AskRequest(BaseModel):
     question: str = Field(..., min_length=1, max_length=1000)
-    domain: str | None = Field(
+    # Literal, not str: an unknown domain used to pass validation, spend the
+    # planner's Groq call, then 500 at retrieval. Now it is a free 422.
+    domain: Literal["medical", "financial"] | None = Field(
         None, description="Override the router. Omit it — deciding is the system's job."
     )
-    router: str = "embedding"
+    router: Literal["embedding", "embedding:centroid", "llm"] = "embedding"
     verify: bool = Field(False, description="Run the groundedness self-check (slower).")
     session_id: str | None = Field(
         None, description="Search an upload sandbox instead of the curated corpora."
